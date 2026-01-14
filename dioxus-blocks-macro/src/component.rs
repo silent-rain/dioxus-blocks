@@ -134,8 +134,9 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///     Text::new("First"),
             ///     Text::new("Second"),
             /// ];
-            /// Text::new("Hello").childrens(components);
+            /// Text::new("Hello").childrens2(components);
             /// ```
+            ///
             pub fn childrens2<T>(mut self, components: Vec<T>) -> Self
             where
                 T: ToElement + Clone + 'static,
@@ -160,12 +161,14 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///
             /// ```rust
             /// # use dioxus_blocks_components::{Text, Button, ToElement};
-            /// use std::sync::Arc;
+            /// # use std::sync::Arc;
+            ///
             /// let components: Vec<Arc<dyn ToElement>> = vec![
             ///     Arc::new(Text::h1("标题")),
             ///     Arc::new(Button::new()),
             /// ];
-            /// Text::new("Hello").childrens2(components);
+            ///
+            /// Text::new("Hello").childrens(components);
             /// ```
             pub fn childrens(mut self, components: Vec<Arc<dyn ToElement>>) -> Self {
                 for component in components {
