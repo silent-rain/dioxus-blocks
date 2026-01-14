@@ -53,6 +53,8 @@ pub struct Wrap {
     childrens: Vec<Arc<dyn ToElement>>,
     /// 容器组件的点击事件
     onclick: Option<EventHandler<MouseEvent>>,
+    /// 是否裸露渲染（不使用 div 包装），默认为 false
+    bare: bool,
 }
 
 impl Default for Wrap {
@@ -63,6 +65,7 @@ impl Default for Wrap {
             style: None,
             childrens: Vec::new(),
             onclick: None,
+            bare: false,
         }
     }
 }
@@ -83,6 +86,27 @@ impl Wrap {
     pub fn new() -> Self {
         Self::default()
     }
+
+    /// 设置是否裸露渲染（不使用 div 包装）
+    ///
+    /// # 参数
+    ///
+    /// * `bare` - 是否裸露渲染，true 为不使用 div 包装，false 为使用 div 包装
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的容器实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Wrap;
+    /// let wrap = Wrap::new().bare(true);
+    /// ```
+    pub fn bare(mut self, bare: bool) -> Self {
+        self.bare = bare;
+        self
+    }
 }
 
 impl ToElement for Wrap {
@@ -90,10 +114,25 @@ impl ToElement for Wrap {
         let id = self.id.clone();
         let class = self.class.clone();
         let style = self.style.clone().map(|s| s.to_string());
+        let onclick_handler = self.onclick;
         let childrens = self.childrens_to_element();
 
-        rsx! {
-            div { id, class, style, {childrens} }
+        if !self.bare {
+            rsx! {
+                div {
+                    id,
+                    class,
+                    style,
+                    onclick: move |event: MouseEvent| {
+                        if let Some(handler) = onclick_handler {
+                            handler.call(event);
+                        }
+                    },
+                    {childrens}
+                }
+            }
+        } else {
+            childrens
         }
     }
 }
@@ -156,5 +195,23 @@ mod tests {
 
         let wrap = Wrap::new().childrens2(components);
         assert_eq!(wrap.childrens.len(), 3);
+    }
+
+    #[test]
+    fn test_bare_default() {
+        let wrap = Wrap::new();
+        assert!(!wrap.bare);
+    }
+
+    #[test]
+    fn test_bare_true() {
+        let wrap = Wrap::new().bare(true);
+        assert!(wrap.bare);
+    }
+
+    #[test]
+    fn test_bare_false() {
+        let wrap = Wrap::new().bare(false);
+        assert!(!wrap.bare);
     }
 }
