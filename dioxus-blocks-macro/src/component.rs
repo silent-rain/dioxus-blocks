@@ -188,8 +188,8 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///
             ///
             /// ```rust
-            /// # use dioxus_blocks_components::Wrap;
-            /// let wrap = Wrap::new();
+            /// # use dioxus_blocks_components::View;
+            /// let wrap = View::new();
             /// let element = wrap.childrens_to_element();
             /// ```
             pub fn childrens_to_element(&self) -> Element {
