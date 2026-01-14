@@ -1,22 +1,24 @@
 //! # Navbar
 use crate::Route;
-use dioxus::prelude::*;
-use dioxus_blocks_components::ToElement;
+use dioxus_blocks_components::{Element, Link, NavigationTarget, ToElement, Wrap};
 
 #[derive(Debug, Default, Clone)]
 pub struct Navbar {}
 
 impl ToElement for Navbar {
     fn to_element(&self) -> Element {
-        rsx! {
-            div { class: "t_navbar",
-                Link { to: Route::HomeViewRoute {}, "Home" }
-                Link { to: Route::Blog { id: 1 }, "Blog" }
-                // Link { to: Route::CardViewRoute {}, "Card" }
-                // Link { to: Route::GridViewRoute {}, "Grid" }
-                Link { to: Route::TextViewRoute {}, "Text" }
-            }
-
-        }
+        Wrap::new()
+            .class("t_navbar")
+            .childrens2(vec![
+                Link::default().to(Route::HomeViewRoute {}).text("Home"),
+                Link::default().to(Route::Blog { id: 1 }).text("Blog"),
+                Link::default().to(Route::TextViewRoute {}).text("Text"),
+                Link::default().to("/xxx1").text("Text1"),
+                Link::default()
+                    .to(NavigationTarget::<String>::from("/xxx2"))
+                    .text("Text2"),
+                Link::default().to("https://www.baidu.com/").text("Text3"),
+            ])
+            .to_element()
     }
 }

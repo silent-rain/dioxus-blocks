@@ -14,6 +14,9 @@
 //! - [`Button`][]: 按钮组件，支持文本和点击事件
 //! - [`Grid`][]: 网格布局组件，支持自定义列数、行数和间距
 //! - [`GridItem`][]: 网格项组件，支持控制网格项在网格中的位置和跨度
+//! - [`Link`][]: 链接组件，支持路由跳转、字符串路径
+//! - [`LinkDestination`][]: 链接目标类型枚举
+//! - [`LinkTarget`][]: 链接打开目标枚举
 //!
 //! ## 宏
 //!
@@ -23,7 +26,7 @@
 mod constant;
 pub use constant::{MAIN_CSS, TAILWIND_CSS};
 
-pub use dioxus::prelude::Element;
+pub use dioxus::prelude::{Element, NavigationTarget};
 
 mod style;
 pub use style::Style;
