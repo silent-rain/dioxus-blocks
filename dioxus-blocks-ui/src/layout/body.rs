@@ -1,6 +1,6 @@
 //! # Body
 
-use dioxus_blocks_components::{Element, ToElement, Wrap};
+use dioxus_blocks_components::{Element, ToElement, View};
 
 use crate::Route;
 
@@ -9,7 +9,7 @@ pub struct Body {}
 
 impl ToElement for Body {
     fn to_element(&self) -> Element {
-        Wrap::new()
+        View::new()
             .class("t_body")
             .children(dioxus_blocks_components::Outlet::<Route>::default())
             .to_element()

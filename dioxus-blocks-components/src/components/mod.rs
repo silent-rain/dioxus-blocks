@@ -1,7 +1,7 @@
 //! 组件
 
-mod wrap;
-pub use wrap::Wrap;
+mod view;
+pub use view::View;
 
 mod grid;
 pub use grid::{Grid, GridCols, GridItem, GridRows};

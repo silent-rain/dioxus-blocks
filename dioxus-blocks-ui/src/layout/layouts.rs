@@ -2,7 +2,7 @@
 use std::sync::Arc;
 
 use dioxus::prelude::*;
-use dioxus_blocks_components::{ToElement, Wrap};
+use dioxus_blocks_components::{ToElement, View};
 use dioxus_blocks_macro::Route as DbmRoute;
 
 use crate::layout::{Body, Footer, Header};
@@ -12,7 +12,7 @@ pub struct Layout {}
 
 impl ToElement for Layout {
     fn to_element(&self) -> Element {
-        Wrap::new()
+        View::new()
             .class("t_layout")
             .childrens(vec![
                 Arc::new(Header::default()),

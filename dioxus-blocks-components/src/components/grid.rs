@@ -63,10 +63,9 @@ pub enum GridCols {
     Col12,
 }
 
-impl GridCols {
-    /// 获取列数对应的数值
-    pub fn value(&self) -> u16 {
-        match self {
+impl From<GridCols> for u16 {
+    fn from(cols: GridCols) -> Self {
+        match cols {
             GridCols::Col1 => 1,
             GridCols::Col2 => 2,
             GridCols::Col3 => 3,
@@ -115,10 +114,9 @@ pub enum GridRows {
     Row12,
 }
 
-impl GridRows {
-    /// 获取行数对应的数值
-    pub fn value(&self) -> u16 {
-        match self {
+impl From<GridRows> for u16 {
+    fn from(cols: GridRows) -> Self {
+        match cols {
             GridRows::Row1 => 1,
             GridRows::Row2 => 2,
             GridRows::Row3 => 3,
@@ -495,10 +493,10 @@ impl ToElement for Grid {
         let childrens = self.childrens_to_element();
 
         // 对于列数
-        if let Some(cols) = &self.cols {
+        if let Some(cols) = self.cols.clone() {
             class.push_str(" t_grid-cols");
 
-            let cols_value = cols.value();
+            let cols_value: u16 = cols.into();
             style.push_str(&format!(
                 "grid-template-columns: repeat({}, minmax(0, 1fr));",
                 cols_value
@@ -506,10 +504,10 @@ impl ToElement for Grid {
         }
 
         // 对于行数
-        if let Some(rows) = &self.rows {
+        if let Some(rows) = self.rows.clone() {
             class.push_str(" t_grid-rows");
 
-            let rows_value = rows.value();
+            let rows_value: u16 = rows.into();
             style.push_str(&format!(
                 "grid-template-rows: repeat({}, minmax(0, 1fr));",
                 rows_value

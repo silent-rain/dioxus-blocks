@@ -1,13 +1,13 @@
 //! # Navbar
 use crate::Route;
-use dioxus_blocks_components::{Element, Link, NavigationTarget, ToElement, Wrap};
+use dioxus_blocks_components::{Element, Link, NavigationTarget, ToElement, View};
 
 #[derive(Debug, Default, Clone)]
 pub struct Navbar {}
 
 impl ToElement for Navbar {
     fn to_element(&self) -> Element {
-        Wrap::new()
+        View::new()
             .class("t_navbar")
             .childrens2(vec![
                 Link::default().to(Route::HomeViewRoute {}).text("Home"),

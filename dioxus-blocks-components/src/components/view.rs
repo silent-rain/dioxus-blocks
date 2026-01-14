@@ -1,4 +1,4 @@
-//! Wrap 组件
+//! View 组件
 //!
 //! 提供一个空的容器组件，用于包装其他元素，支持自定义样式和布局。
 //!
@@ -8,19 +8,19 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{Wrap, Text, ToElement};
+//! use dioxus_blocks_components::{View, Text, ToElement};
 //!
 //! # let mut dom = VirtualDom::new(|| {
 //!
 //! #[component]
 //! fn App() -> Element {
-//!     let wrap = Wrap::new()
+//!     let view = View::new()
 //!         .class("container")
 //!         .style(|s| s.custom("padding: 20px; margin: 10px;"))
-//!         .children(Text::new("Hello, Wrap!"))
+//!         .children(Text::new("Hello, View!"))
 //!         .to_element();
 //!     rsx! {
-//!         {wrap}
+//!         {view}
 //!     }
 //! }
 //!
@@ -38,11 +38,12 @@ use dioxus_blocks_macro::ComponentBase;
 
 use crate::{Style, traits::ToElement};
 
-/// 容器组件结构体
+/// View 组件结构体
 ///
 /// 提供一个空的容器，用于包装其他元素，支持丰富的样式配置。
+/// 类似 HTML 的 div 或 Vue 的 template，支持裸露渲染（bare）模式。
 #[derive(Debug, Clone, ComponentBase)]
-pub struct Wrap {
+pub struct View {
     /// 容器组件的唯一标识符
     id: Option<String>,
     /// 容器组件的CSS类名
@@ -57,11 +58,12 @@ pub struct Wrap {
     bare: bool,
 }
 
-impl Default for Wrap {
+#[allow(clippy::derivable_impls)]
+impl Default for View {
     fn default() -> Self {
         Self {
             id: None,
-            class: "".to_string(),
+            class: String::new(),
             style: None,
             childrens: Vec::new(),
             onclick: None,
@@ -70,7 +72,7 @@ impl Default for Wrap {
     }
 }
 
-impl Wrap {
+impl View {
     /// 创建一个新的容器实例
     ///
     /// # 返回值
@@ -80,8 +82,8 @@ impl Wrap {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Wrap;
-    /// let wrap = Wrap::new();
+    /// # use dioxus_blocks_components::View;
+    /// let view = View::new();
     /// ```
     pub fn new() -> Self {
         Self::default()
@@ -100,8 +102,8 @@ impl Wrap {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Wrap;
-    /// let wrap = Wrap::new().bare(true);
+    /// # use dioxus_blocks_components::View;
+    /// let view = View::new().bare(true);
     /// ```
     pub fn bare(mut self, bare: bool) -> Self {
         self.bare = bare;
@@ -109,7 +111,7 @@ impl Wrap {
     }
 }
 
-impl ToElement for Wrap {
+impl ToElement for View {
     fn to_element(&self) -> Element {
         let id = self.id.clone();
         let class = self.class.clone();
@@ -144,47 +146,47 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_wrap_creation() {
-        let wrap = Wrap::new();
+    fn test_view_creation() {
+        let view = View::new();
 
-        assert!(wrap.class.contains("t_wrap"));
-        assert!(wrap.childrens.is_empty());
+        assert!(view.class.contains("t_view"));
+        assert!(view.childrens.is_empty());
     }
 
     #[test]
-    fn test_wrap_properties() {
-        let wrap = Wrap::new()
-            .id("test-wrap")
+    fn test_view_properties() {
+        let view = View::new()
+            .id("test-view")
             .class("custom-container")
             .style(|s| s.custom("padding: 20px; margin: 10px;"));
 
-        assert_eq!(wrap.id, Some("test-wrap".to_string()));
-        assert_eq!(wrap.class, "t_wrap custom-container");
+        assert_eq!(view.id, Some("test-view".to_string()));
+        assert_eq!(view.class, "t_view custom-container");
         assert_eq!(
-            wrap.style.map(|s| s.to_string()),
+            view.style.map(|s| s.to_string()),
             Some("padding: 20px; margin: 10px;".to_string())
         );
     }
 
     #[test]
-    fn test_wrap_with_children() {
-        let wrap = Wrap::new().children(Text::new("Dynamic Text 1"));
-        assert!(!wrap.childrens.is_empty());
+    fn test_view_with_children() {
+        let view = View::new().children(Text::new("Dynamic Text 1"));
+        assert!(!view.childrens.is_empty());
     }
 
     #[test]
-    fn test_wrap_with_dynamic_children() {
+    fn test_view_with_dynamic_children() {
         use crate::Text;
 
-        let wrap = Wrap::new()
+        let view = View::new()
             .children(Text::new("Dynamic Text 1"))
             .children(Text::new("Dynamic Text 2"));
 
-        assert_eq!(wrap.childrens.len(), 2);
+        assert_eq!(view.childrens.len(), 2);
     }
 
     #[test]
-    fn test_wrap_dynamic_batch() {
+    fn test_view_dynamic_batch() {
         use crate::Text;
 
         let components = vec![
@@ -193,25 +195,25 @@ mod tests {
             Text::new("Batch 3"),
         ];
 
-        let wrap = Wrap::new().childrens2(components);
-        assert_eq!(wrap.childrens.len(), 3);
+        let view = View::new().childrens2(components);
+        assert_eq!(view.childrens.len(), 3);
     }
 
     #[test]
     fn test_bare_default() {
-        let wrap = Wrap::new();
-        assert!(!wrap.bare);
+        let view = View::new();
+        assert!(!view.bare);
     }
 
     #[test]
     fn test_bare_true() {
-        let wrap = Wrap::new().bare(true);
-        assert!(wrap.bare);
+        let view = View::new().bare(true);
+        assert!(view.bare);
     }
 
     #[test]
     fn test_bare_false() {
-        let wrap = Wrap::new().bare(false);
-        assert!(!wrap.bare);
+        let view = View::new().bare(false);
+        assert!(!view.bare);
     }
 }

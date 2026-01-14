@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use dioxus::prelude::*;
 
-use dioxus_blocks_components::{Card, Text, Wrap};
+use dioxus_blocks_components::{Card, Text, View};
 use dioxus_blocks_macro::Route;
 
 #[derive(Debug, Default, Clone, Route)]
@@ -12,7 +12,7 @@ struct TextView {}
 
 impl TextView {
     pub fn to_element(&self) -> Element {
-        Wrap::new()
+        View::new()
             .childrens(vec![Arc::new(Text::h1("Text 组件")), self.text_tag()])
             .into()
     }

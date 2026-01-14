@@ -1,11 +1,11 @@
 //! # Sidebar
-use dioxus_blocks_components::{Element, ToElement, Wrap};
+use dioxus_blocks_components::{Element, ToElement, View};
 
 #[derive(Debug, Default, Clone)]
 pub struct Sidebar {}
 
 impl ToElement for Sidebar {
     fn to_element(&self) -> Element {
-        Wrap::new().class("t_sidebar").to_element()
+        View::new().class("t_sidebar").to_element()
     }
 }
