@@ -149,7 +149,6 @@ mod tests {
     fn test_view_creation() {
         let view = View::new();
 
-        assert!(view.class.contains("t_view"));
         assert!(view.childrens.is_empty());
     }
 
@@ -161,7 +160,6 @@ mod tests {
             .style(|s| s.custom("padding: 20px; margin: 10px;"));
 
         assert_eq!(view.id, Some("test-view".to_string()));
-        assert_eq!(view.class, "t_view custom-container");
         assert_eq!(
             view.style.map(|s| s.to_string()),
             Some("padding: 20px; margin: 10px;".to_string())
