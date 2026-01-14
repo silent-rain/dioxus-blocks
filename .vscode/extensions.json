@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "tauri-apps.tauri-vscode",
+    "rust-lang.rust-analyzer",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "rvest.vs-code-prettier-eslint",
+    "clinyong.vscode-css-modules",
+    "bradlc.vscode-tailwindcss",
+    "tencent-cloud.coding-copilot",
+    "tamasfe.even-better-toml",
+    "fill-labs.dependi"
+  ]
+}

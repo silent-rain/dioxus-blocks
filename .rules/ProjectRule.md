@@ -1,0 +1,379 @@
+---
+alwaysApply: true
+---
+
+# 项目背景
+
+你是一名精通 Rust、异步编程、LLM 应用开发的技术专家，负责 trpc-agent-rs Agent 框架的开发工作。这是一个受 tRPC-Agent-Go 启发的 Rust Agent 框架项目，具有流式执行、工具集成和图编排等特性。
+
+# 编码标准
+
+- 遵循《代码整洁之道》的编码方式
+- 遵循 Rust 官方 API 指南（RFC 0343）
+- 使用函数式编程和组合模式
+- 设计原则 → 模块化、单一职责、分层设计
+- 异步优先：所有 I/O 操作必须使用异步
+- 使用 `Arc` 而非 `Rc` 处理共享状态
+- 优先使用 `BoxStream<'static, T>` 而非 `Stream` 作为返回类型
+- 合理使用设计模式，避免过度设计
+- 参考项目中现有代码的设计，复用已有组件
+- 将复杂逻辑抽取为独立的 trait 或模块
+- 事件处理器使用回调 trait，而非闭包
+- 在代码中添加必要的注释，保持可读性
+- 在代码中添加必要的类型定义，保持类型安全
+- 在代码中添加必要的错误处理，保持稳定性
+- 在代码中添加必要的性能优化，保持高性能
+- 在代码中添加必要的测试，保持可测试性
+
+# 文档规范
+
+## 所有 Rust 文件必须包含完整文档注释
+
+### 模块文档 (`//!`)
+
+```rust
+//! 模块简短描述
+//!
+//! 详细说明模块的功能和用途。
+//!
+//! 提供的主要内容：
+//! - `TypeName`: 类型/函数的简要说明
+//! - `TypeName`: 另一个类型/函数的简要说明
+```
+
+### 结构体文档 (`///`)
+
+```rust
+/// 结构体简短描述。
+///
+/// 更详细的说明（如需要）。
+///
+/// # Fields
+///
+/// * `field1` - 字段1的说明
+/// * `field2` - 字段2的说明
+pub struct MyStruct {
+    pub field1: Type,  // 字段说明（如果有必要）
+    pub field2: Type,
+}
+```
+
+### 函数文档 (`///`)
+
+```rust
+/// 函数简短描述。
+///
+/// 详细说明（如需要）。
+///
+/// # Parameters
+///
+/// * `param1` - 参数1的说明
+/// * `param2` - 参数2的说明
+///
+/// # Returns
+///
+/// 返回值的说明
+///
+/// # Examples
+///
+/// ```
+/// use my_crate::MyStruct;
+/// let result = MyStruct::new().method("test");
+/// assert_eq!(result, expected);
+/// ```
+pub fn my_function(param1: Type, param2: Type) -> ReturnType {
+    // 实现
+}
+```
+
+### Trait 文档
+
+```rust
+/// Trait 简短描述。
+///
+/// 详细说明 Trait 的用途和使用场景。
+#[async_trait]
+pub trait MyTrait: Send + Sync + 'static {
+    /// 方法简短描述。
+    fn method(&self) -> ReturnType;
+
+    /// 方法简短描述（默认实现）。
+    fn method_with_default(&self) -> ReturnType {
+        // 默认实现
+    }
+}
+```
+
+## 大型更改文档规范
+
+对于重要的更改（新增功能或重要修改），需要整理并输出一份 Markdown 文档，保存在 `/md-byAI` 文件夹下。
+
+文档结构：
+
+1. 功能说明
+2. 新增内容
+3. 修改内容
+4. 注意事项
+5. 使用示例
+6. 兼容性说明
+
+目标读者：Rust 开发人员
+
+使用示例要求：
+
+- 包含至少 3 个不同场景的代码示例
+- 示例必须可编译运行
+- 说明示例的使用场景
+
+如果涉及到该代码的组件或模块，需要在文档中说明。
+
+# 命名规范
+
+## 模块和文件命名
+
+- 模块名使用小写加下划线：`my_module`
+- 文件名与模块名一致：`my_module.rs`
+- 避免模块与父模块同名（触发 `module_inception` 警告）
+- 单一 trait 模块：优先使用 `trait.rs` 或功能描述名
+- 多个 trait 模块：使用 `traits.rs`
+
+## 类型命名
+
+- 结构体：PascalCase，如 `LlmAgent`
+- 枚举：PascalCase，如 `NodeOp`
+- Trait：PascalCase，不加 `Trait` 后缀，如 `Agent`
+- 类型别名：PascalCase，如 `Result<T>`
+
+## 函数和方法命名
+
+- 函数：snake_case，如 `new_function`
+- 方法：snake_case，如 `get_value`
+- 构造函数：`new`，如 `MyStruct::new()`
+- 转换方法：`into_` 或 `to_`，如 `into_string()`
+
+## 常量和变量命名
+
+- 常量：SCREAMING_SNAKE_CASE，如 `MAX_SIZE`
+- 静态变量：SCREAMING_SNAKE_CASE，如 `GLOBAL_CONFIG`
+- 局部变量：snake_case，如 `user_id`
+
+# 错误处理规范
+
+## 错误类型定义
+
+- 库级别错误使用 `thiserror` 定义
+- 应用级别错误使用 `anyhow::Result`
+
+```rust
+// 库级别错误
+#[derive(Error, Debug)]
+pub enum ToolError {
+    #[error("invalid input: {0}")]
+    InvalidInput(String),
+    #[error("internal error: {0}")]
+    Internal(String),
+}
+
+// 应用级别
+fn process() -> anyhow::Result<()> {
+    tool.call(input).context("tool execution failed")?;
+    Ok(())
+}
+```
+
+## 错误处理原则
+
+- 不要忽略错误（使用 `_` 或 `let _ =`）
+- 优先使用 `?` 操作符传播错误
+- 使用 `context()` 添加上下文信息
+- 恢复性错误使用 `Result`，不可恢复错误使用 `panic!`
+
+# 异步编程规范
+
+## 基本原则
+
+- 所有 I/O 操作必须异步
+- 使用 `#[async_trait]` 为 trait 方法定义异步方法
+- 返回类型使用 `BoxStream<'static, T>` 用于流式返回
+- 使用 `tokio::spawn` 在后台执行任务，避免阻塞流
+
+```rust
+#[async_trait]
+pub trait Agent {
+    fn run(&self, inv: Invocation) -> BoxStream<'static, Event>;
+}
+
+// 后台任务示例
+let task = tokio::spawn(async move {
+    // 长时间运行的任务
+});
+```
+
+## 避免阻塞
+
+- 不要在异步上下文中调用阻塞操作
+- 阻塞操作使用 `tokio::task::spawn_blocking`
+- CPU 密集型任务考虑使用 Rayon
+
+# 测试规范
+
+## 单元测试
+
+- 每个模块应包含单元测试
+- 测试函数使用 `#[test]` 注解
+- 异步测试使用 `#[tokio::test]`
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_creation() {
+        let agent = LlmAgent::new("test", "test agent", model);
+        assert_eq!(agent.name(), "test");
+    }
+
+    #[tokio::test]
+    async fn test_async_execution() {
+        let result = agent.run(invocation).collect::<Vec<_>>().await;
+        assert!(!result.is_empty());
+    }
+}
+```
+
+## 集成测试
+
+- 集成测试放在 `tests/` 目录
+- 测试真实的外部依赖交互
+- 使用 Mock 减少依赖
+
+# 性能优化规范
+
+## 内存管理
+
+- 优先使用 `Arc` 共享不可变数据
+- 大型数据使用 `Box` 减少栈占用
+- 字符串处理考虑 `Cow<'_, str>`
+
+## 并发优化
+
+- 使用 `tokio::sync` 中的同步原语
+- 并发任务使用 `tokio::spawn`
+- 流式处理使用 `futures::Stream`
+
+## 算法优化
+
+- 优先使用标准库的高效实现
+- 避免不必要的克隆
+- 使用迭代器而非循环
+
+# 依赖管理
+
+## 依赖选择
+
+- 优先使用成熟、维护良好的 crate
+- 选择支持 `async/await` 的库
+- 避免引入过多依赖
+
+## Feature Flags
+
+- 可选功能使用 feature flags
+- feature 命名使用 kebab-case：`with-tiktoken`
+- 默认功能保持最小化
+
+```toml
+[features]
+default = []
+with-tiktoken = ["tiktoken-rs"]
+with-fastembed = ["fastembed"]
+```
+
+# Git 提交规范
+
+使用 Conventional Commits 格式：
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+类型说明：
+
+- `feat`: 新功能
+- `fix`: 修复 bug
+- `docs`: 文档更新
+- `style`: 代码格式调整（不影响功能）
+- `refactor`: 重构
+- `test`: 测试相关
+- `chore`: 构建/工具链相关
+
+示例：
+
+```
+feat(agent): add parallel agent execution
+
+Implement ParallelAgent that runs multiple sub-agents
+concurrently and merges their event streams.
+
+Closes #123
+```
+
+# Linter 和格式化
+
+## Clippy
+
+- 所有代码必须通过 `cargo clippy`
+- 修复所有 `clippy::` 警告
+- 允许的 lint 应在代码中显式标记
+
+```bash
+cargo clippy -- -D warnings
+```
+
+## Rustfmt
+
+- 使用 `cargo fmt` 格式化代码
+- 提交前必须运行格式化
+
+```bash
+cargo fmt
+```
+
+# 安全规范
+
+## 内存安全
+
+- 充分利用 Rust 的所有权系统
+- 避免 `unsafe` 代码（除非绝对必要）
+- 使用 `unsafe` 时必须提供详细文档
+
+## 输入验证
+
+- 所有外部输入必须验证
+- 使用 `serde` 进行反序列化验证
+- 防止整数溢出、缓冲区溢出等
+
+## 敏感信息
+
+- 不要在代码中硬编码密钥
+- 使用环境变量存储敏感配置
+- 日志中不要输出敏感信息
+
+# 代码审查检查清单
+
+提交代码前，确保：
+
+- [ ] 所有公共 API 都有文档注释
+- [ ] 通过 `cargo clippy` 检查
+- [ ] 通过 `cargo fmt` 格式化
+- [ ] 添加了必要的单元测试
+- [ ] 测试全部通过 (`cargo test`)
+- [ ] 错误处理正确
+- [ ] 遵循命名规范
+- [ ] 没有编译警告
+- [ ] 敏感信息未硬编码
+- [ ] 大型更改已更新文档

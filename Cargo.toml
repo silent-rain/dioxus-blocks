@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = [
+    "dioxus-blocks-components",
+    "dioxus-blocks-macro",
+    "dioxus-blocks-ui",
+]
+
+[workspace.dependencies]
+dioxus = "0.7"
+dioxus-ssr = "0.7"
+dioxus-html = "0.7"
+indexmap = "2.12"
+
+# workspace
+dioxus-blocks-components = { path = "dioxus-blocks-components" }
+dioxus-blocks-macro = { path = "dioxus-blocks-macro" }

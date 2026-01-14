@@ -1,0 +1,13 @@
+{
+  "rust-analyzer.linkedProjects": [],
+  "rust-analyzer.check.command": "clippy",
+  "files.associations": {
+    "*.json5": "jsonc"
+  },
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": true,
+  "tailwindCSS.experimental.classRegex": ["class: \" (.*) \" "],
+  "tailwindCSS.includeLanguages": {
+    "rust": "html"
+  }
+}
