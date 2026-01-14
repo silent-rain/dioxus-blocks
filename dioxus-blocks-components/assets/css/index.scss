@@ -1,0 +1,15 @@
+@import "./card.scss";
+@import "./grid.scss";
+@import "./text.scss";
+
+/* CSS variables for theming */
+:root {
+  --t-card-padding: 20px;
+  --t-bg-color: #ffffff;
+  --t-border-radius-base: 4px;
+  --t-border-color-light: #e4e7ed;
+  --t-border-color-lighter: #ebeef5;
+  --t-text-color-primary: #303133;
+  --t-transition-duration: 0.3s;
+  --t-box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}

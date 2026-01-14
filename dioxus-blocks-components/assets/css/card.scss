@@ -1,0 +1,52 @@
+/* Card component styles */
+.t_card {
+    background-color: var(--t-bg-color);
+    border-radius: var(--t-border-radius-base);
+    border: 1px solid var(--t-border-color-light);
+    color: var(--t-text-color-primary);
+    transition: var(--t-transition-duration);
+    overflow: hidden;
+    box-shadow: var(--t-box-shadow-light);
+}
+
+/* Shadow control */
+.t_card-shadow-always {
+    box-shadow: var(--t-box-shadow-light);
+}
+
+.t_card-shadow-hover {
+    box-shadow: none;
+    
+    &:hover {
+        box-shadow: var(--t-box-shadow-light);
+    }
+}
+
+.t_card-shadow-never {
+    box-shadow: none;
+}
+
+/* Border control */
+.t_card-no-border {
+    border: none;
+}
+
+.t_card-header {
+    padding: calc(var(--t-card-padding) - 2px) var(--t-card-padding);
+    box-sizing: border-box;
+    
+    &.t_card-header-divider {
+        border-bottom: 1px solid var(--t-border-color-lighter);
+    }
+}
+
+.t_card-body {
+    padding: var(--t-card-padding);
+}
+
+.t_card-footer {
+    padding: calc(var(--t-card-padding) - 2px) var(--t-card-padding);
+    border-top: 1px solid var(--t-border-color-lighter);
+    box-sizing: border-box;
+}
+
