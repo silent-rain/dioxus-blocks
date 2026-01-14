@@ -7,20 +7,17 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{Grid, GridCols, ToElement, Text};
+//! use dioxus_blocks_components::{Grid, GridItem, GridRows, ToElement, Text};
 //!
 //! #[component]
 //! fn App() -> Element {
-//!     let components = vec![
-//!         Text::new("Batch 1"),
-//!         Text::new("Batch 2"),
-//!         Text::new("Batch 3"),
-//!     ];
-//!     Grid::new()
-//!         .cols(GridCols::Col4)
-//!         .gap(4)
-//!         .childrens(components)
-//!         .to_element()
+//!     Grid::new(vec![
+//!            GridItem::new(Text::new("1")),
+//!            GridItem::new(Text::new("2")),
+//!            GridItem::new(Text::new("3")),
+//!        ])
+//!        .rows(GridRows::Row4)
+//!     .to_element()
 //! }
 //! ```
 use std::sync::Arc;
@@ -182,6 +179,9 @@ impl Default for GridItem {
     }
 }
 
+unsafe impl Send for GridItem {}
+unsafe impl Sync for GridItem {}
+
 impl GridItem {
     /// 创建一个新的网格项实例
     ///
@@ -192,11 +192,15 @@ impl GridItem {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::GridItem;
-    /// let grid_item = GridItem::new();
+    /// # use dioxus_blocks_components::{GridItem, Text};
+    /// let grid_item = GridItem::new(Text::new("Hello"));
     /// ```
-    pub fn new() -> Self {
+    pub fn new<T>(component: T) -> Self
+    where
+        T: ToElement + Clone + 'static,
+    {
         Self {
+            childrens: vec![Arc::new(component)],
             ..Default::default()
         }
     }
@@ -215,7 +219,7 @@ impl GridItem {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::GridItem;
-    /// GridItem::new().col_span(2);
+    /// GridItem::default().col_span(2);
     /// ```
     pub fn col_span(mut self, col_span: usize) -> Self {
         self.col_span = col_span;
@@ -236,7 +240,7 @@ impl GridItem {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::GridItem;
-    /// GridItem::new().row_span(2);
+    /// GridItem::default().row_span(2);
     /// ```
     pub fn row_span(mut self, row_span: usize) -> Self {
         self.row_span = row_span;
@@ -257,7 +261,7 @@ impl GridItem {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::GridItem;
-    /// GridItem::new().col_start(3);
+    /// GridItem::default().col_start(3);
     /// ```
     pub fn col_start(mut self, col_start: usize) -> Self {
         self.col_start = col_start;
@@ -278,7 +282,7 @@ impl GridItem {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::GridItem;
-    /// GridItem::new().col_end(4);
+    /// GridItem::default().col_end(4);
     /// ```
     pub fn col_end(mut self, col_end: usize) -> Self {
         self.col_end = col_end;
@@ -299,7 +303,7 @@ impl GridItem {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::GridItem;
-    /// GridItem::new().row_start(2);
+    /// GridItem::default().row_start(2);
     /// ```
     pub fn row_start(mut self, row_start: usize) -> Self {
         self.row_start = row_start;
@@ -320,7 +324,7 @@ impl GridItem {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::GridItem;
-    /// GridItem::new().row_end(3);
+    /// GridItem::default().row_end(3);
     /// ```
     pub fn row_end(mut self, row_end: usize) -> Self {
         self.row_end = row_end;
@@ -343,7 +347,7 @@ impl ToElement for GridItem {
     /// # use dioxus::prelude::*;
     /// # use dioxus_blocks_components::{GridItem, ToElement};
     ///
-    /// GridItem::new().col_span(2).to_element();
+    /// GridItem::default().col_span(2).to_element();
     /// ```
     fn to_element(&self) -> Element {
         let id = self.id.clone();
@@ -356,65 +360,30 @@ impl ToElement for GridItem {
         let childrens = self.childrens_to_element();
 
         // 添加自定义样式
-        if self.col_span > 12 {
+        if self.col_span > 0 {
             style.push_str(&format!("grid-column: span {};", self.col_span));
-        }
-
-        if self.row_span > 6 {
-            style.push_str(&format!("grid-row: span {};", self.row_span));
-        }
-
-        if self.col_start > 13 {
-            style.push_str(&format!("grid-column-start: {};", self.col_start));
-        }
-
-        if self.col_end > 13 {
-            style.push_str(&format!("grid-column-end: {};", self.col_end));
-        }
-
-        if self.row_start > 7 {
-            style.push_str(&format!("grid-row-start: {};", self.row_start));
-        }
-
-        if self.row_end > 7 {
-            style.push_str(&format!("grid-row-end: {};", self.row_end));
-        }
-
-        // 添加列跨度类名
-        if self.col_span <= 12 {
             class.push_str(&format!(" t_col-span-{}", self.col_span));
         }
-
-        // 添加行跨度类名
-        if self.row_span <= 6 {
+        if self.row_span > 0 {
+            style.push_str(&format!("grid-row: span {};", self.row_span));
             class.push_str(&format!(" t_row-span-{}", self.row_span));
         }
 
-        // 添加列起始位置类名
-        if self.col_start == 0 {
-            class.push_str(" t_col-start-auto");
-        } else if self.col_start <= 13 {
+        if self.col_start > 0 {
+            style.push_str(&format!("grid-column-start: {};", self.col_start));
             class.push_str(&format!(" t_col-start-{}", self.col_start));
         }
-
-        // 添加列结束位置类名
-        if self.col_end == 0 {
-            class.push_str(" t_col-end-auto");
-        } else if self.col_end <= 13 {
+        if self.col_end > 0 {
+            style.push_str(&format!("grid-column-end: {};", self.col_end));
             class.push_str(&format!(" t_col-end-{}", self.col_end));
         }
 
-        // 添加行起始位置类名
-        if self.row_start == 0 {
-            class.push_str(" t_row-start-auto");
-        } else if self.row_start <= 7 {
+        if self.row_start > 0 {
+            style.push_str(&format!("grid-row-start: {};", self.row_start));
             class.push_str(&format!(" t_row-start-{}", self.row_start));
         }
-
-        // 添加行结束位置类名
-        if self.row_end == 0 {
-            class.push_str(" t_row-end-auto");
-        } else if self.row_end <= 7 {
+        if self.row_end > 0 {
+            style.push_str(&format!("grid-row-end: {};", self.row_end));
             class.push_str(&format!(" t_row-end-{}", self.row_end));
         }
 
@@ -479,7 +448,7 @@ impl ToElement for Grid {
     /// # use dioxus::prelude::*;
     /// # use dioxus_blocks_components::{Grid, GridCols, ToElement};
     ///
-    /// let grid = Grid::new().cols(GridCols::Col3);
+    /// let grid = Grid::default().cols(GridCols::Col3);
     /// ```
     fn to_element(&self) -> Element {
         let id = self.id.clone();
@@ -492,7 +461,7 @@ impl ToElement for Grid {
         let onclick_handler = self.onclick;
         let childrens = self.childrens_to_element();
 
-        // 对于列数
+        // 列数
         if let Some(cols) = self.cols.clone() {
             class.push_str(" t_grid-cols");
 
@@ -503,7 +472,7 @@ impl ToElement for Grid {
             ));
         }
 
-        // 对于行数
+        // 行数
         if let Some(rows) = self.rows.clone() {
             class.push_str(" t_grid-rows");
 
@@ -514,8 +483,8 @@ impl ToElement for Grid {
             ));
         }
 
-        // 对于间距
-        style.push_str(&format!(" gap: {}", self.gap));
+        // 间距
+        style.push_str(&format!(" gap: {};", self.gap));
 
         rsx! {
             div {
@@ -543,11 +512,20 @@ impl Grid {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Grid;
-    /// let grid = Grid::new();
+    /// # use dioxus_blocks_components::{Grid, GridItem, Text};
+    ///
+    /// let grid = Grid::new(vec![
+    ///        GridItem::new(Text::new("1")),
+    ///        GridItem::new(Text::new("2")),
+    ///        GridItem::new(Text::new("3")),
+    ///    ]);
     /// ```
-    pub fn new() -> Self {
+    pub fn new(components: Vec<GridItem>) -> Self {
         Self {
+            childrens: components
+                .into_iter()
+                .map(|v| Arc::new(v) as Arc<dyn ToElement>)
+                .collect(),
             ..Default::default()
         }
     }
@@ -566,7 +544,7 @@ impl Grid {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::{Grid, GridCols};
-    /// let grid = Grid::new().cols(GridCols::Col1);
+    /// let grid = Grid::default().cols(GridCols::Col1);
     /// ```
     pub fn cols(mut self, cols: GridCols) -> Self {
         self.cols = Some(cols);
@@ -587,7 +565,7 @@ impl Grid {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::{Grid, GridRows};
-    /// let grid = Grid::new().rows(GridRows::Row1);
+    /// let grid = Grid::default().rows(GridRows::Row1);
     /// ```
     pub fn rows(mut self, rows: GridRows) -> Self {
         self.rows = Some(rows);
@@ -608,7 +586,7 @@ impl Grid {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::Grid;
-    /// let grid = Grid::new().gap(4);
+    /// let grid = Grid::default().gap(4);
     /// ```
     pub fn gap(mut self, gap: usize) -> Self {
         self.gap = format!("{gap}px");
@@ -629,10 +607,27 @@ impl Grid {
     ///
     /// ```rust
     /// # use dioxus_blocks_components::Grid;
-    ///let grid =  Grid::new().gap_xy(4, 8);
+    ///let grid =  Grid::default().gap_xy(4, 8);
     /// ```
     pub fn gap_xy(mut self, gap_x: usize, gap_y: usize) -> Self {
         self.gap = format!("{gap_x}px {gap_y}px");
         self
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::Text;
+
+    use super::*;
+
+    #[test]
+    fn test_grid() {
+        Grid::new(vec![
+            GridItem::new(Text::new("1")),
+            GridItem::new(Text::new("2")),
+            GridItem::new(Text::new("3")),
+        ])
+        .rows(GridRows::Row4);
     }
 }
