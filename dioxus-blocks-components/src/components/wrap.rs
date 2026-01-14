@@ -59,7 +59,7 @@ impl Default for Wrap {
     fn default() -> Self {
         Self {
             id: None,
-            class: "t_wrap".to_string(),
+            class: "".to_string(),
             style: None,
             childrens: Vec::new(),
             onclick: None,
