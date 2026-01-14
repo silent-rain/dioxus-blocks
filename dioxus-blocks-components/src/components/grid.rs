@@ -352,7 +352,7 @@ impl ToElement for GridItem {
     fn to_element(&self) -> Element {
         let id = self.id.clone();
         let mut class = self.class.clone();
-        let mut style = self
+        let style = self
             .style
             .clone()
             .map(|s| s.to_string())
@@ -361,29 +361,23 @@ impl ToElement for GridItem {
 
         // 添加自定义样式
         if self.col_span > 0 {
-            style.push_str(&format!("grid-column: span {};", self.col_span));
             class.push_str(&format!(" t_col-span-{}", self.col_span));
         }
         if self.row_span > 0 {
-            style.push_str(&format!("grid-row: span {};", self.row_span));
             class.push_str(&format!(" t_row-span-{}", self.row_span));
         }
 
         if self.col_start > 0 {
-            style.push_str(&format!("grid-column-start: {};", self.col_start));
             class.push_str(&format!(" t_col-start-{}", self.col_start));
         }
         if self.col_end > 0 {
-            style.push_str(&format!("grid-column-end: {};", self.col_end));
             class.push_str(&format!(" t_col-end-{}", self.col_end));
         }
 
         if self.row_start > 0 {
-            style.push_str(&format!("grid-row-start: {};", self.row_start));
             class.push_str(&format!(" t_row-start-{}", self.row_start));
         }
         if self.row_end > 0 {
-            style.push_str(&format!("grid-row-end: {};", self.row_end));
             class.push_str(&format!(" t_row-end-{}", self.row_end));
         }
 
