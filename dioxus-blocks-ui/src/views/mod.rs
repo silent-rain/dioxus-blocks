@@ -14,8 +14,8 @@ pub use home::HomeViewRoute;
 mod text;
 pub use text::TextViewRoute;
 
-// mod grid;
-// pub use grid::GridViewRoute;
+mod grid;
+pub use grid::GridViewRoute;
 
 // mod card;
 // pub use card::CardViewRoute;
