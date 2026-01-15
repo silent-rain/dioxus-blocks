@@ -17,6 +17,9 @@ pub use text::TextViewRoute;
 mod grid;
 pub use grid::GridViewRoute;
 
+mod image;
+pub use image::ImageViewRoute;
+
 // mod card;
 // pub use card::CardViewRoute;
 

@@ -48,9 +48,10 @@ impl ToElement for HomeView {
                 Link::default()
                     .children(
                         Card::new()
-                            .children(Text::new("Grid3").style(text_style))
+                            .children(Text::new("Image").style(text_style))
                             .style(card_style),
                     )
+                    .to(crate::Route::ImageViewRoute {})
                     .style(link_style),
             ),
             GridItem::new(

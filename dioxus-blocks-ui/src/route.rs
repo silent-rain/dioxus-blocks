@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 
 use crate::{
     LayoutRoute,
-    views::{Blog, GridViewRoute, HomeViewRoute, TextViewRoute},
+    views::{Blog, GridViewRoute, HomeViewRoute, ImageViewRoute, TextViewRoute},
 };
 
 /// The Route enum is used to define the structure of internal routes in our app. All route enums need to derive
@@ -36,4 +36,6 @@ pub enum Route {
         // GridViewRoute {},
         #[route("/text")]
         TextViewRoute {},
+        #[route("/image")]
+        ImageViewRoute {},
 }

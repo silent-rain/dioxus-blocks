@@ -46,16 +46,6 @@ impl Style {
         Self { styles: m }
     }
 
-    pub fn style(&self) -> String {
-        let styles = self
-            .styles
-            .iter()
-            .map(|(k, v)| format!("{}: {};", k, v))
-            .collect::<Vec<String>>();
-
-        styles.join(" ")
-    }
-
     /// 自定义样式
     ///
     /// # 返回值
@@ -533,6 +523,28 @@ impl Style {
         self.styles.insert("font-family".to_string(), family.into());
         self
     }
+
+    /// 设置图片的对象适应方式
+    ///
+    /// # 参数
+    ///
+    /// * `object_fit` - 对象适应方式
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的图片实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().object_fit("cover");
+    /// ```
+    pub fn object_fit<T: Into<String>>(mut self, object_fit: T) -> Self {
+        self.styles
+            .insert("object-fit".to_string(), object_fit.into());
+        self
+    }
 }
 
 impl From<Style> for String {
@@ -547,6 +559,13 @@ impl From<Style> for String {
     }
 }
 
+impl From<&Style> for String {
+    fn from(style: &Style) -> Self {
+        let s: String = style.clone().into();
+        s
+    }
+}
+
 impl From<String> for Style {
     fn from(str: String) -> Self {
         Style::new(str)
@@ -555,7 +574,8 @@ impl From<String> for Style {
 
 impl std::fmt::Display for Style {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.style())
+        let s: String = self.into();
+        write!(f, "{}", s)
     }
 }
 
@@ -567,7 +587,10 @@ mod tests {
     #[test]
     fn test_style() {
         let style = Style::new("width: 100px; height: 100px; color: red;");
-        assert_eq!(style.style(), "width: 100px; height: 100px; color: red;");
+        assert_eq!(
+            style.to_string(),
+            "width: 100px; height: 100px; color: red;"
+        );
     }
 
     #[test]
@@ -586,7 +609,7 @@ mod tests {
             .text_align("center");
 
         assert_eq!(
-            style.style(),
+            style.to_string(),
             "width: 200px; height: 150px; background-color: #ffffff; color: #333333; margin: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; display: flex; font-size: 16px; text-align: center;"
         );
     }
