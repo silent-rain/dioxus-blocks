@@ -180,6 +180,90 @@ impl Style {
         self
     }
 
+    /// 上边距
+    ///
+    /// # 参数
+    /// * `margin_top` - 上边距值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().margin_top("10px");
+    /// ```
+    ///
+    pub fn margin_top<T: Into<String>>(mut self, margin_top: T) -> Self {
+        self.styles
+            .insert("margin-top".to_string(), margin_top.into());
+        self
+    }
+
+    /// 下边距
+    ///
+    /// # 参数
+    /// * `margin_bottom` - 下边距值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().margin_bottom("10px");
+    /// ```
+    ///
+    pub fn margin_bottom<T: Into<String>>(mut self, margin_bottom: T) -> Self {
+        self.styles
+            .insert("margin-bottom".to_string(), margin_bottom.into());
+        self
+    }
+
+    /// 左边距
+    ///
+    /// # 参数
+    /// * `margin_left` - 左边距值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().margin_left("10px");
+    /// ```
+    ///
+    pub fn margin_left<T: Into<String>>(mut self, margin_left: T) -> Self {
+        self.styles
+            .insert("margin-left".to_string(), margin_left.into());
+        self
+    }
+
+    /// 右边距
+    ///
+    /// # 参数
+    /// * `margin_right` - 右边距值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().margin_right("10px");
+    /// ```
+    ///
+    pub fn margin_right<T: Into<String>>(mut self, margin_right: T) -> Self {
+        self.styles
+            .insert("margin-right".to_string(), margin_right.into());
+        self
+    }
+
     /// 内边距
     ///
     /// # 参数

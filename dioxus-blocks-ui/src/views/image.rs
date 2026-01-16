@@ -7,11 +7,21 @@ struct ImageView {}
 
 impl ToElement for ImageView {
     fn to_element(&self) -> Element {
-        View::new().children(self.content()).to_element()
+        View::new()
+            .children(self.title())
+            .children(self.content())
+            .to_element()
     }
 }
 
 impl ImageView {
+    fn title(&self) -> View {
+        View::new().childrens2(vec![
+            Text::h1("Image 图片"),
+            Text::p("图片组件，用于展示图片。"),
+        ])
+    }
+
     fn content(&self) -> Card {
         let text_img_style = |s: Style| {
             s.display("flex")
