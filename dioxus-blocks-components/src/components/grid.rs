@@ -179,9 +179,6 @@ impl Default for GridItem {
     }
 }
 
-unsafe impl Send for GridItem {}
-unsafe impl Sync for GridItem {}
-
 impl GridItem {
     /// 创建一个新的网格项实例
     ///

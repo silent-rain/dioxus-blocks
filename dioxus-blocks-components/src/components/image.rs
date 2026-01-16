@@ -140,9 +140,6 @@ impl Default for Image {
     }
 }
 
-unsafe impl Send for Image {}
-unsafe impl Sync for Image {}
-
 impl Image {
     /// 创建一个新的图片实例
     ///
