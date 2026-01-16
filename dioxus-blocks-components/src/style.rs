@@ -261,6 +261,67 @@ impl Style {
         self
     }
 
+    /// flex 方向
+    ///
+    /// # 参数
+    /// * `direction` - flex 方向值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().flex_direction("row");
+    /// ```
+    ///
+    pub fn flex_direction<T: Into<String>>(mut self, direction: T) -> Self {
+        self.styles
+            .insert("flex-direction".to_string(), direction.into());
+        self
+    }
+
+    /// 对齐方式
+    ///
+    /// # 参数
+    /// * `align` - 对齐方式值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().align_items("center");
+    /// ```
+    ///
+    pub fn align_items<T: Into<String>>(mut self, align: T) -> Self {
+        self.styles.insert("align-items".to_string(), align.into());
+        self
+    }
+
+    /// 间距
+    ///
+    /// # 参数
+    /// * `gap` - 间距值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().gap("16px");
+    /// ```
+    ///
+    pub fn gap<T: Into<String>>(mut self, gap: T) -> Self {
+        self.styles.insert("gap".to_string(), gap.into());
+        self
+    }
+
     /// 定位方式
     ///
     /// # 参数
