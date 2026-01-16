@@ -112,7 +112,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             where
                 T: ToElement + Clone + 'static,
             {
-                self.childrens.push(Arc::new(component));
+                self.childrens.push(Rc::new(component));
                 self
             }
 
@@ -142,7 +142,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
                 T: ToElement + Clone + 'static,
             {
                 for component in components {
-                    self.childrens.push(Arc::new(component));
+                    self.childrens.push(Rc::new(component));
                 }
                 self
             }
@@ -151,7 +151,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///
             /// # 参数
             ///
-            /// * `components` - 实现了 ToElement 的 trait 对象向量，使用 Arc 进行引用计数
+            /// * `components` - 实现了 ToElement 的 trait 对象向量，使用 Rc 进行引用计数
             ///
             /// # 返回值
             ///
@@ -161,16 +161,16 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///
             /// ```rust
             /// # use dioxus_blocks_components::{Text, Button, ToElement};
-            /// # use std::sync::Arc;
+            /// # use std::rc::Rc;
             ///
-            /// let components: Vec<Arc<dyn ToElement>> = vec![
-            ///     Arc::new(Text::h1("标题")),
-            ///     Arc::new(Button::new()),
+            /// let components: Vec<Rc<dyn ToElement>> = vec![
+            ///     Rc::new(Text::h1("标题")),
+            ///     Rc::new(Button::new()),
             /// ];
             ///
             /// Text::new("Hello").childrens(components);
             /// ```
-            pub fn childrens(mut self, components: Vec<Arc<dyn ToElement>>) -> Self {
+            pub fn childrens(mut self, components: Vec<Rc<dyn ToElement>>) -> Self {
                 for component in components {
                     self.childrens.push(component);
                 }

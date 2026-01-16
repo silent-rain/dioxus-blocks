@@ -16,8 +16,8 @@
 //! fn App() -> Element {
 //!     let image = Image::new("https://example.com/image.jpg")
 //!         .alt("示例图片")
-//!         .width(300)
-//!         .height(200)
+//!         .with_width("300px")
+//!         .with_height("200px")
 //!         .to_element();
 //!     rsx! {
 //!         {image}
@@ -33,20 +33,20 @@
 //!
 //! ```rust
 //! # use dioxus::prelude::*;
-//! # use dioxus_blocks_components::{Image, ToElement};
+//! # use dioxus_blocks_components::{Image, ToElement, ObjectFit};
 //! #[component]
 //! fn App() -> Element {
 //!     let image = Image::new("https://example.com/image.jpg")
-//!         .width("100%")
-//!         .height("auto")
-//!         .object_fit("cover")
+//!         .with_width("100%")
+//!         .with_height("auto")
+//!         .with_object_fit(ObjectFit::Cover)
 //!         .to_element();
 //!     rsx! {
 //!         {image}
 //!     }
 //! }
 //! ```
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 
@@ -108,7 +108,7 @@ pub struct Image {
     /// 图片组件的内联样式
     style: Option<Style>,
     /// 图片组件的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 图片点击事件
     onclick: Option<EventHandler<MouseEvent>>,
     /// 图片的 URL 地址

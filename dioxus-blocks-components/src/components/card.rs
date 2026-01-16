@@ -18,7 +18,7 @@
 //!         .to_element()
 //! }
 //! ```
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 
@@ -74,13 +74,13 @@ pub struct Card {
     /// 卡片的内联样式
     style: Option<Style>,
     /// 卡片的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 卡片点击事件
     onclick: Option<EventHandler<MouseEvent>>,
     /// 卡片头部内容，可选
-    header: Option<Arc<dyn ToElement>>,
+    header: Option<Rc<dyn ToElement>>,
     /// 卡片底部内容，可选
-    footer: Option<Arc<dyn ToElement>>,
+    footer: Option<Rc<dyn ToElement>>,
 
     /// 卡片阴影效果，默认为 Always
     /// Shadow control: always, hover, never
@@ -207,7 +207,7 @@ impl Card {
     where
         T: ToElement + Clone + 'static,
     {
-        self.header = Some(Arc::new(header));
+        self.header = Some(Rc::new(header));
         self
     }
 
@@ -231,7 +231,7 @@ impl Card {
     where
         T: ToElement + Clone + 'static,
     {
-        self.childrens.push(Arc::new(component));
+        self.childrens.push(Rc::new(component));
         self
     }
 
@@ -256,7 +256,7 @@ impl Card {
     where
         T: ToElement + Clone + 'static,
     {
-        self.footer = Some(Arc::new(footer));
+        self.footer = Some(Rc::new(footer));
         self
     }
 

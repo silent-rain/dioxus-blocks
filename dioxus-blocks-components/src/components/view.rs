@@ -30,7 +30,7 @@
 //!
 //! ```
 //! ```
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 
@@ -51,7 +51,7 @@ pub struct View {
     /// 容器组件的内联样式
     style: Option<Style>,
     /// 容器组件的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 容器组件的点击事件
     onclick: Option<EventHandler<MouseEvent>>,
     /// 是否裸露渲染（不使用 div 包装），默认为 false

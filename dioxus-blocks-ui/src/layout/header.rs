@@ -1,5 +1,5 @@
 //! # Header
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus_blocks_components::{Element, ToElement, View};
 
@@ -13,7 +13,7 @@ impl ToElement for Header {
         View::new()
             .class("t_header")
             .children(View::new().class("logo"))
-            .childrens(vec![Arc::new(Navbar::default())])
+            .childrens(vec![Rc::new(Navbar::default())])
             .to_element()
     }
 }

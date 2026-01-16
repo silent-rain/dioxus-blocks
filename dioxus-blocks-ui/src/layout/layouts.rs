@@ -1,5 +1,5 @@
 //! # Layout
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 use dioxus_blocks_components::{ToElement, View};
@@ -15,9 +15,9 @@ impl ToElement for Layout {
         View::new()
             .class("t_layout")
             .childrens(vec![
-                Arc::new(Header::default()),
-                Arc::new(Body::default()),
-                Arc::new(Footer::default()),
+                Rc::new(Header::default()),
+                Rc::new(Body::default()),
+                Rc::new(Footer::default()),
             ])
             .to_element()
     }

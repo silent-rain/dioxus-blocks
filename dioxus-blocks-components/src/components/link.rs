@@ -25,7 +25,7 @@
 //! # dom.rebuild(&mut dioxus_core::NoOpMutations);
 //! ```
 
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 use dioxus_blocks_macro::ComponentBase;
@@ -44,7 +44,7 @@ pub struct Link {
     /// 链接的内联样式
     style: Option<Style>,
     /// 链接的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 链接的点击事件
     onclick: Option<EventHandler<MouseEvent>>,
 

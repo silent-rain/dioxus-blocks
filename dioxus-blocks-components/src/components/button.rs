@@ -25,7 +25,7 @@
 //! # });
 //! # dom.rebuild(&mut dioxus_core::NoOpMutations);
 //! ```
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 
@@ -45,7 +45,7 @@ pub struct Button {
     /// 按钮的内联样式
     style: Option<Style>,
     /// 按钮的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 按钮点击事件
     onclick: Option<EventHandler<MouseEvent>>,
     /// 按钮显示的文本内容

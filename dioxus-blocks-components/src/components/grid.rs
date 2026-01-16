@@ -20,7 +20,7 @@
 //!     .to_element()
 //! }
 //! ```
-use std::sync::Arc;
+use std::rc::Rc;
 
 use dioxus::prelude::*;
 
@@ -142,7 +142,7 @@ pub struct GridItem {
     /// 网格项的内联样式
     style: Option<Style>,
     /// 网格项的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 网格项的子元素列表
     onclick: Option<EventHandler<MouseEvent>>,
 
@@ -200,7 +200,7 @@ impl GridItem {
         T: ToElement + Clone + 'static,
     {
         Self {
-            childrens: vec![Arc::new(component)],
+            childrens: vec![Rc::new(component)],
             ..Default::default()
         }
     }
@@ -399,7 +399,7 @@ pub struct Grid {
     /// 网格的内联样式
     style: Option<Style>,
     /// 网格的子元素列表
-    childrens: Vec<Arc<dyn ToElement>>,
+    childrens: Vec<Rc<dyn ToElement>>,
     /// 网格的点击事件
     onclick: Option<EventHandler<MouseEvent>>,
 
@@ -518,7 +518,7 @@ impl Grid {
         Self {
             childrens: components
                 .into_iter()
-                .map(|v| Arc::new(v) as Arc<dyn ToElement>)
+                .map(|v| Rc::new(v) as Rc<dyn ToElement>)
                 .collect(),
             ..Default::default()
         }

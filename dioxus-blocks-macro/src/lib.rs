@@ -19,22 +19,18 @@ mod route;
 /// # 示例
 ///
 /// ```rust
-/// use dioxus::prelude::*;
-/// use dioxus_blocks_macro::Route;
+/// use std::rc::Rc;
+/// use dioxus_blocks_components::{Element, ToElement, View};
 ///
-/// #[derive(Debug, Default, Clone, Route)]
-/// pub struct MyComponentView {
-/// }
+/// #[derive(Debug, Default, Clone)]
+/// pub struct Header {}
 ///
-/// impl MyComponentView {
-///     pub fn new() -> Self {
-///         Self::default()
-///     }
-///     
-///     pub fn element(&self) -> Element {
-///         rsx! {
-///             div { "My Component" }
-///         }
+/// impl ToElement for Header {
+///     fn to_element(&self) -> Element {
+///         View::new()
+///             .class("t_header")
+///             .children(View::new().class("logo"))
+///             .to_element()
 ///     }
 /// }
 /// ```
@@ -50,7 +46,7 @@ pub fn derive_route(input: TokenStream) -> TokenStream {
 /// # 示例
 ///
 /// ```rust
-/// # use std::sync::Arc;
+/// # use std::rc::Rc;
 /// # use dioxus::prelude::*;
 /// # use dioxus_blocks_macro::ComponentBase;
 /// # use dioxus_blocks_components::{Style, ToElement};
@@ -60,7 +56,7 @@ pub fn derive_route(input: TokenStream) -> TokenStream {
 ///     id: Option<String>,
 ///     class: String,
 ///     style: Option<Style>,
-///     childrens: Vec<Arc<dyn ToElement>>,
+///     childrens: Vec<Rc<dyn ToElement>>,
 ///     onclick: Option<EventHandler<MouseEvent>>,
 /// }
 ///
