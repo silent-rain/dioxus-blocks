@@ -157,7 +157,9 @@ impl ToElement for Card {
     }
 }
 
-/// Card 特有属性和方法
+unsafe impl Send for Card {}
+unsafe impl Sync for Card {}
+
 impl Card {
     /// 创建一个新的卡片实例
     ///
