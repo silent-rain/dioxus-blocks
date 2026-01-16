@@ -1,36 +1,57 @@
-use crate::Route;
+//! Blog 组件
+
 use dioxus::prelude::*;
+use dioxus_blocks_components::{Card, Link, Text, ToElement, View};
+use dioxus_blocks_macro::Route;
 
-// const BLOG_CSS: Asset = asset!("/assets/styling/blog.css");
+#[derive(Debug, Clone, Route)]
+pub struct Blog {
+    id: i32,
+}
 
-/// The Blog page component that will be rendered when the current route is `[Route::Blog]`
-///
-/// The component takes a `id` prop of type `i32` from the route enum. Whenever the id changes, the component function will be
-/// re-run and the rendered HTML will be updated.
-#[component]
-pub fn Blog(id: i32) -> Element {
-    rsx! {
-        // document::Link { rel: "stylesheet", href: BLOG_CSS }
-        div { id: "blog",
+impl ToElement for Blog {
+    fn to_element(&self) -> Element {
+        View::new()
+            .children(self.title())
+            .children(self.content())
+            .to_element()
+    }
+}
 
-            // Content
-            h1 { "This is blog #{id}!" }
-            p {
-                "In blog #{id}, we show how the Dioxus router works and how URL parameters can be passed as props to our route components."
-            }
+impl Blog {
+    fn title(&self) -> View {
+        View::new().childrens2(vec![
+            Text::h1(format!("Blog #{}", self.id)),
+            Text::p("博客组件，展示 Dioxus 路由系统的参数传递。"),
+        ])
+    }
 
-            // Navigation links
-            // The `Link` component lets us link to other routes inside our app. It takes a `to` prop of type `Route` and
-            // any number of child nodes.
-            Link {
-                // The `to` prop is the route that the link should navigate to. We can use the `Route` enum to link to the
-                // blog page with the id of -1. Since we are using an enum instead of a string, all of the routes will be checked
-                // at compile time to make sure they are valid.
-                to: Route::Blog { id: id - 1 },
-                "Previous"
-            }
-            span { " <---> " }
-            Link { to: Route::Blog { id: id + 1 }, "Next" }
-        }
+    fn content(&self) -> Card {
+        Card::new()
+            .header(
+                View::new()
+                    .children(Text::h2("博客详情"))
+                    .children(Text::p(format!("当前博客 ID: {}", self.id))),
+            )
+            .body(
+                View::new()
+                    .children(Text::p(format!(
+                        "在博客 #{} 中，我们展示 Dioxus 路由如何工作，以及 URL 参数如何作为属性传递给路由组件。",
+                        self.id
+                    )))
+                    .children(
+                        View::new()
+                            .style(|s| s.display("flex").gap("16px").custom("padding-top: 16px"))
+                            .children(
+                                Link::new(crate::Route::BlogRoute { id: self.id - 1 })
+                                    .text("上一页"),
+                            )
+                            .children(Text::span(" <---> "))
+                            .children(
+                                Link::new(crate::Route::BlogRoute { id: self.id + 1 })
+                                    .text("下一页"),
+                            ),
+                    ),
+            )
     }
 }

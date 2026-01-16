@@ -11,7 +11,7 @@ impl ToElement for Navbar {
             .class("t_navbar")
             .childrens2(vec![
                 Link::default().to(Route::HomeViewRoute {}).text("Home"),
-                Link::default().to(Route::Blog { id: 1 }).text("Blog"),
+                Link::default().to(Route::BlogRoute { id: 1 }).text("Blog"),
                 Link::default().to(Route::TextViewRoute {}).text("Text"),
                 Link::default().to("/xxx1").text("Text1"),
                 Link::default()
