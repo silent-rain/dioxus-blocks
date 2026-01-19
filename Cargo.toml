@@ -10,7 +10,7 @@ members = [
 dioxus = "0.7"
 dioxus-ssr = "0.7"
 dioxus-html = "0.7"
-indexmap = "2.12"
+indexmap = "2.13"
 
 # workspace
 dioxus-blocks-components = { path = "dioxus-blocks-components" }
