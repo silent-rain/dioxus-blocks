@@ -1,14 +1,47 @@
 //! CSS 样式模块
 //!
 //! 提供组件库的样式定义和样式相关的辅助函数。
-//!
-//! 此模块目前为空，未来可以添加样式相关的辅助函数和常量。
 
 use indexmap::IndexMap;
+
+/// CSS 伪类枚举
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
+pub enum PseudoClass {
+    /// :hover - 鼠标悬停时
+    Hover,
+    /// :active - 被激活时
+    Active,
+    /// :focus - 获得焦点时
+    Focus,
+    /// :visited - 已访问的链接
+    Visited,
+    /// :checked - 复选框/单选框被选中时
+    Checked,
+    /// :disabled - 元素被禁用时
+    Disabled,
+    /// :enabled - 元素启用时
+    Enabled,
+}
+
+impl PseudoClass {
+    /// 转换为 CSS 伪类字符串
+    pub fn to_css_string(&self) -> &str {
+        match self {
+            Self::Hover => ":hover",
+            Self::Active => ":active",
+            Self::Focus => ":focus",
+            Self::Visited => ":visited",
+            Self::Checked => ":checked",
+            Self::Disabled => ":disabled",
+            Self::Enabled => ":enabled",
+        }
+    }
+}
 
 #[derive(Debug, Default, Clone)]
 pub struct Style {
     styles: IndexMap<String, String>,
+    pseudo_styles: IndexMap<PseudoClass, IndexMap<String, String>>,
 }
 
 impl Style {
@@ -43,7 +76,10 @@ impl Style {
             }
         });
 
-        Self { styles: m }
+        Self {
+            styles: m,
+            pseudo_styles: IndexMap::new(),
+        }
     }
 
     /// 自定义样式
@@ -304,6 +340,92 @@ impl Style {
         self
     }
 
+    /// 上边框
+    ///
+    /// # 参数
+    /// * `border_top` - 上边框值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border_top("1px solid #000");
+    /// ```
+    ///
+    pub fn border_top<T: Into<String>>(mut self, border_top: T) -> Self {
+        self.styles
+            .insert("border-top".to_string(), border_top.into());
+        self
+    }
+
+    /// 底部边框
+    ///
+    /// # 参数
+    /// * `border_bottom` - 底部边框值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border_bottom("1px solid #000");
+    /// ```
+    ///
+    pub fn border_bottom<T: Into<String>>(mut self, border_bottom: T) -> Self {
+        self.styles
+            .insert("border-bottom".to_string(), border_bottom.into());
+        self
+    }
+
+    /// 左边框
+    ///
+    /// # 参数
+    /// * `border_left` - 左边框值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border_left("1px solid #000");
+    /// ```
+    ///
+    pub fn border_left<T: Into<String>>(mut self, border_left: T) -> Self {
+        self.styles
+            .insert("border-left".to_string(), border_left.into());
+        self
+    }
+
+    /// 右边框
+    ///
+    /// # 参数
+    /// * `border_right` - 右边框值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border_right("1px solid #000");
+    /// ```
+    ///
+    pub fn border_right<T: Into<String>>(mut self, border_right: T) -> Self {
+        self.styles
+            .insert("border-right".to_string(), border_right.into());
+        self
+    }
+
+    /// 圆角
+    ///
     /// 圆角
     ///
     /// # 参数
@@ -322,6 +444,27 @@ impl Style {
     pub fn border_radius<T: Into<String>>(mut self, radius: T) -> Self {
         self.styles
             .insert("border-radius".to_string(), radius.into());
+        self
+    }
+
+    /// 过渡
+    ///
+    /// # 参数
+    /// * `transition` - 过渡值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().transition("all 0.3s ease");
+    /// ```
+    ///
+    pub fn transition<T: Into<String>>(mut self, transition: T) -> Self {
+        self.styles
+            .insert("transition".to_string(), transition.into());
         self
     }
 
@@ -383,6 +526,26 @@ impl Style {
     ///
     pub fn align_items<T: Into<String>>(mut self, align: T) -> Self {
         self.styles.insert("align-items".to_string(), align.into());
+        self
+    }
+
+    /// 内容对齐方式
+    ///
+    /// # 参数
+    /// * `justify` - 对齐方式值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().justify_content("center");
+    /// ```
+    pub fn justify_content<T: Into<String>>(mut self, justify: T) -> Self {
+        self.styles
+            .insert("justify-content".to_string(), justify.into());
         self
     }
 
@@ -692,15 +855,246 @@ impl Style {
     }
 }
 
+/// CSS 伪类样式构建方法
+///
+/// 此 impl 块提供 CSS 伪类的支持，用于定义元素在特定状态下的样式。
+impl Style {
+    /// 悬停伪类
+    ///
+    /// 定义鼠标悬停在元素上时的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义悬停样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().background_color("white")
+    ///     .hover(|s| s.background_color("#f0f0f0"));
+    /// ```
+    pub fn hover<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let hover_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Hover, hover_style.styles);
+        self
+    }
+
+    /// 激活伪类
+    ///
+    /// 定义元素被激活（如鼠标按下）时的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义激活样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().color("blue")
+    ///     .active(|s| s.color("darkblue"));
+    /// ```
+    pub fn active<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let active_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Active, active_style.styles);
+        self
+    }
+
+    /// 焦点伪类
+    ///
+    /// 定义元素获得焦点时的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义焦点样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border("1px solid #ccc")
+    ///     .focus(|s| s.border_color("blue"));
+    /// ```
+    pub fn focus<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let focus_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Focus, focus_style.styles);
+        self
+    }
+
+    /// 已访问伪类
+    ///
+    /// 定义已访问链接的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义已访问样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().color("blue")
+    ///     .visited(|s| s.color("purple"));
+    /// ```
+    pub fn visited<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let visited_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Visited, visited_style.styles);
+        self
+    }
+
+    /// 选中伪类
+    ///
+    /// 定义复选框、单选框等被选中时的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义选中样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border("1px solid #ccc")
+    ///     .checked(|s| s.border_color("green"));
+    /// ```
+    pub fn checked<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let checked_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Checked, checked_style.styles);
+        self
+    }
+
+    /// 禁用伪类
+    ///
+    /// 定义元素被禁用时的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义禁用样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().color("black")
+    ///     .disabled(|s| s.color("gray"));
+    /// ```
+    pub fn disabled<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let disabled_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Disabled, disabled_style.styles);
+        self
+    }
+
+    /// 启用伪类
+    ///
+    /// 定义元素启用时的样式。
+    ///
+    /// # 参数
+    ///
+    /// * `f` - 定义启用样式的闭包
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().color("gray")
+    ///     .enabled(|s| s.color("black"));
+    /// ```
+    pub fn enabled<F>(mut self, f: F) -> Self
+    where
+        F: FnOnce(Style) -> Style,
+    {
+        let enabled_style = f(Style::default());
+        self.pseudo_styles
+            .insert(PseudoClass::Enabled, enabled_style.styles);
+        self
+    }
+}
+
 impl From<Style> for String {
     fn from(style: Style) -> Self {
-        let styles = style
-            .styles
-            .iter()
-            .map(|(k, v)| format!("{}: {};", k, v))
-            .collect::<Vec<String>>();
+        let mut parts = Vec::new();
 
-        styles.join(" ")
+        // 处理普通样式
+        if !style.styles.is_empty() {
+            let normal_styles = style
+                .styles
+                .iter()
+                .map(|(k, v)| format!("{}: {};", k, v))
+                .collect::<Vec<String>>()
+                .join(" ");
+            parts.push(normal_styles);
+        }
+
+        // 处理伪类样式
+        for (pseudo_class, styles) in style.pseudo_styles.iter() {
+            if !styles.is_empty() {
+                let pseudo_str = styles
+                    .iter()
+                    .map(|(k, v)| format!("{}: {};", k, v))
+                    .collect::<Vec<String>>()
+                    .join(" ");
+                parts.push(format!(
+                    "{} {{ {} }}",
+                    pseudo_class.to_css_string(),
+                    pseudo_str
+                ));
+            }
+        }
+
+        parts.join(" ")
     }
 }
 
