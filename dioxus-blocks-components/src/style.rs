@@ -340,6 +340,27 @@ impl Style {
         self
     }
 
+    /// 边框颜色
+    ///
+    /// # 参数
+    /// * `border_color` - 边框颜色值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().border_color("#000");
+    /// ```
+    ///
+    pub fn border_color<T: Into<String>>(mut self, border_color: T) -> Self {
+        self.styles
+            .insert("border-color".to_string(), border_color.into());
+        self
+    }
+
     /// 上边框
     ///
     /// # 参数
