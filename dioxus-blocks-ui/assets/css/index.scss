@@ -13,3 +13,14 @@
     --t-transition-duration: 0.3s;
     --t-box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
+
+/* Navigation link styles */
+.nav-link {
+    &:hover {
+        background-color: var(--t-border-color-lighter);
+    }
+
+    &.external-link:hover {
+        background-color: var(--t-border-color-lighter);
+    }
+}

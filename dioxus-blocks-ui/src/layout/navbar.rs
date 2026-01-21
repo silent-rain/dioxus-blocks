@@ -37,14 +37,17 @@ impl Navbar {
     where
         T: Into<NavigationTarget>,
     {
-        Link::default().to(target).text(text).style(|s| {
-            s.padding("8px 16px")
-                .color("var(--t-text-color-primary)")
-                .text_decoration("none")
-                .border_radius("4px")
-                .transition("all var(--t-transition-duration)")
-                .hover(|s| s.background_color("var(--t-border-color-lighter)"))
-        })
+        Link::default()
+            .to(target)
+            .text(text)
+            .class("nav-link")  // 使用 CSS 类处理伪类
+            .style(|s| {
+                s.padding("8px 16px")
+                    .color("var(--t-text-color-primary)")
+                    .text_decoration("none")
+                    .border_radius("4px")
+                    .transition("all var(--t-transition-duration)")
+            })
     }
 
     /// 创建外部链接
@@ -58,13 +61,16 @@ impl Navbar {
     ///
     /// 返回一个外部链接组件
     fn create_external_link(&self, url: &str, text: &str) -> Link {
-        Link::default().to(url).text(text).style(|s| {
-            s.padding("8px 16px")
-                .color("var(--t-text-color-primary)")
-                .text_decoration("none")
-                .border_radius("4px")
-                .transition("all var(--t-transition-duration)")
-                .hover(|s| s.background_color("var(--t-border-color-lighter)"))
-        })
+        Link::default()
+            .to(url)
+            .text(text)
+            .class("nav-link external-link")  // 使用 CSS 类处理伪类
+            .style(|s| {
+                s.padding("8px 16px")
+                    .color("var(--t-text-color-primary)")
+                    .text_decoration("none")
+                    .border_radius("4px")
+                    .transition("all var(--t-transition-duration)")
+            })
     }
 }
