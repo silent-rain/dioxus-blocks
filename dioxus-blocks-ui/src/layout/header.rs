@@ -4,8 +4,9 @@
 use std::rc::Rc;
 
 use dioxus::prelude::{asset, manganis};
-use dioxus_blocks_components::{Element, Image, Text, ToElement, View};
+use dioxus_blocks_components::{Element, Image, Link, Text, ToElement, View};
 
+use crate::Route;
 use crate::layout::Navbar;
 
 #[derive(Debug, Default, Clone)]
@@ -27,8 +28,9 @@ impl ToElement for Header {
                     .box_shadow("0 2px 8px rgba(0, 0, 0, 0.06)")
             })
             .children(
-                View::new()
-                    .style(|s| s.display("flex").align_items("center").gap("12px"))
+                Link::default()
+                    .to(Route::HomeViewRoute {})
+                    .style(|s| s.display("flex").align_items("center").gap("12px").text_decoration("none"))
                     .children(
                         Image::new(logo)
                             .with_width("32px")
