@@ -41,7 +41,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///
             /// # 参数
             ///
-            /// * `class` - 要添加的 CSS 类名，任何实现了 `Into<String>` 的类型都可以
+            /// * `class` - 要添加的 CSS 类名，任何实现了 `Into<ToString>` 的类型都可以
             ///
             /// # 返回值
             ///
@@ -53,9 +53,9 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             /// # use dioxus_blocks_components::Text;
             /// Text::new("Hello").class("highlight");
             /// ```
-            pub fn class<T: Into<String>>(mut self, class: T) -> Self {
+            pub fn class<T: ToString>(mut self, class: T) -> Self {
                 let default_class = Self::default().class.clone();
-                self.class = format!("{} {}", default_class, class.into());
+                self.class = format!("{} {}", default_class, class.to_string());
                 self
             }
 

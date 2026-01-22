@@ -1,0 +1,10 @@
+/* Navigation link styles */
+.nav-link {
+    &:hover {
+        background-color: var(--t-border-color-lighter);
+    }
+
+    &.external-link:hover {
+        background-color: var(--t-border-color-lighter);
+    }
+}

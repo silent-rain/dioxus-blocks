@@ -2,7 +2,12 @@
 //!
 //! 提供网站主导航菜单，包含多个导航链接。
 use crate::Route;
+use dioxus::prelude::css_module;
 use dioxus_blocks_components::{Element, Link, NavigationTarget, ToElement, View};
+
+/// CSS 模块样式
+#[css_module("/assets/css/navbar.css")]
+struct Styles;
 
 #[derive(Debug, Default, Clone)]
 pub struct Navbar {}
@@ -40,7 +45,7 @@ impl Navbar {
         Link::default()
             .to(target)
             .text(text)
-            .class("nav-link")  // 使用 CSS 类处理伪类
+            .class(Styles::nav_link)
             .style(|s| {
                 s.padding("8px 16px")
                     .color("var(--t-text-color-primary)")
@@ -64,7 +69,7 @@ impl Navbar {
         Link::default()
             .to(url)
             .text(text)
-            .class("nav-link external-link")  // 使用 CSS 类处理伪类
+            .class(format!("{} {}", Styles::nav_link, Styles::external_link))
             .style(|s| {
                 s.padding("8px 16px")
                     .color("var(--t-text-color-primary)")
