@@ -125,9 +125,7 @@ pub fn impl_derive_route(input: TokenStream) -> TokenStream {
             #[component]
             pub fn #route_name(#(#params),*) -> Element {
                 let ele = #struct_name { #(#construct_fields),* };
-                rsx! {
-                    {ele.to_element()}
-                }
+                ele.to_element()
             }
         }
     } else {
@@ -135,9 +133,7 @@ pub fn impl_derive_route(input: TokenStream) -> TokenStream {
             #[component]
             pub fn #route_name() -> Element {
                 let ele = #struct_name::default();
-                rsx! {
-                    {ele.to_element()}
-                }
+                ele.to_element()
             }
         }
     };
