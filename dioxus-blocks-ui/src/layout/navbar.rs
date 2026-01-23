@@ -69,7 +69,7 @@ impl Navbar {
         Link::default()
             .to(url)
             .text(text)
-            .class(format!("{} {}", Styles::nav_link, Styles::external_link))
+            .class(Styles::external_link)
             .style(|s| {
                 s.padding("8px 16px")
                     .color("var(--t-text-color-primary)")
