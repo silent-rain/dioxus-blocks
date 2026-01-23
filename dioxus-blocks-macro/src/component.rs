@@ -63,7 +63,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///
             /// # 参数
             ///
-            /// * `style_handler` - 一个闭包，接受样式构建器并返回样式字符串
+            /// * `f` - 一个闭包，接受样式构建器并返回样式字符串
             ///
             /// # 返回值
             ///
@@ -75,12 +75,12 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             /// # use dioxus_blocks_components::{Text, Style};
             /// Text::new("Hello").style(|s| s.color("red").font_size("16px"));
             /// ```
-            pub fn style<F>(mut self, style_handler: F) -> Self
+            pub fn style<F>(mut self, f: F) -> Self
             where
                 F: FnOnce(Style) -> Style,
             {
                 let style = self.style.unwrap_or_default();
-                self.style = Some(style_handler(style));
+                self.style = Some(f(style));
                 self
             }
 

@@ -30,7 +30,12 @@ impl ToElement for Header {
             .children(
                 Link::default()
                     .to(Route::HomeViewRoute {})
-                    .style(|s| s.display("flex").align_items("center").gap("12px").text_decoration("none"))
+                    .style(|s| {
+                        s.display("flex")
+                            .align_items("center")
+                            .gap("12px")
+                            .text_decoration("none")
+                    })
                     .children(
                         Image::new(logo)
                             .with_width("32px")
@@ -39,7 +44,6 @@ impl ToElement for Header {
                     )
                     .children(Text::h1("Dioxus Blocks").style(|s| {
                         s.font_size("20px")
-                            .font_weight("600")
                             .color("var(--t-text-color-primary)")
                             .margin("0")
                             .line_height("64px")
