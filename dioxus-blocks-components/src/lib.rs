@@ -12,7 +12,11 @@
 //!
 //! - [`View`][]: 容器组件，类似 HTML 的 div 或 Vue 的 template，支持裸露渲染
 //! - [`Card`][]: 卡片容器组件，支持头部、主体和底部内容
-//! - [`Button`][]: 按钮组件，支持文本和点击事件
+//! - [`Button`][]: 按钮组件，支持多种类型、变体、形状和尺寸
+//! - [`ButtonType`][]: 按钮类型枚举（default、primary、success、info、warning、danger）
+//! - [`ButtonVariant`][]: 按钮变体枚举（solid、plain）
+//! - [`ButtonShape`][]: 按钮形状枚举（default、round、circle）
+//! - [`ButtonSize`][]: 按钮尺寸枚举（small、medium、large）
 //! - [`Grid`][]: 网格布局组件，支持自定义列数、行数和间距
 //! - [`GridItem`][]: 网格项组件，支持控制网格项在网格中的位置和跨度
 //! - [`Link`][]: 链接组件，支持路由跳转、字符串路径

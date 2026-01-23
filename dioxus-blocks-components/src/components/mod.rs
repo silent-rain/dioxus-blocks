@@ -10,7 +10,7 @@ mod text;
 pub use text::Text;
 
 mod button;
-pub use button::Button;
+pub use button::{Button, ButtonShape, ButtonSize, ButtonType};
 
 mod card;
 pub use card::{Card, CardShadow};

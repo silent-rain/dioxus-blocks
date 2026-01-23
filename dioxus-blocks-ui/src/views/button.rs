@@ -2,7 +2,7 @@
 
 use dioxus::prelude::*;
 
-use dioxus_blocks_components::{Button, Card, Text, View};
+use dioxus_blocks_components::{Button, ButtonShape, ButtonSize, ButtonType, Card, Text, View};
 use dioxus_blocks_macro::Route;
 
 #[derive(Debug, Default, Clone, Route)]
@@ -21,78 +21,153 @@ impl ButtonView {
     fn title(&self) -> View {
         View::new().childrens2(vec![
             Text::h1("Button 组件"),
-            Text::p("按钮组件，支持多种样式和交互状态。"),
+            Text::p("按钮组件，支持多种类型、变体、形状和尺寸。"),
         ])
     }
 
     fn content(&self) -> View {
         View::new().childrens2(vec![
-            self.basic_button(),
-            self.variant_buttons(),
+            self.basic_buttons(),
+            self.plain_buttons(),
+            self.round_buttons(),
+            self.circle_buttons(),
             self.size_buttons(),
-            self.style_buttons(),
+            self.state_buttons(),
         ])
     }
 
-    /// 基础按钮
-    fn basic_button(&self) -> Card {
+    /// 基础按钮（实心）
+    fn basic_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
-                Text::h2("基础按钮"),
-                Text::p("最简单的按钮使用方式。"),
-            ]))
-            .children(
-                View::new()
-                    .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .children(
-                        Button::default()
-                            .class("t-button t-button-primary")
-                            .onclick(move |_| {
-                                println!("按钮被点击了！");
-                            })
-                            .children(Text::new("点击我")),
-                    ),
+            .header(
+                View::new().childrens2(vec![Text::h2("基础按钮"), Text::p("不同类型的实心按钮。")]),
             )
-            .style(|s| s.margin_top("32px"))
-    }
-
-    /// 变体按钮
-    fn variant_buttons(&self) -> Card {
-        Card::new()
-            .header(View::new().childrens2(vec![
-                Text::h2("按钮变体"),
-                Text::p("不同颜色和风格的按钮。"),
-            ]))
             .children(
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
                     .childrens2(vec![
-                        Button::default()
-                            .class("t-button t-button-primary")
-                            .onclick(move |_| println!("主要按钮"))
-                            .children(Text::new("主要按钮")),
-                        Button::default()
-                            .class("t-button t-button-secondary")
-                            .onclick(move |_| println!("次要按钮"))
-                            .children(Text::new("次要按钮")),
-                        Button::default()
-                            .class("t-button t-button-danger")
-                            .onclick(move |_| println!("危险按钮"))
-                            .children(Text::new("危险按钮")),
-                        Button::default()
-                            .class("t-button t-button-success")
-                            .onclick(move |_| println!("成功按钮"))
-                            .children(Text::new("成功按钮")),
-                        Button::default()
-                            .class("t-button t-button-warning")
-                            .onclick(move |_| println!("警告按钮"))
-                            .children(Text::new("警告按钮")),
+                        Button::new().text("Default"),
+                        Button::new().text("Primary").btn_type(ButtonType::Primary),
+                        Button::new().text("Success").btn_type(ButtonType::Success),
+                        Button::new().text("Info").btn_type(ButtonType::Info),
+                        Button::new().text("Warning").btn_type(ButtonType::Warning),
+                        Button::new().text("Danger").btn_type(ButtonType::Danger),
                     ]),
             )
             .style(|s| s.margin_top("32px"))
     }
 
-    /// 尺寸按钮
+    /// 浅色按钮
+    fn plain_buttons(&self) -> Card {
+        Card::new()
+            .header(
+                View::new().childrens2(vec![Text::h2("浅色按钮"), Text::p("浅色背景的按钮样式。")]),
+            )
+            .children(
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new().text("Plain").plain(true),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .plain(true),
+                        Button::new()
+                            .text("Success")
+                            .btn_type(ButtonType::Success)
+                            .plain(true),
+                        Button::new()
+                            .text("Info")
+                            .btn_type(ButtonType::Info)
+                            .plain(true),
+                        Button::new()
+                            .text("Warning")
+                            .btn_type(ButtonType::Warning)
+                            .plain(true),
+                        Button::new()
+                            .text("Danger")
+                            .btn_type(ButtonType::Danger)
+                            .plain(true),
+                    ]),
+            )
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 椭圆按钮
+    fn round_buttons(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![Text::h2("椭圆按钮"), Text::p("椭圆形状的按钮。")]))
+            .children(
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new().text("Round").shape(ButtonShape::Round),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Round),
+                        Button::new()
+                            .text("Success")
+                            .btn_type(ButtonType::Success)
+                            .shape(ButtonShape::Round),
+                        Button::new()
+                            .text("Info")
+                            .btn_type(ButtonType::Info)
+                            .shape(ButtonShape::Round),
+                        Button::new()
+                            .text("Warning")
+                            .btn_type(ButtonType::Warning)
+                            .shape(ButtonShape::Round),
+                        Button::new()
+                            .text("Danger")
+                            .btn_type(ButtonType::Danger)
+                            .shape(ButtonShape::Round),
+                    ]),
+            )
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 圆形按钮
+    fn circle_buttons(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![
+                Text::h2("圆形按钮"),
+                Text::p("圆形形状的按钮，适合配合图标使用。"),
+            ]))
+            .children(
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new()
+                            .shape(ButtonShape::Circle)
+                            .btn_type(ButtonType::Default)
+                            .text("D"),
+                        Button::new()
+                            .shape(ButtonShape::Circle)
+                            .btn_type(ButtonType::Primary)
+                            .text("P"),
+                        Button::new()
+                            .shape(ButtonShape::Circle)
+                            .btn_type(ButtonType::Success)
+                            .text("S"),
+                        Button::new()
+                            .shape(ButtonShape::Circle)
+                            .btn_type(ButtonType::Info)
+                            .text("I"),
+                        Button::new()
+                            .shape(ButtonShape::Circle)
+                            .btn_type(ButtonType::Warning)
+                            .text("W"),
+                        Button::new()
+                            .shape(ButtonShape::Circle)
+                            .btn_type(ButtonType::Danger)
+                            .text("D"),
+                    ]),
+            )
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 不同尺寸按钮
     fn size_buttons(&self) -> Card {
         Card::new()
             .header(View::new().childrens2(vec![Text::h2("按钮尺寸"), Text::p("不同大小的按钮。")]))
@@ -105,54 +180,43 @@ impl ButtonView {
                             .align_items("center")
                     })
                     .childrens2(vec![
-                        Button::default()
-                            .class("t-button t-button-primary t-button-small")
-                            .onclick(move |_| println!("小按钮"))
-                            .children(Text::new("小")),
-                        Button::default()
-                            .class("t-button t-button-primary t-button-medium")
-                            .onclick(move |_| println!("中按钮"))
-                            .children(Text::new("中")),
-                        Button::default()
-                            .class("t-button t-button-primary t-button-large")
-                            .onclick(move |_| println!("大按钮"))
-                            .children(Text::new("大")),
+                        Button::new()
+                            .text("Small")
+                            .size(ButtonSize::Small)
+                            .btn_type(ButtonType::Primary),
+                        Button::new()
+                            .text("Medium")
+                            .size(ButtonSize::Medium)
+                            .btn_type(ButtonType::Primary),
+                        Button::new()
+                            .text("Large")
+                            .size(ButtonSize::Large)
+                            .btn_type(ButtonType::Primary),
                     ]),
             )
             .style(|s| s.margin_top("32px"))
     }
 
-    /// 特殊样式按钮
-    fn style_buttons(&self) -> Card {
+    /// 状态按钮
+    fn state_buttons(&self) -> Card {
         Card::new()
-            .header(
-                View::new().childrens2(vec![Text::h2("特殊样式"), Text::p("各种特殊效果的按钮。")]),
-            )
+            .header(View::new().childrens2(vec![
+                Text::h2("按钮状态"),
+                Text::p("禁用和加载状态的按钮。"),
+            ]))
             .children(
                 View::new()
-                    .style(|s| {
-                        s.padding("20px")
-                            .display("flex")
-                            .gap("12px")
-                            .flex_wrap("wrap")
-                    })
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
                     .childrens2(vec![
-                        Button::default()
-                            .class("t-button t-button-ghost")
-                            .onclick(move |_| println!("幽灵按钮"))
-                            .children(Text::new("幽灵")),
-                        Button::default()
-                            .class("t-button t-button-round")
-                            .onclick(move |_| println!("圆形按钮"))
-                            .children(Text::new("圆形")),
-                        Button::default()
-                            .class("t-button t-button-gradient")
-                            .onclick(move |_| println!("渐变按钮"))
-                            .children(Text::new("渐变")),
-                        Button::default()
-                            .class("t-button t-button-3d")
-                            .onclick(move |_| println!("3D按钮"))
-                            .children(Text::new("3D")),
+                        Button::new().text("Normal").btn_type(ButtonType::Primary),
+                        Button::new()
+                            .text("Disabled")
+                            .btn_type(ButtonType::Primary)
+                            .disabled(true),
+                        Button::new()
+                            .text("Loading")
+                            .btn_type(ButtonType::Primary)
+                            .loading(true),
                     ]),
             )
             .style(|s| s.margin_top("32px"))
