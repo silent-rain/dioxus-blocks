@@ -28,20 +28,30 @@ impl ToElement for HomeView {
                 Link::default()
                     .children(
                         Card::new()
-                            .children(Text::new("Grid").style(text_style))
+                            .children(Text::new("Text").style(text_style))
                             .style(card_style),
                     )
-                    .to(crate::Route::GridViewRoute {})
+                    .to(crate::Route::TextViewRoute {})
                     .style(link_style),
             ),
             GridItem::new(
                 Link::default()
                     .children(
                         Card::new()
-                            .children(Text::new("Text").style(text_style))
+                            .children(Text::new("Link").style(text_style))
                             .style(card_style),
                     )
-                    .to(crate::Route::TextViewRoute {})
+                    .to(crate::Route::LinkViewRoute {})
+                    .style(link_style),
+            ),
+            GridItem::new(
+                Link::default()
+                    .children(
+                        Card::new()
+                            .children(Text::new("Button").style(text_style))
+                            .style(card_style),
+                    )
+                    .to(crate::Route::ButtonViewRoute {})
                     .style(link_style),
             ),
             GridItem::new(
@@ -58,18 +68,30 @@ impl ToElement for HomeView {
                 Link::default()
                     .children(
                         Card::new()
-                            .children(Text::new("Grid4").style(text_style))
+                            .children(Text::new("View").style(text_style))
                             .style(card_style),
                     )
+                    .to(crate::Route::ViewExampleRoute {})
                     .style(link_style),
             ),
             GridItem::new(
                 Link::default()
                     .children(
                         Card::new()
-                            .children(Text::new("Grid5").style(text_style))
+                            .children(Text::new("Grid").style(text_style))
                             .style(card_style),
                     )
+                    .to(crate::Route::GridViewRoute {})
+                    .style(link_style),
+            ),
+            GridItem::new(
+                Link::default()
+                    .children(
+                        Card::new()
+                            .children(Text::new("Card").style(text_style))
+                            .style(card_style),
+                    )
+                    .to(crate::Route::CardViewRoute {})
                     .style(link_style),
             ),
         ])

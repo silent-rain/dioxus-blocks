@@ -2,20 +2,29 @@
 //!
 //! This module contains various view components used in the application.
 
-mod home;
-pub use home::HomeViewRoute;
-
 mod text;
 pub use text::TextViewRoute;
 
-mod grid;
-pub use grid::GridViewRoute;
+mod link;
+pub use link::LinkViewRoute;
+
+mod button;
+pub use button::ButtonViewRoute;
 
 mod image;
 pub use image::ImageViewRoute;
 
-// mod card;
-// pub use card::CardViewRoute;
+mod view;
+pub use view::ViewExampleRoute;
+
+mod grid;
+pub use grid::GridViewRoute;
+
+mod card;
+pub use card::CardViewRoute;
+
+mod home;
+pub use home::HomeViewRoute;
 
 mod blog;
 pub use blog::BlogRoute;

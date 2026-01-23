@@ -81,6 +81,46 @@ impl Style {
         self.insert_style("flex-direction", direction.into())
     }
 
+    /// flex 属性
+    ///
+    /// # 参数
+    /// * `value` - flex 值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().flex("1");
+    /// Style::default().flex("0 1 auto");
+    /// ```
+    ///
+    pub fn flex<T: Into<String>>(self, value: T) -> Self {
+        self.insert_style("flex", value.into())
+    }
+
+    /// flex 换行
+    ///
+    /// # 参数
+    /// * `wrap` - flex 换行值，可以是任何实现了 ``Into<String>`` 的类型
+    ///
+    /// # 返回值
+    /// * 返回修改后的样式实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```
+    /// # use dioxus_blocks_components::Style;
+    /// Style::default().flex_wrap("wrap");
+    /// Style::default().flex_wrap("nowrap");
+    /// ```
+    ///
+    pub fn flex_wrap<T: Into<String>>(self, wrap: T) -> Self {
+        self.insert_style("flex-wrap", wrap.into())
+    }
+
     /// 对齐方式
     ///
     /// # 参数

@@ -200,7 +200,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
                 }
             }
 
-            /// 设置按钮的点击事件处理器
+            /// 设置组件的点击事件处理器
             ///
             /// # 参数
             ///
@@ -218,7 +218,38 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             /// # use dioxus_blocks_components::{Button, ToElement};
             /// # let mut dom = VirtualDom::new(|| {
             ///     Button::new()
-            ///         .onclick(EventHandler::new(move |_| {
+            ///         .onclick(move |_| {
+            ///             println!("按钮被点击了");
+            ///         })
+            ///         .to_element()
+            /// # });
+            /// # let mut mutations = Mutations::default();
+            /// # dom.rebuild(&mut mutations);
+            /// ```
+            pub fn onclick(mut self, handler: impl FnMut(MouseEvent) + 'static) -> Self {
+                self.onclick = Some(EventHandler::new(handler));
+                self
+            }
+
+            /// 设置组件的点击事件处理器
+            ///
+            /// # 参数
+            ///
+            /// * `onclick` - 当按钮被点击时调用的闭包或函数
+            ///
+            /// # 返回值
+            ///
+            /// 返回修改后的按钮实例，支持链式调用
+            ///
+            /// # 示例
+            ///
+            /// ```rust
+            /// # use dioxus::prelude::*;
+            /// # use dioxus::core::Mutations;
+            /// # use dioxus_blocks_components::{Button, ToElement};
+            /// # let mut dom = VirtualDom::new(|| {
+            ///     Button::new()
+            ///         .onclick2(EventHandler::new(move |_| {
             ///             println!("按钮被点击了");
             ///         }))
             ///         .to_element()
@@ -226,8 +257,8 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             /// # let mut mutations = Mutations::default();
             /// # dom.rebuild(&mut mutations);
             /// ```
-            pub fn onclick(mut self, onclick: EventHandler<MouseEvent>) -> Self {
-                self.onclick = Some(onclick);
+            pub fn onclick2(mut self, handler: EventHandler<MouseEvent>) -> Self {
+                self.onclick = Some(handler);
                 self
             }
         }

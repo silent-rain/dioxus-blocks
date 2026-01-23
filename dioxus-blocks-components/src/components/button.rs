@@ -15,9 +15,9 @@
 //!     Button::new()
 //!         .text("点击我")
 //!         .class("btn-primary")
-//!         .onclick(EventHandler::new(move |_| {
+//!         .onclick(move |_: MouseEvent| {
 //!             println!("Button clicked!");
-//!         }))
+//!         })
 //!         .to_element()
 //! }
 //!
@@ -113,6 +113,7 @@ impl ToElement for Button {
         let style = self.style.clone().map(|s| s.to_string());
         let onclick_handler = self.onclick;
         let childrens = self.childrens_to_element();
+        let text = self.text.clone();
         rsx! {
             button {
                 id,
@@ -123,7 +124,7 @@ impl ToElement for Button {
                         handler.call(event);
                     }
                 },
-                {self.text.clone()}
+                {text}
                 {childrens}
             }
         }
@@ -173,9 +174,9 @@ mod tests {
             Button::new()
                 .id("test-button")
                 .text("Test Button")
-                .onclick(EventHandler::new(move |_| {
-                    println!("Button clicked!");
-                }))
+                .onclick(|_| {
+                    println!("Button clicked again!");
+                })
                 .to_element()
         }
 
@@ -205,9 +206,12 @@ mod tests {
             // 在这个闭包中，我们可以安全地使用需要运行时的组件
             Button::new()
                 .text("Test Button")
-                .onclick(EventHandler::new(move |_| {
+                .onclick2(EventHandler::new(move |_| {
                     println!("Button clicked!");
                 }))
+                .onclick(|_| {
+                    println!("Button clicked again!");
+                })
                 .to_element()
         });
 

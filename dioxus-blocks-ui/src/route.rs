@@ -4,7 +4,10 @@ use dioxus::prelude::*;
 
 use crate::{
     LayoutRoute,
-    views::{BlogRoute, GridViewRoute, HomeViewRoute, ImageViewRoute, TextViewRoute},
+    views::{
+        BlogRoute, ButtonViewRoute, CardViewRoute, GridViewRoute, HomeViewRoute, ImageViewRoute,
+        LinkViewRoute, TextViewRoute, ViewExampleRoute,
+    },
 };
 
 /// The Route enum is used to define the structure of internal routes in our app. All route enums need to derive
@@ -30,12 +33,16 @@ pub enum Route {
         // Fields of the route variant will be passed to the component as props. In this case, the BlogRoute component must accept
         // an `id` prop of type `i32`.
         BlogRoute { id: i32 },
-        // #[route("/card")]
-        // CardViewRoute {},
-        // #[route("/grid")]
-        // GridViewRoute {},
+        #[route("/card")]
+        CardViewRoute {},
         #[route("/text")]
         TextViewRoute {},
         #[route("/image")]
         ImageViewRoute {},
+        #[route("/view")]
+        ViewExampleRoute {},
+        #[route("/link")]
+        LinkViewRoute {},
+        #[route("/button")]
+        ButtonViewRoute {},
 }

@@ -342,9 +342,13 @@ impl ToElement for GridItem {
     ///
     /// ```rust
     /// # use dioxus::prelude::*;
+    /// # use dioxus::core::Mutations;
     /// # use dioxus_blocks_components::{GridItem, ToElement};
-    ///
-    /// GridItem::default().col_span(2).to_element();
+    /// # let mut dom = VirtualDom::new(|| {
+    ///     GridItem::default().col_span(2).to_element()
+    /// # });
+    /// # let mut mutations = Mutations::default();
+    /// # dom.rebuild(&mut mutations);
     /// ```
     fn to_element(&self) -> Element {
         let id = self.id.clone();
@@ -354,6 +358,7 @@ impl ToElement for GridItem {
             .clone()
             .map(|s| s.to_string())
             .unwrap_or("".to_string());
+        let onclick_handler = self.onclick;
         let childrens = self.childrens_to_element();
 
         // 添加自定义样式
@@ -379,7 +384,17 @@ impl ToElement for GridItem {
         }
 
         rsx! {
-            div { id, class, style, {childrens} }
+            div {
+                id,
+                class,
+                style,
+                onclick: move |event: MouseEvent| {
+                    if let Some(handler) = onclick_handler {
+                        handler.call(event);
+                    }
+                },
+                {childrens}
+            }
         }
     }
 }

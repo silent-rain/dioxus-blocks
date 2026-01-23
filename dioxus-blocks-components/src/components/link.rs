@@ -79,6 +79,7 @@ impl ToElement for Link {
         let text = self.text.clone();
         let childrens = self.childrens_to_element();
         let to = self.to.clone();
+        let onclick_handler = self.onclick;
 
         rsx! {
             Link {
@@ -87,6 +88,11 @@ impl ToElement for Link {
                 style,
                 to,
                 new_tab: self.new_tab,
+                onclick: move |event: MouseEvent| {
+                    if let Some(handler) = onclick_handler {
+                        handler.call(event);
+                    }
+                },
                 {childrens}
                 {text}
             }
