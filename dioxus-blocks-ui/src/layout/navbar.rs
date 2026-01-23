@@ -70,6 +70,7 @@ impl Navbar {
             .to(url)
             .text(text)
             .class(Styles::external_link)
+            .new_tab(true)
             .style(|s| {
                 s.padding("8px 16px")
                     .color("var(--t-text-color-primary)")
