@@ -1,5 +1,3 @@
-@import "./base.scss";
-
 // ==================== 基础样式 ====================
 .t-button {
   display: inline-flex;
@@ -23,7 +21,7 @@
   line-height: 1;
 
   &:active {
-    transform: scale(0.98);
+    transform: translateY(0) scale(0.96);
   }
 
   &--disabled {
@@ -66,6 +64,11 @@
     border-color: var(--t-color-info-border);
     color: var(--t-color-primary);
   }
+
+  &:active {
+    background-color: darken-color(var(--t-color-info-light), 10%);
+    border-color: darken-color(var(--t-color-info-border), 10%);
+  }
 }
 
 .t-button--primary {
@@ -74,8 +77,13 @@
   color: white;
 
   &:hover {
-    background-color: lighten-color(var(--t-color-primary), 10%);
-    border-color: lighten-color(var(--t-color-primary), 10%);
+    background-color: lighten-color(var(--t-color-primary), 8%);
+    border-color: lighten-color(var(--t-color-primary), 8%);
+  }
+
+  &:active {
+    background-color: darken-color(var(--t-color-primary), 10%);
+    border-color: darken-color(var(--t-color-primary), 10%);
   }
 }
 
@@ -85,8 +93,13 @@
   color: white;
 
   &:hover {
-    background-color: lighten-color(var(--t-color-success), 10%);
-    border-color: lighten-color(var(--t-color-success), 10%);
+    background-color: lighten-color(var(--t-color-success), 8%);
+    border-color: lighten-color(var(--t-color-success), 8%);
+  }
+
+  &:active {
+    background-color: darken-color(var(--t-color-success), 10%);
+    border-color: darken-color(var(--t-color-success), 10%);
   }
 }
 
@@ -96,8 +109,13 @@
   color: white;
 
   &:hover {
-    background-color: lighten-color(var(--t-color-info), 10%);
-    border-color: lighten-color(var(--t-color-info), 10%);
+    background-color: lighten-color(var(--t-color-info), 8%);
+    border-color: lighten-color(var(--t-color-info), 8%);
+  }
+
+  &:active {
+    background-color: darken-color(var(--t-color-info), 10%);
+    border-color: darken-color(var(--t-color-info), 10%);
   }
 }
 
@@ -107,8 +125,13 @@
   color: white;
 
   &:hover {
-    background-color: lighten-color(var(--t-color-warning), 10%);
-    border-color: lighten-color(var(--t-color-warning), 10%);
+    background-color: lighten-color(var(--t-color-warning), 8%);
+    border-color: lighten-color(var(--t-color-warning), 8%);
+  }
+
+  &:active {
+    background-color: darken-color(var(--t-color-warning), 10%);
+    border-color: darken-color(var(--t-color-warning), 10%);
   }
 }
 
@@ -118,75 +141,169 @@
   color: white;
 
   &:hover {
-    background-color: lighten-color(var(--t-color-danger), 10%);
-    border-color: lighten-color(var(--t-color-danger), 10%);
+    background-color: lighten-color(var(--t-color-danger), 8%);
+    border-color: lighten-color(var(--t-color-danger), 8%);
+  }
+
+  &:active {
+    background-color: darken-color(var(--t-color-danger), 10%);
+    border-color: darken-color(var(--t-color-danger), 10%);
   }
 }
 
-// ==================== 浅色按钮 ====================
-.t-button--plain {
-  background-color: white;
+// ==================== 形状 ====================
+.t-button--round {
+  border-radius: var(--t-button-radius-round);
+}
 
-  &.t-button--default {
-    color: var(--t-text-color-primary);
-    border-color: var(--t-border-color-light);
+.t-button--circle {
+  border-radius: var(--t-button-radius-circle);
+  width: var(--t-button-height-medium);
+  padding: 0;
 
-    &:hover {
-      background-color: var(--t-color-info-light);
-      color: var(--t-color-primary);
-    }
+  &.t-button--small {
+    width: var(--t-button-height-small);
+  }
+
+  &.t-button--large {
+    width: var(--t-button-height-large);
+  }
+}
+
+// ==================== 链接按钮 ====================
+.t-button--link {
+  border-color: transparent;
+  background: transparent;
+  color: var(--t-color-primary);
+  padding: 0;
+  height: auto;
+
+  &:hover {
+    color: lighten-color(var(--t-color-primary), 8%);
+  }
+
+  &:active {
+    color: darken-color(var(--t-color-primary), 10%);
   }
 
   &.t-button--primary {
-    background-color: var(--t-color-primary-light);
-    border-color: var(--t-color-primary-border);
     color: var(--t-color-primary);
-
     &:hover {
+      color: lighten-color(var(--t-color-primary), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-primary), 10%);
+    }
+  }
+
+  &.t-button--success {
+    color: var(--t-color-success);
+    &:hover {
+      color: lighten-color(var(--t-color-success), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-success), 10%);
+    }
+  }
+
+  &.t-button--info {
+    color: var(--t-color-info);
+    &:hover {
+      color: lighten-color(var(--t-color-info), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-info), 10%);
+    }
+  }
+
+  &.t-button--warning {
+    color: var(--t-color-warning);
+    &:hover {
+      color: lighten-color(var(--t-color-warning), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-warning), 10%);
+    }
+  }
+
+  &.t-button--danger {
+    color: var(--t-color-danger);
+    &:hover {
+      color: lighten-color(var(--t-color-danger), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-danger), 10%);
+    }
+  }
+}
+
+// ==================== 文字按钮 ====================
+.t-button--text {
+  border-color: transparent;
+  background: transparent;
+  color: var(--t-color-primary);
+  padding: 0;
+  height: auto;
+
+  &:hover {
+    background-color: var(--t-color-primary-light);
+  }
+
+  &:active {
+    background-color: var(--t-color-primary);
+    color: white;
+  }
+
+  &.t-button--primary {
+    color: var(--t-color-primary);
+    &:hover {
+      background-color: var(--t-color-primary-light);
+    }
+    &:active {
       background-color: var(--t-color-primary);
       color: white;
     }
   }
 
   &.t-button--success {
-    background-color: var(--t-color-success-light);
-    border-color: var(--t-color-success-border);
     color: var(--t-color-success);
-
     &:hover {
+      background-color: var(--t-color-success-light);
+    }
+    &:active {
       background-color: var(--t-color-success);
       color: white;
     }
   }
 
   &.t-button--info {
-    background-color: var(--t-color-info-light);
-    border-color: var(--t-color-info-border);
     color: var(--t-color-info);
-
     &:hover {
+      background-color: var(--t-color-info-light);
+    }
+    &:active {
       background-color: var(--t-color-info);
       color: white;
     }
   }
 
   &.t-button--warning {
-    background-color: var(--t-color-warning-light);
-    border-color: var(--t-color-warning-border);
     color: var(--t-color-warning);
-
     &:hover {
+      background-color: var(--t-color-warning-light);
+    }
+    &:active {
       background-color: var(--t-color-warning);
       color: white;
     }
   }
 
   &.t-button--danger {
-    background-color: var(--t-color-danger-light);
-    border-color: var(--t-color-danger-border);
     color: var(--t-color-danger);
-
     &:hover {
+      background-color: var(--t-color-danger-light);
+    }
+    &:active {
       background-color: var(--t-color-danger);
       color: white;
     }
@@ -212,6 +329,233 @@
   }
 }
 
+// ==================== 链接按钮 ====================
+.t-button--link {
+  border-color: transparent;
+  background: transparent;
+  color: var(--t-color-primary);
+  padding: 0;
+  height: auto;
+
+  &:hover {
+    color: var(--t-color-primary-light);
+  }
+
+  &:active {
+    color: var(--t-color-primary-dark);
+  }
+
+  &.t-button--primary {
+    color: var(--t-color-primary);
+    &:hover {
+      color: lighten-color(var(--t-color-primary), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-primary), 10%);
+    }
+  }
+
+  &.t-button--success {
+    color: var(--t-color-success);
+    &:hover {
+      color: lighten-color(var(--t-color-success), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-success), 10%);
+    }
+  }
+
+  &.t-button--info {
+    color: var(--t-color-info);
+    &:hover {
+      color: lighten-color(var(--t-color-info), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-info), 10%);
+    }
+  }
+
+  &.t-button--warning {
+    color: var(--t-color-warning);
+    &:hover {
+      color: lighten-color(var(--t-color-warning), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-warning), 10%);
+    }
+  }
+
+  &.t-button--danger {
+    color: var(--t-color-danger);
+    &:hover {
+      color: lighten-color(var(--t-color-danger), 8%);
+    }
+    &:active {
+      color: darken-color(var(--t-color-danger), 10%);
+    }
+  }
+}
+
+// ==================== 文字按钮 ====================
+.t-button--text {
+  border-color: transparent;
+  background: transparent;
+  color: var(--t-color-primary);
+  padding: 0;
+  height: auto;
+
+  &:hover {
+    background-color: var(--t-color-primary-light);
+  }
+
+  &:active {
+    background-color: var(--t-color-primary);
+    color: white;
+  }
+
+  &.t-button--primary {
+    color: var(--t-color-primary);
+    &:hover {
+      background-color: var(--t-color-primary-light);
+    }
+    &:active {
+      background-color: var(--t-color-primary);
+      color: white;
+    }
+  }
+
+  &.t-button--success {
+    color: var(--t-color-success);
+    &:hover {
+      background-color: var(--t-color-success-light);
+    }
+    &:active {
+      background-color: var(--t-color-success);
+      color: white;
+    }
+  }
+
+  &.t-button--info {
+    color: var(--t-color-info);
+    &:hover {
+      background-color: var(--t-color-info-light);
+    }
+    &:active {
+      background-color: var(--t-color-info);
+      color: white;
+    }
+  }
+
+  &.t-button--warning {
+    color: var(--t-color-warning);
+    &:hover {
+      background-color: var(--t-color-warning-light);
+    }
+    &:active {
+      background-color: var(--t-color-warning);
+      color: white;
+    }
+  }
+
+  &.t-button--danger {
+    color: var(--t-color-danger);
+    &:hover {
+      background-color: var(--t-color-danger-light);
+    }
+    &:active {
+      background-color: var(--t-color-danger);
+      color: white;
+    }
+  }
+}
+
+// ==================== 朴素按钮 ====================
+.t-button--plain {
+  background-color: white;
+  border-color: var(--t-border-color-light);
+  color: var(--t-text-color-primary);
+
+  &.t-button--primary {
+    color: var(--t-color-primary);
+    background-color: var(--t-color-primary-light-9);
+    border-color: var(--t-color-primary-light-8);
+
+    &:hover {
+      background-color: var(--t-color-primary-light-8);
+      border-color: var(--t-color-primary-light-7);
+    }
+
+    &:active {
+      background-color: var(--t-color-primary-light-7);
+      border-color: var(--t-color-primary-light-6);
+    }
+  }
+
+  &.t-button--success {
+    color: var(--t-color-success);
+    background-color: var(--t-color-success-light-9);
+    border-color: var(--t-color-success-light-8);
+
+    &:hover {
+      background-color: var(--t-color-success-light-8);
+      border-color: var(--t-color-success-light-7);
+    }
+
+    &:active {
+      background-color: var(--t-color-success-light-7);
+      border-color: var(--t-color-success-light-6);
+    }
+  }
+
+  &.t-button--info {
+    color: var(--t-color-info);
+    background-color: var(--t-color-info-light-9);
+    border-color: var(--t-color-info-light-8);
+
+    &:hover {
+      background-color: var(--t-color-info-light-8);
+      border-color: var(--t-color-info-light-7);
+    }
+
+    &:active {
+      background-color: var(--t-color-info-light-7);
+      border-color: var(--t-color-info-light-6);
+    }
+  }
+
+  &.t-button--warning {
+    color: var(--t-color-warning);
+    background-color: var(--t-color-warning-light-9);
+    border-color: var(--t-color-warning-light-8);
+
+    &:hover {
+      background-color: var(--t-color-warning-light-8);
+      border-color: var(--t-color-warning-light-7);
+    }
+
+    &:active {
+      background-color: var(--t-color-warning-light-7);
+      border-color: var(--t-color-warning-light-6);
+    }
+  }
+
+  &.t-button--danger {
+    color: var(--t-color-danger);
+    background-color: var(--t-color-danger-light-9);
+    border-color: var(--t-color-danger-light-8);
+
+    &:hover {
+      background-color: var(--t-color-danger-light-8);
+      border-color: var(--t-color-danger-light-7);
+    }
+
+    &:active {
+      background-color: var(--t-color-danger-light-7);
+      border-color: var(--t-color-danger-light-6);
+    }
+  }
+}
+
 // ==================== 尺寸 ====================
 .t-button--small {
   height: var(--t-button-height-small);
@@ -233,22 +577,13 @@
   }
 }
 
+// ==================== 颜色函数 ====================
 // SCSS function to lighten color
-/**
- * 优化的颜色变亮函数
- * @param {Color} $color - 需要变亮的颜色
- * @param {Number} $percent - 亮度增加的百分比 (0% - 100%)
- * @return {Color} - 调整后的新颜色
- */
 @function lighten-color($color, $percent) {
-  // 将颜色转换为HSL格式并调整亮度
-  $h: hue($color);
-  $s: saturation($color);
-  $l: lightness($color) + $percent;
+  @return mix(white, $color, $percent);
+}
 
-  // 确保亮度值在0%-100%的合理范围内
-  $l: if($l > 100%, 100%, $l);
-  $l: if($l < 0%, 0%, $l);
-
-  @return hsl($h, $s, $l);
+// SCSS function to darken color
+@function darken-color($color, $percent) {
+  @return mix(black, $color, $percent);
 }

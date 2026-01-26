@@ -33,6 +33,8 @@ impl ButtonView {
             self.circle_buttons(),
             self.size_buttons(),
             self.state_buttons(),
+            self.link_buttons(),
+            self.text_buttons(),
         ])
     }
 
@@ -52,42 +54,6 @@ impl ButtonView {
                         Button::new().text("Info").btn_type(ButtonType::Info),
                         Button::new().text("Warning").btn_type(ButtonType::Warning),
                         Button::new().text("Danger").btn_type(ButtonType::Danger),
-                    ]),
-            )
-            .style(|s| s.margin_top("32px"))
-    }
-
-    /// 浅色按钮
-    fn plain_buttons(&self) -> Card {
-        Card::new()
-            .header(
-                View::new().childrens2(vec![Text::h2("浅色按钮"), Text::p("浅色背景的按钮样式。")]),
-            )
-            .children(
-                View::new()
-                    .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
-                        Button::new().text("Plain").plain(true),
-                        Button::new()
-                            .text("Primary")
-                            .btn_type(ButtonType::Primary)
-                            .plain(true),
-                        Button::new()
-                            .text("Success")
-                            .btn_type(ButtonType::Success)
-                            .plain(true),
-                        Button::new()
-                            .text("Info")
-                            .btn_type(ButtonType::Info)
-                            .plain(true),
-                        Button::new()
-                            .text("Warning")
-                            .btn_type(ButtonType::Warning)
-                            .plain(true),
-                        Button::new()
-                            .text("Danger")
-                            .btn_type(ButtonType::Danger)
-                            .plain(true),
                     ]),
             )
             .style(|s| s.margin_top("32px"))
@@ -219,6 +185,156 @@ impl ButtonView {
                             .loading(true),
                     ]),
             )
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 朴素按钮
+    fn plain_buttons(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![
+                Text::h2("朴素按钮"),
+                Text::p("朴素样式的按钮，带有边框和浅色背景。"),
+            ]))
+            .childrens2(vec![
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new().text("Plain").shape(ButtonShape::Plain),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Plain),
+                        Button::new()
+                            .text("Success")
+                            .btn_type(ButtonType::Success)
+                            .shape(ButtonShape::Plain),
+                        Button::new()
+                            .text("Info")
+                            .btn_type(ButtonType::Info)
+                            .shape(ButtonShape::Plain),
+                        Button::new()
+                            .text("Warning")
+                            .btn_type(ButtonType::Warning)
+                            .shape(ButtonShape::Plain),
+                        Button::new()
+                            .text("Danger")
+                            .btn_type(ButtonType::Danger)
+                            .shape(ButtonShape::Plain),
+                    ]),
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new()
+                            .text("Disabled Plain")
+                            .shape(ButtonShape::Plain)
+                            .disabled(true),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Plain)
+                            .disabled(true),
+                    ]),
+            ])
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 链接按钮
+    fn link_buttons(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![
+                Text::h2("链接按钮"),
+                Text::p("链接样式的按钮，常用于页面内导航。"),
+            ]))
+            .childrens2(vec![
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new().text("Link").shape(ButtonShape::Link),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Link),
+                        Button::new()
+                            .text("Success")
+                            .btn_type(ButtonType::Success)
+                            .shape(ButtonShape::Link),
+                        Button::new()
+                            .text("Info")
+                            .btn_type(ButtonType::Info)
+                            .shape(ButtonShape::Link),
+                        Button::new()
+                            .text("Warning")
+                            .btn_type(ButtonType::Warning)
+                            .shape(ButtonShape::Link),
+                        Button::new()
+                            .text("Danger")
+                            .btn_type(ButtonType::Danger)
+                            .shape(ButtonShape::Link),
+                    ]),
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new()
+                            .text("Disabled Link")
+                            .shape(ButtonShape::Link)
+                            .disabled(true),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Link)
+                            .disabled(true),
+                    ]),
+            ])
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 文字按钮
+    fn text_buttons(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![
+                Text::h2("文字按钮"),
+                Text::p("文字样式的按钮，hover 时显示背景色。"),
+            ]))
+            .childrens2(vec![
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new().text("Text").shape(ButtonShape::Text),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Text),
+                        Button::new()
+                            .text("Success")
+                            .btn_type(ButtonType::Success)
+                            .shape(ButtonShape::Text),
+                        Button::new()
+                            .text("Info")
+                            .btn_type(ButtonType::Info)
+                            .shape(ButtonShape::Text),
+                        Button::new()
+                            .text("Warning")
+                            .btn_type(ButtonType::Warning)
+                            .shape(ButtonShape::Text),
+                        Button::new()
+                            .text("Danger")
+                            .btn_type(ButtonType::Danger)
+                            .shape(ButtonShape::Text),
+                    ]),
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Button::new()
+                            .text("Disabled Text")
+                            .shape(ButtonShape::Text)
+                            .disabled(true),
+                        Button::new()
+                            .text("Primary")
+                            .btn_type(ButtonType::Primary)
+                            .shape(ButtonShape::Text)
+                            .disabled(true),
+                    ]),
+            ])
             .style(|s| s.margin_top("32px"))
     }
 }

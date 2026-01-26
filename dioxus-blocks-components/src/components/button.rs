@@ -12,19 +12,6 @@
 //! let button = Button::new()
 //!     .text("Primary")
 //!     .btn_type(ButtonType::Primary);
-//! assert_eq!(button.text, "Primary");
-//! ```
-//!
-//! ## 浅色背景按钮
-//!
-//! ```rust
-//! use dioxus_blocks_components::{Button, ButtonType};
-//!
-//! let button = Button::new()
-//!     .text("Primary Plain")
-//!     .btn_type(ButtonType::Primary)
-//!     .plain(true);
-//! assert_eq!(button.text, "Primary Plain");
 //! ```
 //!
 //! ## 椭圆按钮
@@ -36,7 +23,6 @@
 //!     .text("Round")
 //!     .btn_type(ButtonType::Primary)
 //!     .shape(ButtonShape::Round);
-//! assert_eq!(button.text, "Round");
 //! ```
 //!
 //! ## 圆形按钮
@@ -48,7 +34,37 @@
 //!     .shape(ButtonShape::Circle)
 //!     .btn_type(ButtonType::Primary)
 //!     .text("P");
-//! assert_eq!(button.text, "P");
+//! ```
+//!
+//! ## 链接按钮
+//!
+//! ```rust
+//! use dioxus_blocks_components::{Button, ButtonType, ButtonShape};
+//!
+//! let button = Button::new()
+//!     .text("Link Button")
+//!     .shape(ButtonShape::Link);
+//! ```
+//!
+//! ## 文字按钮
+//!
+//! ```rust
+//! use dioxus_blocks_components::{Button, ButtonType, ButtonShape};
+//!
+//! let button = Button::new()
+//!     .text("Text Button")
+//!     .shape(ButtonShape::Text);
+//! ```
+//!
+//! ## 朴素按钮
+//!
+//! ```rust
+//! use dioxus_blocks_components::{Button, ButtonType, ButtonShape};
+//!
+//! let button = Button::new()
+//!     .text("Plain Button")
+//!     .btn_type(ButtonType::Primary)
+//!     .shape(ButtonShape::Plain);
 //! ```
 use std::rc::Rc;
 
@@ -93,24 +109,33 @@ impl std::fmt::Display for ButtonType {
 
 /// 按钮形状枚举
 ///
-/// 定义按钮的圆角风格。
+/// 定义按钮的圆角风格和类型。
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum ButtonShape {
     /// 默认圆角
     #[default]
     Default,
+    /// 朴素按钮样式
+    Plain,
     /// 椭圆
     Round,
     /// 圆形
     Circle,
+    /// 链接按钮样式
+    Link,
+    /// 文字按钮样式
+    Text,
 }
 
 impl std::fmt::Display for ButtonShape {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ButtonShape::Default => write!(f, ""),
+            ButtonShape::Plain => write!(f, "t-button--plain"),
             ButtonShape::Round => write!(f, "t-button--round"),
             ButtonShape::Circle => write!(f, "t-button--circle"),
+            ButtonShape::Link => write!(f, "t-button--link"),
+            ButtonShape::Text => write!(f, "t-button--text"),
         }
     }
 }
@@ -162,8 +187,6 @@ pub struct Button {
     shape: ButtonShape,
     /// 按钮尺寸
     size: ButtonSize,
-    /// 是否为朴素按钮
-    plain: bool,
     /// 是否禁用
     disabled: bool,
     /// 是否加载中
@@ -182,7 +205,6 @@ impl Default for Button {
             btn_type: ButtonType::default(),
             shape: ButtonShape::default(),
             size: ButtonSize::default(),
-            plain: false,
             disabled: false,
             loading: false,
         }
@@ -247,27 +269,6 @@ impl Button {
     /// ```
     pub fn btn_type(mut self, btn_type: ButtonType) -> Self {
         self.btn_type = btn_type;
-        self
-    }
-
-    /// 设置按钮是否为朴素样式
-    ///
-    /// # 参数
-    ///
-    /// * `plain` - 是否为朴素样式，决定按钮是否去掉背景色
-    ///
-    /// # 返回值
-    ///
-    /// 返回修改后的按钮实例，支持链式调用
-    ///
-    /// # 示例
-    ///
-    /// ```rust
-    /// # use dioxus_blocks_components::Button;
-    /// Button::new().plain(true);
-    /// ```
-    pub fn plain(mut self, plain: bool) -> Self {
-        self.plain = plain;
         self
     }
 
@@ -356,6 +357,213 @@ impl Button {
     }
 }
 
+/// 便捷方法
+impl Button {
+    /// 设置为主要按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Primary").as_primary();
+    /// ```
+    pub fn as_primary(mut self) -> Self {
+        self.btn_type = ButtonType::Primary;
+        self
+    }
+
+    /// 设置为成功按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Success").as_success();
+    /// ```
+    pub fn as_success(mut self) -> Self {
+        self.btn_type = ButtonType::Success;
+        self
+    }
+
+    /// 设置为信息按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Info").as_info();
+    /// ```
+    pub fn as_info(mut self) -> Self {
+        self.btn_type = ButtonType::Info;
+        self
+    }
+
+    /// 设置为警告按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Warning").as_warning();
+    /// ```
+    pub fn as_warning(mut self) -> Self {
+        self.btn_type = ButtonType::Warning;
+        self
+    }
+
+    /// 设置为危险按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Danger").as_danger();
+    /// ```
+    pub fn as_danger(mut self) -> Self {
+        self.btn_type = ButtonType::Danger;
+        self
+    }
+
+    /// 设置为朴素按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Plain").as_primary().as_plain();
+    /// ```
+    pub fn as_plain(mut self) -> Self {
+        self.shape = ButtonShape::Plain;
+        self
+    }
+
+    /// 设置为椭圆按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Round").as_primary().as_round();
+    /// ```
+    pub fn as_round(mut self) -> Self {
+        self.shape = ButtonShape::Round;
+        self
+    }
+
+    /// 设置为圆形按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("C").as_primary().as_circle();
+    /// ```
+    pub fn as_circle(mut self) -> Self {
+        self.shape = ButtonShape::Circle;
+        self
+    }
+
+    /// 设置为链接按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Link").as_link();
+    /// ```
+    pub fn as_link(mut self) -> Self {
+        self.shape = ButtonShape::Link;
+        self
+    }
+
+    /// 设置为文字按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Text").as_text();
+    /// ```
+    pub fn as_text(mut self) -> Self {
+        self.shape = ButtonShape::Text;
+        self
+    }
+
+    /// 设置为小尺寸按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Small").as_primary().as_small();
+    /// ```
+    pub fn as_small(mut self) -> Self {
+        self.size = ButtonSize::Small;
+        self
+    }
+
+    /// 设置为大尺寸按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Large").as_primary().as_large();
+    /// ```
+    pub fn as_large(mut self) -> Self {
+        self.size = ButtonSize::Large;
+        self
+    }
+}
+
 impl ToElement for Button {
     fn to_element(&self) -> Element {
         // 构建完整的 class 列表
@@ -365,11 +573,6 @@ impl ToElement for Button {
             self.shape.to_string(),    // 添加形状 class
             self.size.to_string(),     // 添加尺寸 class
         ];
-
-        // 添加 plain 类
-        if self.plain {
-            class_names.push("t-button--plain".to_string());
-        }
 
         // 添加状态 class
         if self.disabled {
