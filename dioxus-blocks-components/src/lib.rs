@@ -12,16 +12,15 @@
 //!
 //! - [`View`][]: 容器组件，类似 HTML 的 div 或 Vue 的 template，支持裸露渲染
 //! - [`Card`][]: 卡片容器组件，支持头部、主体和底部内容
-//! - [`Button`][]: 按钮组件，支持多种类型、变体、形状和尺寸
+//! - [`Button`][]: 按钮组件，支持多种类型、形状和尺寸
 //! - [`ButtonType`][]: 按钮类型枚举（default、primary、success、info、warning、danger）
-//! - [`ButtonVariant`][]: 按钮变体枚举（solid、plain）
-//! - [`ButtonShape`][]: 按钮形状枚举（default、round、circle）
+//! - [`ButtonShape`][]: 按钮形状枚举（default、plain、round、circle、link、text）
 //! - [`ButtonSize`][]: 按钮尺寸枚举（small、medium、large）
 //! - [`Grid`][]: 网格布局组件，支持自定义列数、行数和间距
 //! - [`GridItem`][]: 网格项组件，支持控制网格项在网格中的位置和跨度
-//! - [`Link`][]: 链接组件，支持路由跳转、字符串路径
-//! - [`LinkDestination`][]: 链接目标类型枚举
-//! - [`LinkTarget`][]: 链接打开目标枚举
+//! - [`Link`][]: 链接组件，支持路由跳转、字符串路径、多种类型和下划线样式
+//! - [`LinkType`][]: 链接类型枚举（default、primary、success、info、warning、danger）
+//! - [`LinkUnderline`][]: 下划线样式枚举（always、hover、never）
 //! - [`Image`][]: 图片组件，支持加载状态、替代文本、尺寸等配置
 //! - [`ObjectFit`][]: 图片对象适应方式枚举
 //!

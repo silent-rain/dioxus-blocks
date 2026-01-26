@@ -21,20 +21,21 @@ impl LinkView {
     fn title(&self) -> View {
         View::new().childrens2(vec![
             Text::h1("Link 组件"),
-            Text::p("链接组件，用于页面导航和跳转。"),
+            Text::p("链接组件，用于页面导航和跳转，支持多种类型和下划线样式。"),
         ])
     }
 
     fn content(&self) -> View {
         View::new().childrens2(vec![
-            self.basic_link(),
-            self.styled_link(),
-            self.icon_link(),
+            self.basic_links(),
+            self.type_links(),
+            self.underline_links(),
+            self.disabled_links(),
         ])
     }
 
     /// 基础链接
-    fn basic_link(&self) -> Card {
+    fn basic_links(&self) -> Card {
         Card::new()
             .header(View::new().childrens2(vec![
                 Text::h2("基础链接"),
@@ -43,58 +44,134 @@ impl LinkView {
             .children(
                 View::new()
                     .style(|s| s.padding("20px"))
-                    .children(Text::p("访问首页："))
-                    .childrens2(vec![
-                        Link::default()
-                            .to(crate::Route::HomeViewRoute {})
-                            .class("t-link")
-                            .children(Text::new("返回首页")),
-                    ]),
+                    .childrens2(vec![Link::default().to("/home").text("返回首页")]),
             )
+            .style(|s| s.margin_top("32px"))
     }
 
-    /// 样式链接
-    fn styled_link(&self) -> Card {
+    /// 类型链接
+    fn type_links(&self) -> Card {
         Card::new()
-            .header(
-                View::new().childrens2(vec![Text::h2("样式链接"), Text::p("带有悬停效果的链接。")]),
-            )
-            .children(
+            .header(View::new().childrens2(vec![Text::h2("类型链接"), Text::p("不同类型的链接。")]))
+            .childrens2(vec![
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Link::default().to("/home").text("Default"),
+                        Link::default().to("/home").text("Primary").as_primary(),
+                        Link::default().to("/home").text("Success").as_success(),
+                        Link::default().to("/home").text("Info").as_info(),
+                        Link::default().to("/home").text("Warning").as_warning(),
+                        Link::default().to("/home").text("Danger").as_danger(),
+                    ]),
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
                     .childrens2(vec![
                         Link::default()
-                            .to(crate::Route::HomeViewRoute {})
-                            .class("t-link-button")
-                            .children(Text::new("悬停查看效果")),
+                            .to("/home")
+                            .text("Primary Link")
+                            .as_primary(),
+                        Link::default()
+                            .to("/about")
+                            .text("Success Link")
+                            .as_success(),
+                        Link::default()
+                            .to("/settings")
+                            .text("Warning Link")
+                            .as_warning(),
+                        Link::default()
+                            .to("/danger")
+                            .text("Danger Link")
+                            .as_danger(),
                     ]),
-            )
+            ])
+            .style(|s| s.margin_top("32px"))
     }
 
-    /// 带图标的链接
-    fn icon_link(&self) -> Card {
+    /// 下划线样式
+    fn underline_links(&self) -> Card {
         Card::new()
             .header(View::new().childrens2(vec![
-                Text::h2("图标链接"),
-                Text::p("包含图标和文本的链接。"),
+                Text::h2("下划线样式"),
+                Text::p("不同的下划线显示方式。"),
             ]))
-            .children(
+            .childrens2(vec![
                 View::new()
-                    .style(|s| {
-                        s.padding("20px")
-                            .display("flex")
-                            .gap("16px")
-                            .flex_wrap("wrap")
-                    })
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Link::default().to("/home").text("Default"),
+                        Link::default()
+                            .to("/home")
+                            .text("Always")
+                            .as_underline_always(),
+                        Link::default()
+                            .to("/home")
+                            .text("Hover")
+                            .as_underline_hover(),
+                        Link::default()
+                            .to("/home")
+                            .text("Never")
+                            .as_underline_never(),
+                    ]),
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
                     .childrens2(vec![
                         Link::default()
-                            .to(crate::Route::HomeViewRoute {})
-                            .class("t-link-icon")
-                            .childrens2(vec![
-                                Text::new("🏠").style(|s| s.font_size("20px")),
-                                Text::new("返回首页"),
-                            ]),
+                            .to("/home")
+                            .text("Primary Always")
+                            .as_primary()
+                            .as_underline_always(),
+                        Link::default()
+                            .to("/home")
+                            .text("Success Hover")
+                            .as_success()
+                            .as_underline_hover(),
+                        Link::default()
+                            .to("/home")
+                            .text("Info Never")
+                            .as_info()
+                            .as_underline_never(),
                     ]),
-            )
+            ])
+            .style(|s| s.margin_top("32px"))
+    }
+
+    /// 禁用链接
+    fn disabled_links(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![Text::h2("禁用链接"), Text::p("禁用状态的链接。")]))
+            .childrens2(vec![
+                View::new()
+                    .style(|s| s.padding("20px").display("flex").gap("12px"))
+                    .childrens2(vec![
+                        Link::default().to("/home").text("Default").disabled(),
+                        Link::default()
+                            .to("/home")
+                            .text("Primary")
+                            .as_primary()
+                            .disabled(),
+                        Link::default()
+                            .to("/home")
+                            .text("Success")
+                            .as_success()
+                            .disabled(),
+                        Link::default()
+                            .to("/home")
+                            .text("Info")
+                            .as_info()
+                            .disabled(),
+                        Link::default()
+                            .to("/home")
+                            .text("Warning")
+                            .as_warning()
+                            .disabled(),
+                        Link::default()
+                            .to("/home")
+                            .text("Danger")
+                            .as_danger()
+                            .disabled(),
+                    ]),
+            ])
+            .style(|s| s.margin_top("32px"))
     }
 }

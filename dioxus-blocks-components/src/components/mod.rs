@@ -16,7 +16,7 @@ mod card;
 pub use card::{Card, CardShadow};
 
 mod link;
-pub use link::Link;
+pub use link::{Link, LinkType, LinkUnderline};
 
 mod image;
 pub use image::{Image, ObjectFit};

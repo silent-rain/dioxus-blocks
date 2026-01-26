@@ -14,6 +14,39 @@
   --t-color-warning-light: #fdf6ec;
   --t-color-danger-light: #fef0f0;
 
+  // 更浅的背景版本（用于 plain 按钮）
+  --t-color-primary-light-9: #ecf5ff;
+  --t-color-primary-light-8: #d9ecff;
+  --t-color-primary-light-7: #c6e2ff;
+  --t-color-primary-light-6: #b3d8ff;
+
+  --t-color-success-light-9: #f0f9eb;
+  --t-color-success-light-8: #e1f3d8;
+  --t-color-success-light-7: #c2e7b0;
+  --t-color-success-light-6: #a4da89;
+
+  --t-color-info-light-9: #f4f4f5;
+  --t-color-info-light-8: #e9e9eb;
+  --t-color-info-light-7: #dedfe0;
+  --t-color-info-light-6: #d3d4d6;
+
+  --t-color-warning-light-9: #fdf6ec;
+  --t-color-warning-light-8: #faecd8;
+  --t-color-warning-light-7: #f8e3c5;
+  --t-color-warning-light-6: #f5dab1;
+
+  --t-color-danger-light-9: #fef0f0;
+  --t-color-danger-light-8: #fde2e2;
+  --t-color-danger-light-7: #fbd4d4;
+  --t-color-danger-light-6: #f8c6c6;
+
+  // 深色版本（用于链接按钮 hover/active）
+  --t-color-primary-dark: #3a8ee6;
+  --t-color-success-dark: #5daf34;
+  --t-color-info-dark: #82848a;
+  --t-color-warning-dark: #cf9236;
+  --t-color-danger-dark: #f78989;
+
   // 边框颜色
   --t-color-primary-border: #79bbff;
   --t-color-success-border: #b2e7d1;
