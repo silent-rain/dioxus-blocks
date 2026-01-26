@@ -2,14 +2,16 @@
 
 use dioxus::prelude::*;
 
-use dioxus_blocks_components::{Button, ButtonShape, ButtonSize, ButtonType, Card, Text, View};
+use dioxus_blocks_components::{
+    Button, ButtonShape, ButtonSize, ButtonType, Card, Text, ToElement, View,
+};
 use dioxus_blocks_macro::Route;
 
 #[derive(Debug, Default, Clone, Route)]
 pub struct ButtonView {}
 
-impl ButtonView {
-    pub fn to_element(&self) -> Element {
+impl ToElement for ButtonView {
+    fn to_element(&self) -> Element {
         View::new()
             .children(self.title())
             .children(self.content())
@@ -35,6 +37,7 @@ impl ButtonView {
             self.state_buttons(),
             self.link_buttons(),
             self.text_buttons(),
+            self.counter_example(),
         ])
     }
 
@@ -48,7 +51,9 @@ impl ButtonView {
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
                     .childrens2(vec![
-                        Button::new().text("Default"),
+                        Button::new().text("Default").onclick(|_| {
+                            println!("Button clicked again!");
+                        }),
                         Button::new().text("Primary").btn_type(ButtonType::Primary),
                         Button::new().text("Success").btn_type(ButtonType::Success),
                         Button::new().text("Info").btn_type(ButtonType::Info),
@@ -336,5 +341,53 @@ impl ButtonView {
                     ]),
             ])
             .style(|s| s.margin_top("32px"))
+    }
+
+    /// 计数器示例 - 按钮与文本联动
+    fn counter_example(&self) -> Card {
+        Card::new()
+            .header(View::new().childrens2(vec![
+                Text::h2("计数器示例"),
+                Text::p("按钮与 Text 组件的联动，点击按钮更新文本内容。"),
+            ]))
+            .children(CounterExample::default())
+            .style(|s| s.margin_top("32px"))
+    }
+}
+
+/// 状态组件 - 用于演示按钮和文本的联动
+#[derive(Debug, Default, Clone)]
+pub struct CounterExample {}
+
+impl ToElement for CounterExample {
+    fn to_element(&self) -> Element {
+        let mut count = use_signal(|| 0);
+
+        View::new()
+            .style(|s| {
+                s.padding("20px")
+                    .display("flex")
+                    .gap("16px")
+                    .align_items("center")
+            })
+            .children(
+                Text::new(format!("点击次数: {}", count()))
+                    .style(|s| s.font_size("16px").color("#303133")),
+            )
+            .childrens2(vec![
+                Button::new()
+                    .text("点击加 1")
+                    .as_primary()
+                    .onclick(move |_| count.set(count() + 1)),
+                Button::new()
+                    .text("点击减 1")
+                    .as_success()
+                    .onclick(move |_| count.set(count() - 1)),
+                Button::new()
+                    .text("重置")
+                    .as_warning()
+                    .onclick(move |_| count.set(0)),
+            ])
+            .into()
     }
 }
