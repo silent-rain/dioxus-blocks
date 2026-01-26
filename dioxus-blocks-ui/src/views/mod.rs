@@ -23,6 +23,9 @@ pub use grid::GridViewRoute;
 mod card;
 pub use card::CardViewRoute;
 
+mod layout;
+pub use layout::LayoutViewRoute;
+
 mod home;
 pub use home::HomeViewRoute;
 

@@ -1,0 +1,19 @@
+// Layout 布局组件样式
+
+.t-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+
+  // 垂直布局
+  &.t-row--vertical {
+    flex-direction: column;
+  }
+}
+
+.t-col {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}

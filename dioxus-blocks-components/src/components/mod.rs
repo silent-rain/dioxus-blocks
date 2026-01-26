@@ -6,6 +6,9 @@ pub use view::View;
 mod grid;
 pub use grid::{Grid, GridCols, GridItem, GridRows};
 
+mod layout;
+pub use layout::{Col, ColSpan, Justify, Row};
+
 mod text;
 pub use text::Text;
 
