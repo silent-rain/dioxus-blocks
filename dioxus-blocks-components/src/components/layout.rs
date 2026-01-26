@@ -119,13 +119,15 @@ pub struct Row {
     class: String,
     /// 行的内联样式
     style: Option<Style>,
-    /// 行的子元素列表
+    /// 行的子元素列表, 当前组件不支持 childrens 子元素
     childrens: Vec<Rc<dyn ToElement>>,
     /// 行的点击事件
     onclick: Option<EventHandler<MouseEvent>>,
 
+    /// 列
+    cols: Vec<Col>,
     /// 列间距（通过 Col padding 实现）
-    gutter: Option<usize>,
+    gutter: usize,
     /// 主轴对齐方式
     justify: Justify,
     /// 交叉轴对齐方式
@@ -142,7 +144,8 @@ impl Default for Row {
             style: None,
             childrens: Vec::new(),
             onclick: None,
-            gutter: None,
+            cols: Vec::new(),
+            gutter: 0,
             justify: Justify::default(),
             align_items: "stretch".to_string(),
             vertical: false,
@@ -169,20 +172,15 @@ impl ToElement for Row {
             if self.vertical { "column" } else { "row" }
         ));
 
-        // 处理 gutter
-        if let Some(gutter) = self.gutter {
-            // 使用 gutter：Row 负 margin 补偿 Col 的 padding
-            let gutter_half = gutter as f64 / 2.0;
-            style.push_str(&format!("margin-left: -{}px;", gutter_half));
-            style.push_str(&format!("margin-right: -{}px;", gutter_half));
-            // 设置 CSS 变量传递给子元素
-            style.push_str(&format!("--row-gutter: {}px;", gutter_half));
-        } else {
-            style.push_str(&format!("--row-gutter: {}px;", 0));
-        }
-
         style.push_str(&format!("justify-content: {};", self.justify));
         style.push_str(&format!("align-items: {};", self.align_items));
+
+        let childs = self
+            .cols
+            .clone()
+            .into_iter()
+            .map(|child| child.with_gutter(self.gutter).to_element())
+            .collect::<Vec<Element>>();
 
         // 渲染子元素
         let childrens = self.childrens_to_element();
@@ -197,6 +195,9 @@ impl ToElement for Row {
                         handler.call(event);
                     }
                 },
+                for child in childs {
+                    {child}
+                }
                 {childrens}
             }
         }
@@ -225,10 +226,7 @@ impl Row {
     /// ```
     pub fn new(cols: Vec<Col>) -> Self {
         Self {
-            childrens: cols
-                .into_iter()
-                .map(|v| Rc::new(v) as Rc<dyn ToElement>)
-                .collect(),
+            cols,
             ..Default::default()
         }
     }
@@ -255,7 +253,7 @@ impl Row {
     /// ]).gutter(20);
     /// ```
     pub fn gutter(mut self, gutter: usize) -> Self {
-        self.gutter = Some(gutter);
+        self.gutter = gutter;
         self
     }
 
@@ -356,8 +354,7 @@ pub struct Col {
     span: ColSpan,
     /// 列的偏移量（24等分制）
     offset: u8,
-    /// 列的内边距
-    padding: String,
+    gutter: usize,
 }
 
 impl Default for Col {
@@ -370,7 +367,7 @@ impl Default for Col {
             onclick: None,
             span: ColSpan::default(),
             offset: 0,
-            padding: "0".to_string(),
+            gutter: 0,
         }
     }
 }
@@ -413,15 +410,12 @@ impl ToElement for Col {
             style.push_str(&format!("margin-left: {}%;", offset_percent));
         }
 
-        // 普通内边距（当父级 Row 没有设置 gutter 时）
-        if self.padding != "0" {
-            style.push_str(&format!("padding: {};", self.padding));
-        }
-
         // 通过 CSS 变量从父级 Row 读取 gutter 值
-        // 如果父级设置了 --row-gutter，Col 会使用该值作为左右 padding
-        style.push_str("padding-left: var(--row-gutter, 0);");
-        style.push_str("padding-right: var(--row-gutter, 0);");
+        if self.gutter != 0 {
+            let gutter_half = self.gutter as f64 / 2.0;
+            style.push_str(&format!("padding-left: {}px;", gutter_half));
+            style.push_str(&format!("padding-right: {}px;", gutter_half));
+        }
 
         rsx! {
             div {
@@ -543,6 +537,11 @@ impl Col {
     /// ```
     pub fn offset(mut self, offset: u8) -> Self {
         self.offset = offset;
+        self
+    }
+
+    pub(crate) fn with_gutter(mut self, gutter: usize) -> Self {
+        self.gutter = gutter;
         self
     }
 }

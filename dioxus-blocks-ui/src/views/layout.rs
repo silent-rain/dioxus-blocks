@@ -215,6 +215,8 @@ impl LayoutView {
             }))
             .span(6),
         ])
+        .align_items("center")
+        .gutter(20)
         .style(|s| s.margin_bottom("0"))
     }
 
@@ -468,32 +470,40 @@ impl LayoutView {
 
     fn nested_layout_example(&self) -> Row {
         Row::new(vec![
-            Col::new(View::new().childrens2(vec![
-                Text::h3("侧边栏"),
-                Text::p("导航菜单"),
-                Text::p("菜单项 1"),
-                Text::p("菜单项 2"),
-                Text::p("菜单项 3"),
-            ]))
+            Col::new(
+                View::new()
+                    .childrens2(vec![
+                        Text::h3("侧边栏"),
+                        Text::p("导航菜单"),
+                        Text::p("菜单项 1"),
+                        Text::p("菜单项 2"),
+                        Text::p("菜单项 3"),
+                    ])
+                    .style(|s| {
+                        s.padding("20px")
+                            .background_color("#e8eaf6")
+                            .border_radius("4px")
+                    }),
+            )
             .span(6)
-            .style(|s| {
-                s.padding("20px")
-                    .background_color("#e8eaf6")
-                    .border_radius("8px")
-            }),
-            Col::new(View::new().childrens2(vec![
-                Text::h3("主内容区"),
-                Text::p("主要内容展示"),
-                Text::p("卡片 1"),
-                Text::p("卡片 2"),
-                Text::p("卡片 3"),
-            ]))
+            .style(|s| s.border_radius("8px")),
+            Col::new(
+                View::new()
+                    .childrens2(vec![
+                        Text::h3("主内容区"),
+                        Text::p("主要内容展示"),
+                        Text::p("卡片 1"),
+                        Text::p("卡片 2"),
+                        Text::p("卡片 3"),
+                    ])
+                    .style(|s| {
+                        s.padding("20px")
+                            .background_color("#f3e5f5")
+                            .border_radius("4px")
+                    }),
+            )
             .span(18)
-            .style(|s| {
-                s.padding("20px")
-                    .background_color("#f3e5f5")
-                    .border_radius("8px")
-            }),
+            .style(|s| s.border_radius("8px")),
         ])
         .gutter(12)
     }
