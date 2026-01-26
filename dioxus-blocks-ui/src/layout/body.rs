@@ -12,7 +12,11 @@ impl ToElement for Body {
         View::new()
             .class("t_body")
             .children(Outlet::<Route>::default())
-            .style(|s| s.padding("20px"))
+            .style(|s| {
+                s.padding("20px")
+                    .background_color("#f5f7fa")
+                    .min_height("100vh")
+            })
             .to_element()
     }
 }
