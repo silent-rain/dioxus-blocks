@@ -231,6 +231,63 @@ impl Row {
         }
     }
 
+    /// 添加列
+    ///
+    /// # 参数
+    ///
+    /// * `component` - 要添加的组件
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::{Row, Col, ToElement, Text};
+    /// let row = Row::new(vec![]).col(Text::new("内容"));
+    /// ```
+    pub fn col<T>(mut self, component: T) -> Self
+    where
+        T: ToElement + Clone + 'static,
+    {
+        self.cols.push(Col::new(component));
+        self
+    }
+
+    /// 添加列
+    ///
+    /// # 参数
+    ///
+    /// * `components` - 要添加的组件列表
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::{Row, Col, ToElement, Text};
+    /// let row = Row::new(vec![]).cols(vec![Text::new("内容1"), Text::new("内容2")]);
+    /// ```
+    pub fn cols<T>(mut self, components: Vec<T>) -> Self
+    where
+        T: ToElement + Clone + 'static,
+    {
+        self.cols.extend(components.into_iter().map(Col::new));
+        self
+    }
+
+    /// 添加列
+    ///
+    /// # 参数
+    ///
+    /// * `cols` - 要添加的列列表
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::{Row, Col, ToElement, Text};
+    /// let row = Row::default().cols2(vec![Col::new(Text::new("内容1")), Col::new(Text::new("内容2"))]);
+    /// ```
+    pub fn cols2(mut self, cols: Vec<Col>) -> Self {
+        self.cols.extend(cols);
+        self
+    }
+
     /// 设置列间距（Gutter）
     ///
     /// 类似于 Element Plus 的 gutter，通过 Col padding 实现间距，不会超出容器边界。

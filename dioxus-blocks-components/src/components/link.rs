@@ -7,27 +7,61 @@
 //! ## 基础使用
 //!
 //! ```rust
-//! use dioxus_blocks_components::Link;
+//! # use dioxus::prelude::NavigationTarget;
+//! # use dioxus_blocks_components::{Link, ToElement};
+//! # use dioxus::prelude::*;
 //!
-//! let link = Link::new("/home").text("Home");
+//! # let mut dom = VirtualDom::new(|| {
+//!
+//!     #[component]
+//!     fn App() -> Element {
+//!         Link::new(NavigationTarget::<String>::from("/home")).text("Home").to_element()
+//!     }
+//!     # App()
+//!
+//! # });
+//! # dom.rebuild(&mut dioxus_core::NoOpMutations);
 //! ```
 //!
 //! ## 类型链接
 //!
 //! ```rust
-//! use dioxus_blocks_components::Link;
+//! # use dioxus::prelude::NavigationTarget;
+//! # use dioxus_blocks_components::{Link, ToElement};
+//! # use dioxus::prelude::*;
 //!
-//! let link = Link::new("/home").text("Primary Link").primary();
+//! # let mut dom = VirtualDom::new(|| {
+//!
+//!     #[component]
+//!     fn App() -> Element {
+//!         Link::new(NavigationTarget::<String>::from("/home")).text("Primary Link").as_primary().to_element()
+//!     }
+//!     # App()
+//!
+//! # });
+//! # dom.rebuild(&mut dioxus_core::NoOpMutations);
 //! ```
 //!
 //! ## 下划线样式
 //!
 //! ```rust
-//! use dioxus_blocks_components::{Link, LinkUnderline};
+//! # use dioxus::prelude::NavigationTarget;
+//! # use dioxus_blocks_components::{Link, LinkUnderline, ToElement};
+//! # use dioxus::prelude::*;
 //!
-//! let link = Link::new("/home")
-//!     .text("Link")
-//!     .underline(LinkUnderline::Hover);
+//! # let mut dom = VirtualDom::new(|| {
+//!
+//!     #[component]
+//!     fn App() -> Element {
+//!         Link::new(NavigationTarget::<String>::from("/home"))
+//!             .text("Link")
+//!             .as_underline_hover()
+//!             .to_element()
+//!     }
+//!     # App()
+//!
+//! # });
+//! # dom.rebuild(&mut dioxus_core::NoOpMutations);
 //! ```
 
 use std::rc::Rc;
@@ -323,8 +357,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Disabled Link").disabled();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Disabled Link").disabled().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn disabled(mut self) -> Self {
         self.disabled = true;
@@ -343,8 +389,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Primary Link").as_primary();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Primary Link").as_primary().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_primary(mut self) -> Self {
         self.link_type = LinkType::Primary;
@@ -360,8 +418,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Success Link").as_success();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Success Link").as_success().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_success(mut self) -> Self {
         self.link_type = LinkType::Success;
@@ -377,8 +447,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Info Link").as_info();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Info Link").as_info().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_info(mut self) -> Self {
         self.link_type = LinkType::Info;
@@ -394,8 +476,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Warning Link").as_warning();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Warning Link").as_warning().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_warning(mut self) -> Self {
         self.link_type = LinkType::Warning;
@@ -411,8 +505,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Danger Link").as_danger();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Danger Link").as_danger().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_danger(mut self) -> Self {
         self.link_type = LinkType::Danger;
@@ -430,8 +536,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Link").as_underline_always();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Link").as_underline_always().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_underline_always(mut self) -> Self {
         self.underline = LinkUnderline::Always;
@@ -447,8 +565,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Link").as_underline_hover();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Link").as_underline_hover().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_underline_hover(mut self) -> Self {
         self.underline = LinkUnderline::Hover;
@@ -464,8 +594,20 @@ impl Link {
     /// # 示例
     ///
     /// ```rust
-    /// # use dioxus_blocks_components::Link;
-    /// Link::new("/home").text("Link").as_underline_never();
+    /// # use dioxus::prelude::NavigationTarget;
+    /// # use dioxus_blocks_components::{Link, ToElement};
+    /// # use dioxus::prelude::*;
+    ///
+    /// # let mut dom = VirtualDom::new(|| {
+    ///
+    ///     #[component]
+    ///     fn App() -> Element {
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Link").as_underline_never().to_element()
+    ///     }
+    ///     # App()
+    ///
+    /// # });
+    /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
     pub fn as_underline_never(mut self) -> Self {
         self.underline = LinkUnderline::Never;

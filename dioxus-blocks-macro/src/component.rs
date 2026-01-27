@@ -192,7 +192,7 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             /// let wrap = View::new();
             /// let element = wrap.childrens_to_element();
             /// ```
-            pub(crate) fn childrens_to_element(&self) -> Element {
+            pub fn childrens_to_element(&self) -> Element {
                 rsx! {
                     for children in self.childrens.iter() {
                         {children.to_element()}
