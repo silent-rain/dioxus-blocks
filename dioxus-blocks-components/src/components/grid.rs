@@ -164,7 +164,7 @@ impl Default for GridItem {
     fn default() -> Self {
         Self {
             id: None,
-            class: "t_grid-item".to_string(),
+            class: "t-grid-item".to_string(),
             style: None,
             childrens: Vec::new(),
             onclick: None,
@@ -427,7 +427,7 @@ impl Default for Grid {
     fn default() -> Self {
         Self {
             id: None,
-            class: "t_grid".to_string(),
+            class: "t-grid".to_string(),
             style: None,
             childrens: Vec::new(),
             onclick: None,
@@ -469,7 +469,7 @@ impl ToElement for Grid {
 
         // 列数
         if let Some(cols) = self.cols.clone() {
-            class.push_str(" t_grid-cols");
+            class.push_str(" t-grid-cols");
 
             let cols_value: u16 = cols.into();
             style.push_str(&format!(
@@ -480,7 +480,7 @@ impl ToElement for Grid {
 
         // 行数
         if let Some(rows) = self.rows.clone() {
-            class.push_str(" t_grid-rows");
+            class.push_str(" t-grid-rows");
 
             let rows_value: u16 = rows.into();
             style.push_str(&format!(

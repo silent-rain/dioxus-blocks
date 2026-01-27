@@ -127,7 +127,7 @@ impl Default for Image {
     fn default() -> Self {
         Self {
             id: None,
-            class: "t_image".to_string(),
+            class: "t-image".to_string(),
             style: None,
             childrens: Vec::new(),
             onclick: None,

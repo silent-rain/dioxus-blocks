@@ -1,19 +1,19 @@
 /* Grid component styles */
-.t_grid {
+.t-grid {
   display: grid;
   box-sizing: border-box;
 }
 
-.t_grid-cols {
+.t-grid-cols {
   grid-auto-flow: row;
 }
 
-.t_grid-rows {
+.t-grid-rows {
   grid-auto-flow: column;
 }
 
 /* Grid item styles */
-.t_grid-item {
+.t-grid-item {
   box-sizing: border-box;
 }
 

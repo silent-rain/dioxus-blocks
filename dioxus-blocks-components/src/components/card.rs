@@ -55,9 +55,9 @@ impl CardShadow {
     /// ```
     pub fn as_class(&self) -> &'static str {
         match self {
-            CardShadow::Always => "t_card-shadow-always",
-            CardShadow::Hover => "t_card-shadow-hover",
-            CardShadow::Never => "t_card-shadow-never",
+            CardShadow::Always => "t-card-shadow-always",
+            CardShadow::Hover => "t-card-shadow-hover",
+            CardShadow::Never => "t-card-shadow-never",
         }
     }
 }
@@ -96,7 +96,7 @@ impl Default for Card {
     fn default() -> Self {
         Self {
             id: None,
-            class: "t_card".to_string(),
+            class: "t-card".to_string(),
             style: None,
             childrens: Vec::new(),
             onclick: None,
@@ -122,9 +122,9 @@ impl ToElement for Card {
 
         // 添加边框
         if self.border {
-            class.push_str(" t_card-border");
+            class.push_str(" t-card-border");
         } else {
-            class.push_str(" t_card-no-border");
+            class.push_str(" t-card-no-border");
         }
 
         rsx! {
@@ -140,17 +140,17 @@ impl ToElement for Card {
 
                 // Header section
                 if let Some(header) = &self.header {
-                    div { class: if self.header_divider { "t_card-header t_card-header-divider" } else { "t_card-header" },
+                    div { class: if self.header_divider { "t-card-header t-card-header-divider" } else { "t-card-header" },
                         {header.to_element()}
                     }
                 }
 
                 // Body section
-                div { class: "t_card-body", {childrens} }
+                div { class: "t-card-body", {childrens} }
 
                 // Footer section
                 if let Some(footer) = &self.footer {
-                    div { class: "t_card-footer", {footer.to_element()} }
+                    div { class: "t-card-footer", {footer.to_element()} }
                 }
             }
         }

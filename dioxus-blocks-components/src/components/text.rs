@@ -71,7 +71,7 @@ impl Default for Text {
     fn default() -> Self {
         Self {
             id: None,
-            class: "t_text".to_string(),
+            class: "t-text".to_string(),
             style: None,
             childrens: Vec::new(),
             onclick: None,
@@ -433,7 +433,7 @@ mod tests {
 
         // 测试文本的基本属性
         assert_eq!(text.content, "测试文本");
-        assert!(text.class.contains("t_text"));
+        assert!(text.class.contains("t-text"));
     }
 
     #[test]
