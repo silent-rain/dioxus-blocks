@@ -144,32 +144,32 @@ impl LinkView {
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
                     .childrens2(vec![
-                        Link::default().to("/home").text("Default").disabled(),
+                        Link::default().to("/home").text("Default").disabled(true),
                         Link::default()
                             .to("/home")
                             .text("Primary")
                             .as_primary()
-                            .disabled(),
+                            .disabled(true),
                         Link::default()
                             .to("/home")
                             .text("Success")
                             .as_success()
-                            .disabled(),
+                            .disabled(true),
                         Link::default()
                             .to("/home")
                             .text("Info")
                             .as_info()
-                            .disabled(),
+                            .disabled(true),
                         Link::default()
                             .to("/home")
                             .text("Warning")
                             .as_warning()
-                            .disabled(),
+                            .disabled(true),
                         Link::default()
                             .to("/home")
                             .text("Danger")
                             .as_danger()
-                            .disabled(),
+                            .disabled(true),
                     ]),
             ])
             .style(|s| s.margin_top("32px"))

@@ -546,6 +546,23 @@ impl Button {
         self
     }
 
+    /// 设置为中尺寸按钮
+    ///
+    /// # 返回值
+    ///
+    /// 返回修改后的按钮实例，支持链式调用
+    ///
+    /// # 示例
+    ///
+    /// ```rust
+    /// # use dioxus_blocks_components::Button;
+    /// Button::new().text("Medium").as_primary().as_medium();
+    /// ```
+    pub fn as_medium(mut self) -> Self {
+        self.size = ButtonSize::Medium;
+        self
+    }
+
     /// 设置为大尺寸按钮
     ///
     /// # 返回值

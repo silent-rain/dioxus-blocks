@@ -23,3 +23,8 @@ pub use link::{Link, LinkType, LinkUnderline};
 
 mod image;
 pub use image::{Image, ObjectFit};
+
+mod input_number;
+pub use input_number::{
+    ControlsPosition, InputNumber, InputNumberSize, InputNumberStep, InputNumberValue,
+};

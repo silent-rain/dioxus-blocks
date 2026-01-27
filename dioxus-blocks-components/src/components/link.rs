@@ -365,15 +365,15 @@ impl Link {
     ///
     ///     #[component]
     ///     fn App() -> Element {
-    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Disabled Link").disabled().to_element()
+    ///         Link::new(NavigationTarget::<String>::from("/home")).text("Disabled Link").disabled(true).to_element()
     ///     }
     ///     # App()
     ///
     /// # });
     /// # dom.rebuild(&mut dioxus_core::NoOpMutations);
     /// ```
-    pub fn disabled(mut self) -> Self {
-        self.disabled = true;
+    pub fn disabled(mut self, disabled: bool) -> Self {
+        self.disabled = disabled;
         self
     }
 }

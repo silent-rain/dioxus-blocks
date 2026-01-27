@@ -65,6 +65,11 @@ impl HomeView {
             ("📐", Text::new("Grid"), crate::Route::GridViewRoute {}),
             ("📏", Text::new("Layout"), crate::Route::LayoutViewRoute {}),
             ("👁️", Text::new("View"), crate::Route::ViewExampleRoute {}),
+            (
+                "🔢",
+                Text::new("InputNumber"),
+                crate::Route::InputNumberViewRoute {},
+            ),
         ];
 
         Grid::new(

@@ -40,13 +40,12 @@ impl CardView {
     /// 基础卡片
     fn basic_card(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
-                Text::h2("极简卡片"),
-                Text::p("仅有内容的卡片形式。"),
-            ]))
-            .childrens2(vec![
-                Text::p("This is a basic card with only body content."),
-            ])
+            .header(
+                View::new().childrens2(vec![Text::h2("极简卡片"), Text::p("仅有内容的卡片形式。")]),
+            )
+            .childrens2(vec![Text::p(
+                "This is a basic card with only body content.",
+            )])
             .style(|s| s.margin_top("32px"))
     }
 
@@ -55,7 +54,9 @@ impl CardView {
         Card::new()
             .header(View::new().childrens2(vec![
                 Text::h2("带 header 的卡片"),
-                Text::p("由极简卡片上方的标题栏组成，标题栏中可包含标题、图片、操作区、状态等内容。"),
+                Text::p(
+                    "由极简卡片上方的标题栏组成，标题栏中可包含标题、图片、操作区、状态等内容。",
+                ),
             ]))
             .childrens2(vec![
                 Text::p("List item 1"),

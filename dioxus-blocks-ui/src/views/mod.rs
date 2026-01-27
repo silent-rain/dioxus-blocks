@@ -31,3 +31,6 @@ pub use home::HomeViewRoute;
 
 mod blog;
 pub use blog::BlogRoute;
+
+mod input_number;
+pub use input_number::InputNumberViewRoute;

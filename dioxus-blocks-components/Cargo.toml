@@ -26,3 +26,4 @@ dioxus = { workspace = true, features = ["ssr", "router"] }
 dioxus-ssr = { workspace = true }
 dioxus-html = { workspace = true }
 indexmap = { workspace = true }
+rust_decimal = { workspace = true }

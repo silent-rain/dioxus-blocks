@@ -27,6 +27,9 @@
 //! - [`Justify`][]: Flexbox 对齐方式枚举
 //! - [`Image`][]: 图片组件，支持加载状态、替代文本、尺寸等配置
 //! - [`ObjectFit`][]: 图片对象适应方式枚举
+//! - [`InputNumber`][]: 数字输入框组件，支持精度控制、步进、不同尺寸和禁用状态
+//! - [`InputNumberSize`][]: 输入框尺寸枚举（small、medium、large）
+//! - [`ControlsPosition`][]: 按钮位置枚举（right、both）
 //!
 //! ## 宏
 //!
