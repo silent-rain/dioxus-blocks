@@ -13,12 +13,18 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Textarea, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut content = use_signal(|| String::from("多行文本内容"));
-//! Textarea::new()
-//!     .value(content)
-//!     .oninput(move |v| content.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut content = use_signal(|| String::from("多行文本内容"));
+//!     Textarea::new()
+//!         .value(content)
+//!         .placeholder("请输入内容")
+//!         .oninput(move |v| content.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 //!
 //! ## 固定行数
@@ -26,13 +32,19 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Textarea, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut content = use_signal(|| String::new());
-//! Textarea::new()
-//!     .value(content)
-//!     .rows(6)
-//!     .oninput(move |v| content.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut content = use_signal(|| String::new());
+//!     Textarea::new()
+//!         .value(content)
+//!         .rows(6)
+//!         .placeholder("请输入内容")
+//!         .oninput(move |v| content.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 //!
 //! ## 自适应高度
@@ -40,15 +52,21 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Textarea, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut content = use_signal(|| String::new());
-//! Textarea::new()
-//!     .value(content)
-//!     .autosize(true)
-//!     .min_rows(2)
-//!     .max_rows(6)
-//!     .oninput(move |v| content.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut content = use_signal(|| String::new());
+//!     Textarea::new()
+//!         .value(content)
+//!         .autosize(true)
+//!         .min_rows(2)
+//!         .max_rows(6)
+//!         .placeholder("请输入内容")
+//!         .oninput(move |v| content.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 //!
 //! ## 输入长度限制
@@ -56,15 +74,60 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Textarea, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut bio = use_signal(|| String::new());
-//! Textarea::new()
-//!     .value(bio)
-//!     .max_length(100)
-//!     .show_word_limit(true)
-//!     .rows(4)
-//!     .oninput(move |v| bio.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut bio = use_signal(|| String::new());
+//!     Textarea::new()
+//!         .value(bio)
+//!         .max_length(100)
+//!         .show_word_limit(true)
+//!         .rows(4)
+//!         .placeholder("请输入个人简介")
+//!         .oninput(move |v| bio.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
+//! ```
+//!
+//! ## 不同尺寸
+//!
+//! ```rust
+//! use dioxus::prelude::*;
+//! use dioxus_blocks_components::{Textarea, ToElement};
+//! use dioxus::core::Mutations;
+//!
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut content = use_signal(|| String::new());
+//!     Textarea::new()
+//!         .value(content)
+//!         .as_large()
+//!         .rows(4)
+//!         .placeholder("请输入内容")
+//!         .oninput(move |v| content.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
+//! ```
+//!
+//! ## 禁用状态
+//!
+//! ```rust
+//! use dioxus::prelude::*;
+//! use dioxus_blocks_components::{Textarea, ToElement};
+//! use dioxus::core::Mutations;
+//!
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut content = use_signal(|| String::from("禁用的文本域"));
+//!     Textarea::new()
+//!         .value(content)
+//!         .disabled(true)
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 
 use std::rc::Rc;
@@ -364,28 +427,28 @@ impl ToElement for Textarea {
         }
         let class = class_names.join(" ");
 
-    let style = self.style.clone().map(|s| s.to_string());
-    let disabled = self.disabled;
-    let placeholder = self.placeholder.clone();
-    let max_length_attr = self.max_length.map(|l| l.to_string());
+        let style = self.style.clone().map(|s| s.to_string());
+        let disabled = self.disabled;
+        let placeholder = self.placeholder.clone();
+        let max_length_attr = self.max_length.map(|l| l.to_string());
 
-    // 获取 value signal，如果未设置则使用默认值
-    let mut value_signal = self.value.unwrap_or_else(|| Signal::new(String::new()));
+        // 获取 value signal，如果未设置则使用默认值
+        let mut value_signal = self.value.unwrap_or_else(|| Signal::new(String::new()));
 
-    // 自适应高度相关属性
-    let autosize = self.autosize;
-    let min_rows = self.min_rows;
-    let max_rows = self.max_rows;
-    let rows = self.rows;
+        // 自适应高度相关属性
+        let autosize = self.autosize;
+        let min_rows = self.min_rows;
+        let max_rows = self.max_rows;
+        let rows = self.rows;
 
-    // 确定最终使用的行数
-    let rows_attr = if autosize {
-        // 如果启用自适应高度，使用 min_rows 作为初始值
-        min_rows.or(Some(2)).map(|r| r.to_string())
-    } else {
-        // 否则使用 rows
-        rows.map(|r| r.to_string())
-    };
+        // 确定最终使用的行数
+        let rows_attr = if autosize {
+            // 如果启用自适应高度，使用 min_rows 作为初始值
+            min_rows.or(Some(2)).map(|r| r.to_string())
+        } else {
+            // 否则使用 rows
+            rows.map(|r| r.to_string())
+        };
 
         let oninput_handler = self.oninput;
         let onchange_handler = self.onchange;

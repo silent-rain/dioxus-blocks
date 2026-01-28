@@ -193,9 +193,9 @@ pub struct RowsControl {}
 
 impl ToElement for RowsControl {
     fn to_element(&self) -> Element {
-        let mut rows2 = use_signal(|| String::new());
-        let mut rows4 = use_signal(|| String::new());
-        let mut rows6 = use_signal(|| String::new());
+        let mut rows2 = use_signal(String::new);
+        let mut rows4 = use_signal(String::new);
+        let mut rows6 = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -250,7 +250,7 @@ pub struct AutosizeExample {}
 
 impl ToElement for AutosizeExample {
     fn to_element(&self) -> Element {
-        let mut content = use_signal(|| String::new());
+        let mut content = use_signal(String::new);
 
         View::new()
             .style(|s| s.padding("20px"))
@@ -278,9 +278,9 @@ pub struct SizeControl {}
 
 impl ToElement for SizeControl {
     fn to_element(&self) -> Element {
-        let mut small = use_signal(|| String::new());
-        let mut medium = use_signal(|| String::new());
-        let mut large = use_signal(|| String::new());
+        let mut small = use_signal(String::new);
+        let mut medium = use_signal(String::new);
+        let mut large = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -338,8 +338,8 @@ pub struct LengthLimit {}
 
 impl ToElement for LengthLimit {
     fn to_element(&self) -> Element {
-        let mut description = use_signal(|| String::new());
-        let mut comment = use_signal(|| String::new());
+        let mut description = use_signal(String::new);
+        let mut comment = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -386,8 +386,8 @@ pub struct EventsExample {}
 
 impl ToElement for EventsExample {
     fn to_element(&self) -> Element {
-        let mut input_value = use_signal(|| String::new());
-        let events = use_signal(|| Vec::new());
+        let mut input_value = use_signal(String::new);
+        let events = use_signal(Vec::new);
 
         let mut events_clone = events;
 

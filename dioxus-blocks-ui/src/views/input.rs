@@ -146,7 +146,7 @@ pub struct BasicUsage {}
 impl ToElement for BasicUsage {
     fn to_element(&self) -> Element {
         let mut value1 = use_signal(|| String::from("默认值"));
-        let mut value2 = use_signal(|| String::new());
+        let mut value2 = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -188,7 +188,7 @@ pub struct DisabledState {}
 impl ToElement for DisabledState {
     fn to_element(&self) -> Element {
         let mut value1 = use_signal(|| String::from("禁用状态"));
-        let mut value2 = use_signal(|| String::new());
+        let mut value2 = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -231,7 +231,7 @@ pub struct Clearable {}
 impl ToElement for Clearable {
     fn to_element(&self) -> Element {
         let mut value1 = use_signal(|| String::from("可清空的内容"));
-        let mut value2 = use_signal(|| String::new());
+        let mut value2 = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -276,8 +276,8 @@ pub struct Password {}
 
 impl ToElement for Password {
     fn to_element(&self) -> Element {
-        let mut password1 = use_signal(|| String::new());
-        let mut password2 = use_signal(|| String::new());
+        let mut password1 = use_signal(String::new);
+        let mut password2 = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -324,9 +324,9 @@ pub struct SizeControl {}
 
 impl ToElement for SizeControl {
     fn to_element(&self) -> Element {
-        let mut small = use_signal(|| String::new());
-        let mut medium = use_signal(|| String::new());
-        let mut large = use_signal(|| String::new());
+        let mut small = use_signal(String::new);
+        let mut medium = use_signal(String::new);
+        let mut large = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -381,7 +381,7 @@ pub struct LengthLimit {}
 
 impl ToElement for LengthLimit {
     fn to_element(&self) -> Element {
-        let mut username = use_signal(|| String::new());
+        let mut username = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -413,8 +413,8 @@ pub struct PrefixSuffix {}
 
 impl ToElement for PrefixSuffix {
     fn to_element(&self) -> Element {
-        let mut search = use_signal(|| String::new());
-        let mut date = use_signal(|| String::new());
+        let mut search = use_signal(String::new);
+        let mut date = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -458,8 +458,8 @@ pub struct PrependAppend {}
 
 impl ToElement for PrependAppend {
     fn to_element(&self) -> Element {
-        let mut amount = use_signal(|| String::new());
-        let mut website = use_signal(|| String::new());
+        let mut amount = use_signal(String::new);
+        let mut website = use_signal(String::new);
 
         View::new()
             .style(|s| {
@@ -504,8 +504,8 @@ pub struct EventsExample {}
 
 impl ToElement for EventsExample {
     fn to_element(&self) -> Element {
-        let mut input_value = use_signal(|| String::new());
-        let events = use_signal(|| Vec::new());
+        let mut input_value = use_signal(String::new);
+        let events = use_signal(Vec::new);
 
         let mut events_clone = events;
 

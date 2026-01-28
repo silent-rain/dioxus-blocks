@@ -14,12 +14,18 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut value = use_signal(|| String::from("Hello"));
-//! Input::new()
-//!     .value(value)
-//!     .oninput(move |v| value.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut value = use_signal(|| String::from("Hello"));
+//!     Input::new()
+//!         .value(value)
+//!         .placeholder("请输入内容")
+//!         .oninput(move |v| value.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 //!
 //! ## 密码框
@@ -27,13 +33,20 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut password = use_signal(|| String::new());
-//! Input::new()
-//!     .value(password)
-//!     .as_password()
-//!     .oninput(move |v| password.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut password = use_signal(|| String::new());
+//!     Input::new()
+//!         .value(password)
+//!         .as_password()
+//!         .placeholder("请输入密码")
+//!         .clearable(true)
+//!         .oninput(move |v| password.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 //!
 //! ## 可清空的输入框
@@ -41,14 +54,19 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut text = use_signal(|| String::from("可清空的内容"));
-//! Input::new()
-//!     .value(text)
-//!     .clearable(true)
-//!     .oninput(move |v| text.set(v))
-//!     .onclear(move |_| text.set(String::new()))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut text = use_signal(|| String::from("可清空的内容"));
+//!     Input::new()
+//!         .value(text)
+//!         .clearable(true)
+//!         .onclear(move |_| text.set(String::new()))
+//!         .oninput(move |v| text.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 //!
 //! ## 输入长度限制
@@ -56,14 +74,79 @@
 //! ```rust
 //! use dioxus::prelude::*;
 //! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
 //!
-//! let mut username = use_signal(|| String::new());
-//! Input::new()
-//!     .value(username)
-//!     .max_length(20)
-//!     .show_word_limit(true)
-//!     .oninput(move |v| username.set(v))
-//!     .to_element()
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut username = use_signal(|| String::new());
+//!     Input::new()
+//!         .value(username)
+//!         .max_length(20)
+//!         .show_word_limit(true)
+//!         .placeholder("请输入用户名")
+//!         .oninput(move |v| username.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
+//! ```
+//!
+//! ## 不同尺寸
+//!
+//! ```rust
+//! use dioxus::prelude::*;
+//! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
+//!
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut value = use_signal(|| String::new());
+//!     Input::new()
+//!         .value(value)
+//!         .as_large()
+//!         .placeholder("大尺寸输入框")
+//!         .oninput(move |v| value.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
+//! ```
+//!
+//! ## 禁用状态
+//!
+//! ```rust
+//! use dioxus::prelude::*;
+//! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
+//!
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut value = use_signal(|| String::from("禁用状态"));
+//!     Input::new()
+//!         .value(value)
+//!         .disabled(true)
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
+//! ```
+//!
+//! ## 前置和后置图标
+//!
+//! ```rust
+//! use dioxus::prelude::*;
+//! use dioxus_blocks_components::{Input, ToElement};
+//! use dioxus::core::Mutations;
+//!
+//! let mut dom = VirtualDom::new(|| {
+//!     let mut value = use_signal(|| String::new());
+//!     Input::new()
+//!         .value(value)
+//!         .prefix_icon("🔍")
+//!         .suffix_icon("🔔")
+//!         .placeholder("带图标的输入框")
+//!         .oninput(move |v| value.set(v))
+//!         .to_element()
+//! });
+//! let mut mutations = Mutations::default();
+//! dom.rebuild(&mut mutations);
 //! ```
 
 use std::rc::Rc;
