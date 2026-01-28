@@ -1531,7 +1531,12 @@ impl ToElement for InputNumber {
                                 handler.call(new_value);
                             }
                         },
-                        "−"
+                        svg {
+                            "viewBox": "0 0 1024 1024",
+                            "width": "1em",
+                            "height": "1em",
+                            path { "d": "M960 704L512 256l-448 448z" }
+                        }
                     }
 
                     // 加号按钮
@@ -1560,7 +1565,13 @@ impl ToElement for InputNumber {
                                 handler.call(new_value);
                             }
                         },
-                        "+"
+                        svg {
+                            "viewBox": "0 0 1024 1024",
+                            "width": "1em",
+                            "height": "1em",
+                            path { "d": "M64 320l448 448 448-448z" }
+                        }
+
                     }
                 }
             }
