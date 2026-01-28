@@ -214,8 +214,8 @@ impl ToElement for PrecisionControl {
     fn to_element(&self) -> Element {
         let mut value1 = use_signal(|| InputNumberValue::Float(Decimal::from(1)));
         let mut value2 = use_signal(|| InputNumberValue::Float(Decimal::try_from(1.5).unwrap()));
-        let mut value3 = use_signal(|| InputNumberValue::Float(Decimal::from_f64(3.12).unwrap()));
-        let mut value4 = use_signal(|| InputNumberValue::Float(Decimal::from_f64(2.7).unwrap()));
+        let mut value3 = use_signal(|| Decimal::from_f64(3.12).unwrap().into());
+        let mut value4 = use_signal(|| 2.74.into());
 
         View::new()
             .style(|s| {
@@ -272,19 +272,19 @@ impl ToElement for StepControl {
             .children(
                 InputNumber::new()
                     .value(value1)
-                    .step_float(Decimal::from(1))
+                    .step_float(1.0)
                     .onchange(move |v| value1.set(v)),
             )
             .children(
                 InputNumber::new()
                     .value(value2)
-                    .step_float(Decimal::from(5))
+                    .step_float(5.5)
                     .onchange(move |v| value2.set(v)),
             )
             .children(
                 InputNumber::new()
                     .value(value3)
-                    .step_float(Decimal::from(10))
+                    .step_float(10.0)
                     .onchange(move |v| value3.set(v)),
             )
             .into()

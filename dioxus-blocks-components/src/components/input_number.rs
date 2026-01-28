@@ -43,7 +43,7 @@
 //!     });
 //!     InputNumber::new()
 //!             .value(value)
-//!             .step_float(Decimal::from_str("0.1").unwrap())
+//!             .step_float(0.1)
 //!             .onchange(move |v| {
 //!                 println!("Value changed: {:?}", v);
 //!                 value.set(v);
@@ -114,7 +114,7 @@
 //!     });
 //!     InputNumber::new()
 //!             .value(value)
-//!             .step_float(Decimal::from_str("5.0").unwrap())
+//!             .step_float(5.0)
 //!             .onchange(move |v| value.set(v))
 //!             .to_element()
 //! });
@@ -144,7 +144,10 @@
 use std::rc::Rc;
 
 use dioxus::prelude::*;
-use rust_decimal::{Decimal, prelude::ToPrimitive};
+use rust_decimal::{
+    Decimal,
+    prelude::{FromPrimitive, ToPrimitive},
+};
 
 use dioxus_blocks_macro::ComponentBase;
 
@@ -302,6 +305,24 @@ pub enum InputNumberValue {
     Int(i64),
     /// 浮点数类型（使用 Decimal 精确表示）
     Float(Decimal),
+}
+
+impl From<i64> for InputNumberValue {
+    fn from(v: i64) -> Self {
+        InputNumberValue::Int(v)
+    }
+}
+
+impl From<Decimal> for InputNumberValue {
+    fn from(v: Decimal) -> Self {
+        InputNumberValue::Float(v)
+    }
+}
+
+impl From<f64> for InputNumberValue {
+    fn from(v: f64) -> Self {
+        InputNumberValue::Float(Decimal::from_f64(v).unwrap_or_default())
+    }
 }
 
 impl PartialEq for InputNumberValue {
@@ -631,15 +652,17 @@ impl InputNumber {
     ///     let mut value = use_signal(|| InputNumberValue::Float(Decimal::from(10)));
     ///     InputNumber::new()
     ///         .value(value)
-    ///         .min_float(Decimal::from(0))
+    ///         .min_float(0.0)
     ///         .onchange(move |v| value.set(v))
     ///         .to_element()
     /// });
     /// let mut mutations = Mutations::default();
     /// dom.rebuild(&mut mutations);
     /// ```
-    pub fn min_float(mut self, min: Decimal) -> Self {
-        self.min = Some(InputNumberValue::Float(min));
+    pub fn min_float(mut self, min: f64) -> Self {
+        self.min = Some(InputNumberValue::Float(
+            Decimal::from_f64(min).unwrap_or_default(),
+        ));
         self
     }
 
@@ -732,15 +755,17 @@ impl InputNumber {
     ///     let mut value = use_signal(|| InputNumberValue::Float(Decimal::from(10)));
     ///     InputNumber::new()
     ///         .value(value)
-    ///         .max_float(Decimal::from_f64(100.5).unwrap())
+    ///         .max_float(100.5)
     ///         .onchange(move |v| value.set(v))
     ///         .to_element()
     /// });
     /// let mut mutations = Mutations::default();
     /// dom.rebuild(&mut mutations);
     /// ```
-    pub fn max_float(mut self, max: Decimal) -> Self {
-        self.max = Some(InputNumberValue::Float(max));
+    pub fn max_float(mut self, max: f64) -> Self {
+        self.max = Some(InputNumberValue::Float(
+            Decimal::from_f64(max).unwrap_or_default(),
+        ));
         self
     }
 
@@ -834,15 +859,15 @@ impl InputNumber {
     ///     let mut value = use_signal(|| InputNumberValue::Float(Decimal::from(10)));
     ///     InputNumber::new()
     ///         .value(value)
-    ///         .step_float(Decimal::from_f64(0.1).unwrap())
+    ///         .step_float(0.1)
     ///         .onchange(move |v| value.set(v))
     ///         .to_element()
     /// });
     /// let mut mutations = Mutations::default();
     /// dom.rebuild(&mut mutations);
     /// ```
-    pub fn step_float(mut self, step: Decimal) -> Self {
-        self.step = InputNumberStep::Float(step);
+    pub fn step_float(mut self, step: f64) -> Self {
+        self.step = InputNumberStep::Float(Decimal::from_f64(step).unwrap_or_default());
         self
     }
 
