@@ -450,9 +450,6 @@ impl ToElement for Textarea {
             rows.map(|r| r.to_string())
         };
 
-        // 判断是否需要禁用调整大小
-        let disable_resize = autosize || rows.is_some();
-
         let oninput_handler = self.oninput;
         let onchange_handler = self.onchange;
         let onblur_handler = self.onblur;
