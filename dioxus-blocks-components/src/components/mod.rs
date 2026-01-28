@@ -34,3 +34,6 @@ pub use input::{Input, InputSize, InputType};
 
 mod textarea;
 pub use textarea::{Textarea, TextareaSize};
+
+mod radio;
+pub use radio::{Radio, RadioGroup, RadioSize, RadioValue};

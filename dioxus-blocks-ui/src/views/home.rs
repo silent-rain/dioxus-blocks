@@ -76,6 +76,7 @@ impl HomeView {
                 Text::new("Textarea"),
                 crate::Route::TextareaViewRoute {},
             ),
+            ("🔘", Text::new("Radio"), crate::Route::RadioViewRoute {}),
         ];
 
         Grid::new(

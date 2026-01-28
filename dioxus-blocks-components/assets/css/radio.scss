@@ -1,0 +1,322 @@
+// Radio 单选框组件样式
+
+.t-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+  color: #303133;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  // 水平布局（通过 CSS 类控制）
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.t-radio {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s;
+
+  &__input {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .t-radio__inner {
+      position: relative;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid #dcdfe6;
+      border-radius: 50%;
+      background-color: #fff;
+      transition: all 0.3s;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #409eff;
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+
+    input[type="radio"]:checked + .t-radio__inner {
+      border-color: #409eff;
+
+      &::after {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    input[type="radio"]:hover + .t-radio__inner {
+      border-color: #c0c4cc;
+    }
+
+    input[type="radio"]:disabled + .t-radio__inner {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      cursor: not-allowed;
+
+      &::after {
+        background-color: #c0c4cc;
+      }
+    }
+  }
+
+  &__label {
+    color: #303133;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+
+  &:hover .t-radio__label {
+    color: #409eff;
+  }
+
+  // 选中状态下的高亮效果
+  &.is-checked {
+    .t-radio__label {
+      color: #409eff;
+      font-weight: 500;
+    }
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+
+    .t-radio__label {
+      color: #c0c4cc;
+    }
+
+    &.is-checked .t-radio__label {
+      color: #c0c4cc;
+      font-weight: normal;
+    }
+  }
+
+  // 边框样式
+  &--border {
+    padding: 8px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: #c0c4cc;
+      background-color: #ecf5ff;
+    }
+
+    .t-radio__input input[type="radio"]:checked + .t-radio__inner {
+      border-color: #409eff;
+    }
+
+    // 选中时整体高亮
+    &.is-checked {
+      border-color: #409eff;
+      background-color: #ecf5ff;
+      color: #409eff;
+    }
+  }
+}
+
+// 尺寸变体
+.t-radio--small {
+  .t-radio__input .t-radio__inner {
+    width: 12px;
+    height: 12px;
+
+    &::after {
+      width: 5px;
+      height: 5px;
+    }
+  }
+
+  .t-radio__label {
+    font-size: 13px;
+  }
+
+  &.t-radio--border {
+    padding: 6px 10px;
+  }
+}
+
+.t-radio--large {
+  .t-radio__input .t-radio__inner {
+    width: 16px;
+    height: 16px;
+
+    &::after {
+      width: 7px;
+      height: 7px;
+    }
+  }
+
+  .t-radio__label {
+    font-size: 15px;
+  }
+
+  &.t-radio--border {
+    padding: 10px 14px;
+  }
+}
+
+// RadioButton 样式
+.t-radio--button {
+  input[type="radio"] {
+    display: none;
+  }
+
+  .t-radio__inner {
+    position: relative;
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    color: #606266;
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: all 0.3s;
+
+    &:hover {
+      color: #409eff;
+      border-color: #c6e2ff;
+      background-color: #ecf5ff;
+    }
+  }
+
+  // 使用 input 的兄弟选择器来控制样式
+  .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
+    position: relative;
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--t-radio-fill, #409eff);
+    border: 1px solid var(--t-radio-fill, #409eff);
+    border-radius: 4px;
+    color: var(--t-radio-text-color, #fff);
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+
+  .t-radio__input input[type="radio"]:disabled ~ .t-radio__label {
+    color: #c0c4cc;
+    background-color: #f5f7fa;
+    border-color: #e4e7ed;
+    cursor: not-allowed;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+}
+
+// RadioButton 尺寸变体
+.t-radio--button.t-radio--small {
+  .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+.t-radio--button.t-radio--large {
+  .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+// 水平排列的 RadioGroup
+.t-radio-group .t-radio-group__inner {
+  // 如果子元素是 RadioButton，使用水平布局
+  .t-radio-button {
+    display: inline-flex;
+
+    &:not(:first-child) .t-radio__inner {
+      margin-left: -1px;
+    }
+
+    &:first-child .t-radio__inner {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &:last-child .t-radio__inner {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    // 选中状态
+    &.is-checked {
+      .t-radio__inner {
+        display: none;
+      }
+
+      .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
+        border-left-radius: 0;
+        border-right-radius: 0;
+        margin-left: 0;
+      }
+
+      &:not(:first-child)
+        .t-radio__input
+        input[type="radio"]:checked
+        ~ .t-radio__label {
+        border-left-radius: 0;
+      }
+
+      &:not(:last-child)
+        .t-radio__input
+        input[type="radio"]:checked
+        ~ .t-radio__label {
+        border-right-radius: 0;
+      }
+
+      &:first-child
+        .t-radio__input
+        input[type="radio"]:checked
+        ~ .t-radio__label {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      &:last-child
+        .t-radio__input
+        input[type="radio"]:checked
+        ~ .t-radio__label {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+  }
+}

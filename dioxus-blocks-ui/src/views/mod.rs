@@ -40,3 +40,6 @@ pub use input::InputViewRoute;
 
 mod textarea;
 pub use textarea::TextareaViewRoute;
+
+mod radio;
+pub use radio::RadioViewRoute;

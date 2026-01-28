@@ -6,8 +6,8 @@ use crate::{
     LayoutRoute,
     views::{
         BlogRoute, ButtonViewRoute, CardViewRoute, GridViewRoute, HomeViewRoute, ImageViewRoute,
-        InputNumberViewRoute, InputViewRoute, LayoutViewRoute, LinkViewRoute, TextViewRoute,
-        TextareaViewRoute, ViewExampleRoute,
+        InputNumberViewRoute, InputViewRoute, LayoutViewRoute, LinkViewRoute, RadioViewRoute,
+        TextViewRoute, TextareaViewRoute, ViewExampleRoute,
     },
 };
 
@@ -54,4 +54,6 @@ pub enum Route {
         InputViewRoute {},
         #[route("/textarea")]
         TextareaViewRoute {},
+        #[route("/radio")]
+        RadioViewRoute {},
 }
