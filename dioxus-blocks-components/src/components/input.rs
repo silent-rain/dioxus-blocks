@@ -1,7 +1,7 @@
 //! Input 组件
 //!
-//! 提供一个功能完整的文本输入框组件，支持基础用法、禁用状态、一键清空、密码框、
-//! 文本域、自适应文本域、不同尺寸和输入长度限制等功能。
+//! 提供一个功能完整的单行文本输入框组件，支持基础用法、禁用状态、一键清空、
+//! 密码框、不同尺寸和输入长度限制等功能。
 //!
 //! # 组件模式
 //!
@@ -47,22 +47,7 @@
 //!     .value(text)
 //!     .clearable(true)
 //!     .oninput(move |v| text.set(v))
-//!     .onclear(move |text.set(String::new()))
-//!     .to_element()
-//! ```
-//!
-//! ## 文本域
-//!
-//! ```rust
-//! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{Input, ToElement};
-//!
-//! let mut content = use_signal(|| String::from("多行文本内容"));
-//! Input::new()
-//!     .value(content)
-//!     .as_textarea()
-//!     .rows(4)
-//!     .oninput(move |v| content.set(v))
+//!     .onclear(move |_| text.set(String::new()))
 //!     .to_element()
 //! ```
 //!
@@ -99,8 +84,6 @@ pub enum InputType {
     Text,
     /// 密码输入
     Password,
-    /// 文本域
-    Textarea,
 }
 
 impl std::fmt::Display for InputType {
@@ -108,7 +91,6 @@ impl std::fmt::Display for InputType {
         match self {
             InputType::Text => write!(f, "text"),
             InputType::Password => write!(f, "password"),
-            InputType::Textarea => write!(f, "textarea"),
         }
     }
 }
@@ -139,7 +121,7 @@ impl std::fmt::Display for InputSize {
 
 /// 输入框组件结构体
 ///
-/// 提供一个可自定义的文本输入框，支持多种输入类型、尺寸、禁用状态和事件处理。
+/// 提供一个可自定义的单行文本输入框，支持多种输入类型、尺寸、禁用状态和事件处理。
 /// 这是一个受控组件，必须通过 `Signal<String>` 传入值。
 ///
 /// # 使用说明
@@ -148,7 +130,6 @@ impl std::fmt::Display for InputSize {
 /// - 通过 `.oninput(handler)` 或 `.onchange(handler)` 响应值的变化
 /// - 可通过 `.clearable(true)` 启用一键清空功能
 /// - 可通过 `.as_password()` 切换为密码输入框
-/// - 可通过 `.as_textarea()` 切换为文本域
 #[derive(Debug, Clone, ComponentBase)]
 pub struct Input {
     /// 组件的唯一标识符
@@ -174,14 +155,6 @@ pub struct Input {
     placeholder: String,
     /// 是否可清空
     clearable: bool,
-    /// 是否自适应高度（仅文本域有效）
-    autosize: bool,
-    /// 最小行数（仅文本域有效）
-    min_rows: Option<usize>,
-    /// 最大行数（仅文本域有效）
-    max_rows: Option<usize>,
-    /// 固定行数（仅文本域有效）
-    rows: Option<usize>,
     /// 最大输入长度
     max_length: Option<usize>,
     /// 是否显示字数统计
@@ -232,10 +205,6 @@ impl Default for Input {
             size: InputSize::default(),
             placeholder: String::new(),
             clearable: false,
-            autosize: false,
-            min_rows: None,
-            max_rows: None,
-            rows: None,
             max_length: None,
             show_word_limit: false,
             prefix_icon: None,
@@ -287,12 +256,6 @@ impl Input {
         self
     }
 
-    /// 设置为文本域
-    pub fn as_textarea(mut self) -> Self {
-        self.input_type = InputType::Textarea;
-        self
-    }
-
     /// 设置禁用状态
     pub fn disabled(mut self, disabled: bool) -> Self {
         self.disabled = disabled;
@@ -314,30 +277,6 @@ impl Input {
     /// 设置是否可清空
     pub fn clearable(mut self, clearable: bool) -> Self {
         self.clearable = clearable;
-        self
-    }
-
-    /// 设置是否自适应高度（仅文本域有效）
-    pub fn autosize(mut self, autosize: bool) -> Self {
-        self.autosize = autosize;
-        self
-    }
-
-    /// 设置最小行数（仅文本域有效）
-    pub fn min_rows(mut self, rows: usize) -> Self {
-        self.min_rows = Some(rows);
-        self
-    }
-
-    /// 设置最大行数（仅文本域有效）
-    pub fn max_rows(mut self, rows: usize) -> Self {
-        self.max_rows = Some(rows);
-        self
-    }
-
-    /// 设置固定行数（仅文本域有效）
-    pub fn rows(mut self, rows: usize) -> Self {
-        self.rows = Some(rows);
         self
     }
 
@@ -479,21 +418,13 @@ impl ToElement for Input {
         if self.suffix_icon.is_some() || self.append.is_some() || self.clearable {
             class_names.push("t-input--suffix".to_string());
         }
-        if self.input_type == InputType::Textarea {
-            class_names.push("t-input--textarea".to_string());
-        }
         let class = class_names.join(" ");
 
         let style = self.style.clone().map(|s| s.to_string());
         let disabled = self.disabled;
         let placeholder = self.placeholder.clone();
-        let input_type_str = if self.input_type == InputType::Textarea {
-            String::new()
-        } else {
-            self.input_type.to_string()
-        };
+        let input_type_str = self.input_type.to_string();
         let max_length_attr = self.max_length.map(|l| l.to_string());
-        let rows_attr = self.rows.map(|r| r.to_string());
 
         // 获取 value signal，如果未设置则使用默认值
         let mut value_signal = self.value.unwrap_or_else(|| Signal::new(String::new()));
@@ -537,161 +468,82 @@ impl ToElement for Input {
                         }
                     }
 
-                    // 输入框或文本域
-                    if self.input_type == InputType::Textarea {
-                        textarea {
-                            class: "t-input__inner",
-                            placeholder,
-                            disabled,
-                            rows: rows_attr,
-                            maxlength: max_length_attr,
-                            value: value_signal.read().clone(),
-                            oninput: move |event: Event<FormData>| {
-                                if disabled {
-                                    return;
-                                }
-                                let input_value = event.value();
+                    // 输入框
+                    input {
+                        r#type: input_type_str,
+                        class: "t-input__inner",
+                        placeholder,
+                        disabled,
+                        maxlength: max_length_attr,
+                        value: value_signal.read().clone(),
+                        oninput: move |event: Event<FormData>| {
+                            if disabled {
+                                return;
+                            }
+                            let input_value = event.value();
 
-                                if let Some(max_len) = max_length
-                                    && input_value.chars().count() > max_len {
-                                    return;
-                                }
+                            if let Some(max_len) = max_length
+                                && input_value.chars().count() > max_len {
+                                return;
+                            }
 
-                                value_signal.set(input_value.clone());
+                            value_signal.set(input_value.clone());
 
-                                if let Some(handler) = oninput_handler {
-                                    handler.call(input_value);
-                                }
-                            },
-                            onchange: move |event: Event<FormData>| {
-                                if disabled {
-                                    return;
-                                }
-                                let input_value = event.value();
-                                value_signal.set(input_value.clone());
+                            if let Some(handler) = oninput_handler {
+                                handler.call(input_value);
+                            }
+                        },
+                        onchange: move |event: Event<FormData>| {
+                            if disabled {
+                                return;
+                            }
+                            let input_value = event.value();
+                            value_signal.set(input_value.clone());
 
-                                if let Some(handler) = onchange_handler {
-                                    handler.call(input_value);
-                                }
-                            },
-                            onblur: move |event: FocusEvent| {
-                                if let Some(handler) = onblur_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onfocus: move |event: FocusEvent| {
-                                if let Some(handler) = onfocus_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onkeydown: move |event: KeyboardEvent| {
-                                if let Some(handler) = onkeydown_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onmouseenter: move |event: MouseEvent| {
-                                if let Some(handler) = onmouseenter_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onmouseleave: move |event: MouseEvent| {
-                                if let Some(handler) = onmouseleave_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            oncompositionstart: move |event: CompositionEvent| {
-                                if let Some(handler) = oncompositionstart_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            oncompositionupdate: move |event: CompositionEvent| {
-                                if let Some(handler) = oncompositionupdate_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            oncompositionend: move |event: CompositionEvent| {
-                                if let Some(handler) = oncompositionend_handler {
-                                    handler.call(event);
-                                }
-                            },
-                        }
-                    } else {
-                        input {
-                            r#type: input_type_str,
-                            class: "t-input__inner",
-                            placeholder,
-                            disabled,
-                            maxlength: max_length_attr,
-                            value: value_signal.read().clone(),
-                            oninput: move |event: Event<FormData>| {
-                                if disabled {
-                                    return;
-                                }
-                                let input_value = event.value();
-
-                                if let Some(max_len) = max_length
-                                    && input_value.chars().count() > max_len {
-                                    return;
-                                }
-
-                                value_signal.set(input_value.clone());
-
-                                if let Some(handler) = oninput_handler {
-                                    handler.call(input_value);
-                                }
-                            },
-                            onchange: move |event: Event<FormData>| {
-                                if disabled {
-                                    return;
-                                }
-                                let input_value = event.value();
-                                value_signal.set(input_value.clone());
-
-                                if let Some(handler) = onchange_handler {
-                                    handler.call(input_value);
-                                }
-                            },
-                            onblur: move |event: FocusEvent| {
-                                if let Some(handler) = onblur_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onfocus: move |event: FocusEvent| {
-                                if let Some(handler) = onfocus_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onkeydown: move |event: KeyboardEvent| {
-                                if let Some(handler) = onkeydown_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onmouseenter: move |event: MouseEvent| {
-                                if let Some(handler) = onmouseenter_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            onmouseleave: move |event: MouseEvent| {
-                                if let Some(handler) = onmouseleave_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            oncompositionstart: move |event: CompositionEvent| {
-                                if let Some(handler) = oncompositionstart_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            oncompositionupdate: move |event: CompositionEvent| {
-                                if let Some(handler) = oncompositionupdate_handler {
-                                    handler.call(event);
-                                }
-                            },
-                            oncompositionend: move |event: CompositionEvent| {
-                                if let Some(handler) = oncompositionend_handler {
-                                    handler.call(event);
-                                }
-                            },
-                        }
+                            if let Some(handler) = onchange_handler {
+                                handler.call(input_value);
+                            }
+                        },
+                        onblur: move |event: FocusEvent| {
+                            if let Some(handler) = onblur_handler {
+                                handler.call(event);
+                            }
+                        },
+                        onfocus: move |event: FocusEvent| {
+                            if let Some(handler) = onfocus_handler {
+                                handler.call(event);
+                            }
+                        },
+                        onkeydown: move |event: KeyboardEvent| {
+                            if let Some(handler) = onkeydown_handler {
+                                handler.call(event);
+                            }
+                        },
+                        onmouseenter: move |event: MouseEvent| {
+                            if let Some(handler) = onmouseenter_handler {
+                                handler.call(event);
+                            }
+                        },
+                        onmouseleave: move |event: MouseEvent| {
+                            if let Some(handler) = onmouseleave_handler {
+                                handler.call(event);
+                            }
+                        },
+                        oncompositionstart: move |event: CompositionEvent| {
+                            if let Some(handler) = oncompositionstart_handler {
+                                handler.call(event);
+                            }
+                        },
+                        oncompositionupdate: move |event: CompositionEvent| {
+                            if let Some(handler) = oncompositionupdate_handler {
+                                handler.call(event);
+                            }
+                        },
+                        oncompositionend: move |event: CompositionEvent| {
+                            if let Some(handler) = oncompositionend_handler {
+                                handler.call(event);
+                            }
+                        },
                     }
 
                     // 后置图标（清空按钮 + 自定义图标）

@@ -1,0 +1,121 @@
+// Textarea 组件样式
+// 参考 Element Plus 设计规范
+//
+// 注意：
+// - autosize 属性目前通过 CSS 的 min-height/max-height 实现
+// - 完整的动态高度调整需要 JavaScript 支持，后续可以添加
+// - 当前实现提供了最小和最大高度限制
+
+.t-textarea {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: bottom;
+
+  &__inner {
+    display: block;
+    width: 100%;
+    min-height: 32px;
+    padding: 5px 11px;
+    font-size: 14px;
+    line-height: 1.5715;
+    color: #606266;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    resize: vertical;
+    outline: none;
+
+    &::placeholder {
+      color: #c0c4cc;
+    }
+
+    &:hover {
+      border-color: #c0c4cc;
+    }
+
+    &:focus {
+      border-color: #409eff;
+      outline: none;
+    }
+
+    &:disabled {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      cursor: not-allowed;
+    }
+  }
+
+  &__count {
+    position: absolute;
+    right: 11px;
+    bottom: 5px;
+    font-size: 12px;
+    color: #909399;
+    background-color: #fff;
+    padding: 0 4px;
+    line-height: 1;
+
+    &-separator {
+      margin: 0 2px;
+    }
+  }
+
+  // 自适应高度
+  &--autosize &__inner {
+    resize: none;
+    overflow-y: hidden;
+  }
+
+  // 带最大行数限制
+  &--autosize &__inner[data-has-max-rows="true"] {
+    overflow-y: auto;
+  }
+
+  // 禁用状态
+  &--disabled &__inner {
+    background-color: #f5f7fa;
+    color: #c0c4cc;
+    cursor: not-allowed;
+    border-color: #e4e7ed;
+  }
+
+  // 带字数限制
+  &--limit &__inner {
+    padding-right: 80px;
+  }
+
+  // 小尺寸
+  &--small {
+    .t-textarea__inner {
+      min-height: 24px;
+      padding: 3px 8px;
+      font-size: 12px;
+    }
+
+    .t-textarea__count {
+      font-size: 11px;
+      right: 8px;
+      bottom: 3px;
+    }
+  }
+
+  // 大尺寸
+  &--large {
+    .t-textarea__inner {
+      min-height: 40px;
+      padding: 7px 15px;
+      font-size: 16px;
+    }
+
+    .t-textarea__count {
+      font-size: 14px;
+      right: 15px;
+      bottom: 7px;
+    }
+  }
+}

@@ -21,7 +21,7 @@ impl InputView {
     fn title(&self) -> View {
         View::new().childrens2(vec![
             Text::h1("Input 组件"),
-            Text::p("文本输入框组件，支持基础用法、禁用状态、一键清空、密码框、文本域、自适应文本域、不同尺寸和输入长度限制等功能。"),
+            Text::p("单行文本输入框组件，支持基础用法、禁用状态、一键清空、密码框、不同尺寸和输入长度限制等功能。"),
         ])
     }
 
@@ -31,8 +31,6 @@ impl InputView {
             self.disabled_state(),
             self.clearable(),
             self.password(),
-            self.textarea(),
-            self.autosize_textarea(),
             self.size_control(),
             self.length_limit(),
             self.prefix_suffix(),
@@ -82,28 +80,6 @@ impl InputView {
                 Text::p("通过设置 input_type 为 Password 来创建密码输入框。"),
             ]))
             .children(Password::default())
-            .style(|s| s.margin_top("32px"))
-    }
-
-    /// 文本域
-    fn textarea(&self) -> Card {
-        Card::new()
-            .header(View::new().childrens2(vec![
-                Text::h2("文本域"),
-                Text::p("通过 as_textarea() 将输入框转换为文本域。"),
-            ]))
-            .children(Textarea::default())
-            .style(|s| s.margin_top("32px"))
-    }
-
-    /// 自适应文本域
-    fn autosize_textarea(&self) -> Card {
-        Card::new()
-            .header(View::new().childrens2(vec![
-                Text::h2("自适应文本域"),
-                Text::p("通过 autosize 和 min_rows/max_rows 设置自适应高度的文本域。"),
-            ]))
-            .children(AutosizeTextarea::default())
             .style(|s| s.margin_top("32px"))
     }
 
@@ -342,62 +318,6 @@ impl ToElement for Password {
     }
 }
 
-/// 文本域示例
-#[derive(Debug, Default, Clone)]
-pub struct Textarea {}
-
-impl ToElement for Textarea {
-    fn to_element(&self) -> Element {
-        let mut content = use_signal(|| String::from("这是一个文本域\n可以输入多行文本"));
-
-        View::new()
-            .style(|s| s.padding("20px"))
-            .children(Text::h3("内容:").style(|s| s.margin_bottom("12px")))
-            .children(
-                View::new()
-                    .style(|s| s.width("100%").max_width("500px"))
-                    .children(
-                        Input::new()
-                            .value(content)
-                            .as_textarea()
-                            .rows(6)
-                            .placeholder("请输入内容")
-                            .oninput(move |v| content.set(v)),
-                    ),
-            )
-            .into()
-    }
-}
-
-/// 自适应文本域示例
-#[derive(Debug, Default, Clone)]
-pub struct AutosizeTextarea {}
-
-impl ToElement for AutosizeTextarea {
-    fn to_element(&self) -> Element {
-        let mut content = use_signal(|| String::new());
-
-        View::new()
-            .style(|s| s.padding("20px"))
-            .children(Text::h3("自适应高度:").style(|s| s.margin_bottom("12px")))
-            .children(
-                View::new()
-                    .style(|s| s.width("100%").max_width("500px"))
-                    .children(
-                        Input::new()
-                            .value(content)
-                            .as_textarea()
-                            .autosize(true)
-                            .min_rows(2)
-                            .max_rows(6)
-                            .placeholder("请输入内容，输入框会自动调整高度")
-                            .oninput(move |v| content.set(v)),
-                    ),
-            )
-            .into()
-    }
-}
-
 /// 不同尺寸示例
 #[derive(Debug, Default, Clone)]
 pub struct SizeControl {}
@@ -462,7 +382,6 @@ pub struct LengthLimit {}
 impl ToElement for LengthLimit {
     fn to_element(&self) -> Element {
         let mut username = use_signal(|| String::new());
-        let mut bio = use_signal(|| String::new());
 
         View::new()
             .style(|s| {
@@ -482,21 +401,6 @@ impl ToElement for LengthLimit {
                             .show_word_limit(true)
                             .placeholder("请输入用户名（最多20字符）")
                             .oninput(move |v| username.set(v)),
-                    ),
-            )
-            .children(
-                View::new()
-                    .style(|s| s.width("100%"))
-                    .children(Text::new("个人简介:").style(|s| s.margin_bottom("12px")))
-                    .children(
-                        Input::new()
-                            .value(bio)
-                            .as_textarea()
-                            .max_length(100)
-                            .show_word_limit(true)
-                            .rows(4)
-                            .placeholder("请输入个人简介（最多100字符）")
-                            .oninput(move |v| bio.set(v)),
                     ),
             )
             .into()

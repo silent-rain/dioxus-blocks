@@ -31,3 +31,6 @@ pub use input_number::{
 
 mod input;
 pub use input::{Input, InputSize, InputType};
+
+mod textarea;
+pub use textarea::{Textarea, TextareaSize};

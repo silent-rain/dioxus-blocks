@@ -37,3 +37,6 @@ pub use input_number::InputNumberViewRoute;
 
 mod input;
 pub use input::InputViewRoute;
+
+mod textarea;
+pub use textarea::TextareaViewRoute;
