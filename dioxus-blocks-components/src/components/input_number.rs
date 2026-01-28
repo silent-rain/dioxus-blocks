@@ -13,17 +13,16 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, InputNumberValue};
+//! use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
 //! use dioxus::core::Mutations;
 //!
 //! let mut dom = VirtualDom::new(|| {
 //!     let mut value = use_signal(|| InputNumberValue::Int(10));
-//!     rsx! {
-//!         InputNumber::new()
+//!     InputNumber::new()
 //!             .value(value)
 //!             .step_int(1)
 //!             .onchange(move |v| value.set(v))
-//!     }
+//!             .to_element()
 //! });
 //! let mut mutations = Mutations::default();
 //! dom.rebuild(&mut mutations);
@@ -33,7 +32,7 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, InputNumberValue};
+//! use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
 //! use rust_decimal::Decimal;
 //! use std::str::FromStr;
 //! use dioxus::core::Mutations;
@@ -42,43 +41,14 @@
 //!     let mut value = use_signal(|| {
 //!         InputNumberValue::Float(Decimal::from_str("1.234567").unwrap())
 //!     });
-//!     rsx! {
-//!         InputNumber::new()
+//!     InputNumber::new()
 //!             .value(value)
 //!             .step_float(Decimal::from_str("0.1").unwrap())
 //!             .onchange(move |v| {
-//!                 value.set(v);
 //!                 println!("Value changed: {:?}", v);
+//!                 value.set(v);
 //!             })
-//!     }
-//! });
-//! let mut mutations = Mutations::default();
-//! dom.rebuild(&mut mutations);
-//! ```
-//!
-//! ## 与其他组件联动
-//!
-//! ```rust
-//! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, Button, InputNumberValue};
-//! use dioxus::core::Mutations;
-//!
-//! let mut dom = VirtualDom::new(|| {
-//!     let mut value = use_signal(|| InputNumberValue::Int(50));
-//!     rsx! {
-//!         div { style: "display: flex; gap: 16px; align-items: center;",
-//!             InputNumber::new()
-//!                 .value(value)
-//!                 .min_int(0)
-//!                 .max_int(100)
-//!                 .onchange(move |v| value.set(v)),
-//!
-//!             Button::new()
-//!                 .text("重置为 50")
-//!                 .onclick(move |_| value.set(InputNumberValue::Int(50)))
-//!         }
-//!         div { "当前值: {value}" }
-//!     }
+//!             .to_element()
 //! });
 //! let mut mutations = Mutations::default();
 //! dom.rebuild(&mut mutations);
@@ -88,7 +58,7 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, InputNumberValue};
+//! use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
 //! use rust_decimal::Decimal;
 //! use std::str::FromStr;
 //! use dioxus::core::Mutations;
@@ -97,11 +67,10 @@
 //!     let mut value = use_signal(|| {
 //!         InputNumberValue::Float(Decimal::from_str("5.0").unwrap())
 //!     });
-//!     rsx! {
-//!         InputNumber::new()
+//!      InputNumber::new()
 //!             .value(value)
 //!             .disabled(true)
-//!     }
+//!             .to_element()
 //! });
 //! let mut mutations = Mutations::default();
 //! dom.rebuild(&mut mutations);
@@ -111,7 +80,7 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, InputNumberValue};
+//! use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
 //! use rust_decimal::Decimal;
 //! use std::str::FromStr;
 //! use dioxus::core::Mutations;
@@ -120,12 +89,11 @@
 //!     let mut value = use_signal(|| {
 //!         InputNumberValue::Float(Decimal::from_str("3.141592653589793").unwrap())
 //!     });
-//!     rsx! {
-//!         InputNumber::new()
+//!     InputNumber::new()
 //!             .value(value)
 //!             .precision(6)
 //!             .onchange(move |v| value.set(v))
-//!     }
+//!             .to_element()
 //! });
 //! let mut mutations = Mutations::default();
 //! dom.rebuild(&mut mutations);
@@ -135,7 +103,7 @@
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, InputNumberValue};
+//! use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
 //! use rust_decimal::Decimal;
 //! use std::str::FromStr;
 //! use dioxus::core::Mutations;
@@ -144,44 +112,30 @@
 //!     let mut value = use_signal(|| {
 //!         InputNumberValue::Float(Decimal::from_str("10.0").unwrap())
 //!     });
-//!     rsx! {
-//!         InputNumber::new()
+//!     InputNumber::new()
 //!             .value(value)
 //!             .step_float(Decimal::from_str("5.0").unwrap())
 //!             .onchange(move |v| value.set(v))
-//!     }
+//!             .to_element()
 //! });
 //! let mut mutations = Mutations::default();
 //! dom.rebuild(&mut mutations);
 //! ```
 //!
-//! ## 不同尺寸
+//! ## 尺寸
 //!
 //! ```rust
 //! use dioxus::prelude::*;
-//! use dioxus_blocks_components::{InputNumber, InputNumberValue};
+//! use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
 //! use dioxus::core::Mutations;
 //!
 //! let mut dom = VirtualDom::new(|| {
 //!     let mut small = use_signal(|| InputNumberValue::Int(1));
-//!     let mut medium = use_signal(|| InputNumberValue::Int(2));
-//!     let mut large = use_signal(|| InputNumberValue::Int(3));
-//!     rsx! {
-//!         InputNumber::new()
+//!     InputNumber::new()
 //!             .value(small)
 //!             .as_small()
-//!             .onchange(move |v| small.set(v)),
-//!
-//!         InputNumber::new()
-//!             .value(medium)
-//!             .as_medium()
-//!             .onchange(move |v| medium.set(v)),
-//!
-//!         InputNumber::new()
-//!             .value(large)
-//!             .as_large()
-//!             .onchange(move |v| large.set(v))
-//!     }
+//!             .onchange(move |v| small.set(v))
+//!             .to_element()
 //! });
 //! let mut mutations = Mutations::default();
 //! dom.rebuild(&mut mutations);
@@ -481,7 +435,7 @@ pub struct InputNumber {
     onclick: Option<EventHandler<MouseEvent>>,
 
     /// 当前值的 Signal（受控状态）
-    value: Signal<InputNumberValue>,
+    value: Option<Signal<InputNumberValue>>,
     /// 最小值
     min: Option<InputNumberValue>,
     /// 最大值
@@ -514,7 +468,7 @@ impl Default for InputNumber {
             style: None,
             childrens: Vec::new(),
             onclick: None,
-            value: Signal::new(InputNumberValue::Int(0)),
+            value: None,
             min: None,
             max: None,
             step: InputNumberStep::Int(1),
@@ -585,7 +539,7 @@ impl InputNumber {
     /// dom.rebuild(&mut mutations);
     /// ```
     pub fn value(mut self, value: Signal<InputNumberValue>) -> Self {
-        self.value = value;
+        self.value = Some(value);
         self
     }
 
@@ -603,17 +557,16 @@ impl InputNumber {
     ///
     /// ```rust
     /// use dioxus::prelude::*;
-    /// use dioxus_blocks_components::{InputNumber, InputNumberValue};
+    /// use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
     /// use dioxus::core::Mutations;
     ///
     /// let mut dom = VirtualDom::new(|| {
     ///     let mut value = use_signal(|| InputNumberValue::Int(10));
-    ///     rsx! {
-    ///         InputNumber::new()
+    ///     InputNumber::new()
     ///             .value(value)
     ///             .min(InputNumberValue::Int(0))
     ///             .onchange(move |v| value.set(v))
-    ///     }
+    ///             .to_element()
     /// });
     /// let mut mutations = Mutations::default();
     /// dom.rebuild(&mut mutations);
@@ -772,13 +725,14 @@ impl InputNumber {
     /// use dioxus::prelude::*;
     /// use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
     /// use rust_decimal::Decimal;
+    /// use rust_decimal::prelude::FromPrimitive;
     /// use dioxus::core::Mutations;
     ///
     /// let mut dom = VirtualDom::new(|| {
     ///     let mut value = use_signal(|| InputNumberValue::Float(Decimal::from(10)));
     ///     InputNumber::new()
     ///         .value(value)
-    ///         .max_float(Decimal::from(100.5))
+    ///         .max_float(Decimal::from_f64(100.5).unwrap())
     ///         .onchange(move |v| value.set(v))
     ///         .to_element()
     /// });
@@ -873,13 +827,14 @@ impl InputNumber {
     /// use dioxus::prelude::*;
     /// use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
     /// use rust_decimal::Decimal;
+    /// use rust_decimal::prelude::FromPrimitive;
     /// use dioxus::core::Mutations;
     ///
     /// let mut dom = VirtualDom::new(|| {
     ///     let mut value = use_signal(|| InputNumberValue::Float(Decimal::from(10)));
     ///     InputNumber::new()
     ///         .value(value)
-    ///         .step_float(Decimal::from_str("0.1").unwrap())
+    ///         .step_float(Decimal::from_f64(0.1).unwrap())
     ///         .onchange(move |v| value.set(v))
     ///         .to_element()
     /// });
@@ -1071,16 +1026,15 @@ impl InputNumber {
     ///
     /// ```rust
     /// use dioxus::prelude::*;
-    /// use dioxus_blocks_components::{InputNumber, InputNumberValue};
+    /// use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
     /// use dioxus::core::Mutations;
     ///
     /// let mut dom = VirtualDom::new(|| {
     ///     let mut value = use_signal(|| InputNumberValue::Int(0));
-    ///     rsx! {
-    ///         InputNumber::new()
+    ///     InputNumber::new()
     ///             .value(value)
     ///             .onchange(|value| println!("Value: {:?}", value))
-    ///     }
+    ///             .to_element()
     /// });
     /// let mut mutations = Mutations::default();
     /// dom.rebuild(&mut mutations);
@@ -1104,16 +1058,15 @@ impl InputNumber {
     ///
     /// ```rust
     /// use dioxus::prelude::*;
-    /// use dioxus_blocks_components::{InputNumber, InputNumberValue};
+    /// use dioxus_blocks_components::{InputNumber, InputNumberValue, ToElement};
     /// use dioxus::core::Mutations;
     ///
     /// let mut dom = VirtualDom::new(|| {
     ///     let mut value = use_signal(|| InputNumberValue::Int(0));
-    ///     rsx! {
-    ///         InputNumber::new()
+    ///     InputNumber::new()
     ///             .value(value)
     ///             .onchange2(EventHandler::new(|value| println!("Value: {:?}", value)))
-    ///     }
+    ///             .to_element()
     /// });
     /// let mut mutations = Mutations::default();
     /// dom.rebuild(&mut mutations);
@@ -1425,10 +1378,13 @@ impl ToElement for InputNumber {
         let step = self.step.clone();
         let placeholder = self.placeholder.clone();
         let precision = self.precision;
-        let is_float_type = self.value.read().is_float();
 
-        // 直接使用外部传入的 Signal，不再创建内部状态
-        let mut value_signal = self.value;
+        // 获取 value signal，如果未设置则使用默认值
+        let mut value_signal = self
+            .value
+            .unwrap_or_else(|| Signal::new(InputNumberValue::Int(0)));
+        let is_float_type = value_signal.read().is_float();
+
         let onchange_handler = self.onchange;
         let onblur_handler = self.onblur;
         let onfocus_handler = self.onfocus;
@@ -1479,7 +1435,7 @@ impl ToElement for InputNumber {
                         if let Some(new_value) = parse_input_value(&input_value, is_float_type) {
                             let clamped_value = apply_bounds(new_value, &min_for_input, &max_for_input);
 
-                            // 更新外部 signal
+                            // 更新 signal
                             value_signal.set(clamped_value.clone());
 
                             // 触发 onchange 回调
@@ -1501,7 +1457,7 @@ impl ToElement for InputNumber {
                                 &max_for_change,
                             );
 
-                            // 更新外部 signal
+                            // 更新 signal
                             value_signal.set(clamped_value.clone());
 
                             // 触发 onchange 回调
@@ -1542,7 +1498,7 @@ impl ToElement for InputNumber {
                                 &max_for_decrease,
                             );
 
-                            // 更新外部 signal
+                            // 更新 signal
                             value_signal.set(new_value.clone());
 
                             // 触发 onchange 回调
@@ -1571,7 +1527,7 @@ impl ToElement for InputNumber {
                                 &max_for_increase,
                             );
 
-                            // 更新外部 signal
+                            // 更新 signal
                             value_signal.set(new_value.clone());
 
                             // 触发 onchange 回调
@@ -1589,6 +1545,8 @@ impl ToElement for InputNumber {
 
 #[cfg(test)]
 mod tests {
+    use std::str::FromStr;
+
     use rust_decimal::prelude::FromPrimitive;
 
     use super::*;
@@ -1658,5 +1616,17 @@ mod tests {
             apply_bounds(InputNumberValue::Int(150), &min, &max),
             InputNumberValue::Int(100)
         );
+    }
+
+    #[test]
+    fn test_float() {
+        let f_decimal = Decimal::from_str("12.34").unwrap();
+        println!("f_decimal: {f_decimal:?}  {f_decimal:.20}");
+
+        let f_decimal = Decimal::from_f64(12.34).unwrap();
+        println!("f_decimal: {f_decimal:?}  {f_decimal:.20}");
+
+        let f: f64 = 12.34;
+        println!("f: {f:?}  {f:.20}");
     }
 }
