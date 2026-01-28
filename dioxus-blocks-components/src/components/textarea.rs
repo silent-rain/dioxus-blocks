@@ -450,6 +450,9 @@ impl ToElement for Textarea {
             rows.map(|r| r.to_string())
         };
 
+        // 判断是否需要禁用调整大小
+        let disable_resize = autosize || rows.is_some();
+
         let oninput_handler = self.oninput;
         let onchange_handler = self.onchange;
         let onblur_handler = self.onblur;
@@ -463,6 +466,27 @@ impl ToElement for Textarea {
 
         let show_word_limit = self.show_word_limit;
         let max_length = self.max_length;
+
+        // 自适应高度和固定行数样式
+        // TODO 未完全实现自动撑开高度的效果，需要结合js进行动态计算
+        let mut inner_styles = Vec::new();
+        if autosize {
+            // 自适应高度：禁用手动调整大小
+            inner_styles.push("resize: none".to_string());
+            if let Some(min) = min_rows {
+                inner_styles.push(format!("min-height: calc({} * 1.5715em + 10px)", min));
+            }
+            if let Some(max) = max_rows {
+                inner_styles.push(format!("max-height: calc({} * 1.5715em + 10px)", max));
+                inner_styles.push("overflow-y: auto".to_string());
+            } else {
+                inner_styles.push("overflow-y: hidden".to_string());
+            }
+        } else if rows.is_some() {
+            // 固定行数：禁用手动调整大小，保持固定高度
+            inner_styles.push("resize: none".to_string());
+        }
+        let inner_style_str = inner_styles.join("; ");
 
         rsx! {
             div { id, class, style,
@@ -485,22 +509,7 @@ impl ToElement for Textarea {
                     maxlength: max_length_attr,
                     value: value_signal.read().clone(),
                     // 自适应高度样式
-                    style: {
-                        let mut styles = Vec::new();
-                        if autosize {
-                            if let Some(min) = min_rows {
-                                styles.push(format!("min-height: calc({} * 1.5715em + 10px)", min));
-                            }
-                            if let Some(max) = max_rows {
-                                styles.push(format!("max-height: calc({} * 1.5715em + 10px)", max));
-                                styles.push("overflow-y: auto".to_string());
-                            } else {
-                                styles.push("overflow-y: hidden".to_string());
-                            }
-                            styles.push("resize: none".to_string());
-                        }
-                        styles.join("; ")
-                    },
+                    style: inner_style_str,
                     oninput: move |event: Event<FormData>| {
                         if disabled {
                             return;

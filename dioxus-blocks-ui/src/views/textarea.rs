@@ -254,7 +254,7 @@ impl ToElement for AutosizeExample {
 
         View::new()
             .style(|s| s.padding("20px"))
-            .children(Text::h3("自适应高度 (2-6 行):").style(|s| s.margin_bottom("12px")))
+            .children(Text::h3("自适应高度 (2-6 行 - 未实现):").style(|s| s.margin_bottom("12px")))
             .children(
                 View::new()
                     .style(|s| s.width("100%").max_width("600px"))

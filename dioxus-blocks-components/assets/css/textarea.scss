@@ -1,10 +1,12 @@
 // Textarea 组件样式
 // 参考 Element Plus 设计规范
 //
-// 注意：
-// - autosize 属性目前通过 CSS 的 min-height/max-height 实现
-// - 完整的动态高度调整需要 JavaScript 支持，后续可以添加
-// - 当前实现提供了最小和最大高度限制
+// 自适应高度说明：
+// - autosize 属性通过 CSS 的 min-height/max-height 实现高度范围限制
+// - 实现了 resize: none 禁用手动调整
+// - 当内容超出 max_rows 时会显示滚动条
+// - 完全动态的内容自适应高度（根据内容自动增减高度）需要 JavaScript 直接操作 DOM
+//   但这会增加复杂度，可以考虑在后续版本中通过 use_ref 和 eval 实现
 
 .t-textarea {
   position: relative;
