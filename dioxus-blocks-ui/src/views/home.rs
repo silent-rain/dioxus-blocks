@@ -70,6 +70,7 @@ impl HomeView {
                 Text::new("InputNumber"),
                 crate::Route::InputNumberViewRoute {},
             ),
+            ("✏️", Text::new("Input"), crate::Route::InputViewRoute {}),
         ];
 
         Grid::new(

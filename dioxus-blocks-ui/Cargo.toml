@@ -25,3 +25,4 @@ dioxus-blocks-components = { workspace = true }
 dioxus-blocks-macro = { workspace = true }
 
 rust_decimal = { workspace = true }
+chrono = "0.4"

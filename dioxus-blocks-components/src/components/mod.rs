@@ -28,3 +28,6 @@ mod input_number;
 pub use input_number::{
     ControlsPosition, InputNumber, InputNumberSize, InputNumberStep, InputNumberValue,
 };
+
+mod input;
+pub use input::{Input, InputSize, InputType};

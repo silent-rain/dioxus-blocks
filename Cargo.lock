@@ -974,6 +974,7 @@ dependencies = [
 name = "dioxus-blocks-ui"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "dioxus",
  "dioxus-blocks-components",
  "dioxus-blocks-macro",
