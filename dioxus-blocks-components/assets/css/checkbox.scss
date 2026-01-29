@@ -1,0 +1,351 @@
+// Checkbox 多选框组件样式
+
+.t-checkbox-group {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+  color: #303133;
+
+  // 水平布局（通过 CSS 类控制）
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.t-checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s;
+
+  &__input {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .t-checkbox__inner {
+      position: relative;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1px solid #dcdfe6;
+      border-radius: 2px;
+      background-color: #fff;
+      transition: all 0.3s;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        box-sizing: border-box;
+        width: 4px;
+        height: 8px;
+        border: 1px solid #fff;
+        border-left: 0;
+        border-top: 0;
+        transform: rotate(45deg) scale(0);
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+
+    input[type="checkbox"]:checked + .t-checkbox__inner {
+      background-color: var(--t-checkbox-fill, #409eff);
+      border-color: var(--t-checkbox-fill, #409eff);
+
+      &::after {
+        transform: rotate(45deg) scale(1);
+      }
+    }
+
+    input[type="checkbox"]:hover + .t-checkbox__inner {
+      border-color: #c0c4cc;
+    }
+
+    input[type="checkbox"]:disabled + .t-checkbox__inner {
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      cursor: not-allowed;
+
+      &::after {
+        border-color: #c0c4cc;
+      }
+    }
+  }
+
+  &__label {
+    color: #303133;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+
+  &:hover .t-checkbox__label {
+    color: #409eff;
+  }
+
+  // 选中状态下的高亮效果
+  &.is-checked {
+    .t-checkbox__label {
+      color: #409eff;
+      font-weight: 500;
+    }
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+
+    .t-checkbox__label {
+      color: #c0c4cc;
+    }
+
+    &.is-checked .t-checkbox__label {
+      color: #c0c4cc;
+      font-weight: normal;
+    }
+  }
+
+  // 中间状态
+  &.is-indeterminate {
+    .t-checkbox__inner {
+      background-color: var(--t-checkbox-fill, #409eff);
+      border-color: var(--t-checkbox-fill, #409eff);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 1px;
+        background-color: #fff;
+        border: none;
+      }
+    }
+  }
+
+  // 边框样式
+  &--border {
+    padding: 8px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: #c0c4cc;
+      background-color: #ecf5ff;
+    }
+
+    .t-checkbox__input input[type="checkbox"]:checked + .t-checkbox__inner {
+      border-color: #409eff;
+    }
+
+    // 选中时整体高亮
+    &.is-checked {
+      border-color: #409eff;
+      background-color: #ecf5ff;
+      color: #409eff;
+    }
+  }
+}
+
+// 尺寸变体
+.t-checkbox--small {
+  .t-checkbox__input .t-checkbox__inner {
+    width: 12px;
+    height: 12px;
+
+    &::after {
+      top: 2px;
+      left: 2px;
+      width: 3px;
+      height: 7px;
+    }
+  }
+
+  .t-checkbox__label {
+    font-size: 13px;
+  }
+
+  &.t-checkbox--border {
+    padding: 6px 10px;
+  }
+
+  &.is-indeterminate .t-checkbox__inner::after {
+    width: 6px;
+  }
+}
+
+.t-checkbox--large {
+  .t-checkbox__input .t-checkbox__inner {
+    width: 16px;
+    height: 16px;
+
+    &::after {
+      top: 4px;
+      left: 4px;
+      width: 5px;
+      height: 9px;
+    }
+  }
+
+  .t-checkbox__label {
+    font-size: 15px;
+  }
+
+  &.t-checkbox--border {
+    padding: 10px 14px;
+  }
+
+  &.is-indeterminate .t-checkbox__inner::after {
+    width: 10px;
+  }
+}
+
+// CheckboxButton 样式
+.t-checkbox--button {
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  .t-checkbox__inner {
+    position: relative;
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    color: #606266;
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: all 0.3s;
+
+    &:hover {
+      color: #409eff;
+      border-color: #c6e2ff;
+      background-color: #ecf5ff;
+    }
+  }
+
+  // 使用 input 的兄弟选择器来控制样式
+  .t-checkbox__input input[type="checkbox"]:checked ~ .t-checkbox__label {
+    position: relative;
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--t-checkbox-fill, #409eff);
+    border: 1px solid var(--t-checkbox-fill, #409eff);
+    border-radius: 4px;
+    color: var(--t-checkbox-text-color, #fff);
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: all 0.3s;
+  }
+
+  .t-checkbox__input input[type="checkbox"]:disabled ~ .t-checkbox__label {
+    color: #c0c4cc;
+    background-color: #f5f7fa;
+    border-color: #e4e7ed;
+    cursor: not-allowed;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+  }
+}
+
+// CheckboxButton 尺寸变体
+.t-checkbox--button.t-checkbox--small {
+  .t-checkbox__input input[type="checkbox"]:checked ~ .t-checkbox__label {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+.t-checkbox--button.t-checkbox--large {
+  .t-checkbox__input input[type="checkbox"]:checked ~ .t-checkbox__label {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+// 水平排列的 CheckboxGroup（按钮样式）
+.t-checkbox-group {
+  // 如果子元素是 CheckboxButton，使用水平布局
+  .t-checkbox-button {
+    display: inline-flex;
+
+    &:not(:first-child) .t-checkbox__inner {
+      margin-left: -1px;
+    }
+
+    &:first-child .t-checkbox__inner {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &:last-child .t-checkbox__inner {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    // 选中状态
+    &.is-checked {
+      .t-checkbox__inner {
+        display: none;
+      }
+
+      .t-checkbox__input input[type="checkbox"]:checked ~ .t-checkbox__label {
+        border-left-radius: 0;
+        border-right-radius: 0;
+        margin-left: 0;
+      }
+
+      &:not(:first-child)
+        .t-checkbox__input
+        input[type="checkbox"]:checked
+        ~ .t-checkbox__label {
+        border-left-radius: 0;
+      }
+
+      &:not(:last-child)
+        .t-checkbox__input
+        input[type="checkbox"]:checked
+        ~ .t-checkbox__label {
+        border-right-radius: 0;
+      }
+
+      &:first-child
+        .t-checkbox__input
+        input[type="checkbox"]:checked
+        ~ .t-checkbox__label {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      &:last-child
+        .t-checkbox__input
+        input[type="checkbox"]:checked
+        ~ .t-checkbox__label {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+  }
+}

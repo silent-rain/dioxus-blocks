@@ -5,9 +5,9 @@ use dioxus::prelude::*;
 use crate::{
     LayoutRoute,
     views::{
-        BlogRoute, ButtonViewRoute, CardViewRoute, GridViewRoute, HomeViewRoute, ImageViewRoute,
-        InputNumberViewRoute, InputViewRoute, LayoutViewRoute, LinkViewRoute, RadioViewRoute,
-        TextViewRoute, TextareaViewRoute, ViewExampleRoute,
+        BlogRoute, ButtonViewRoute, CardViewRoute, CheckboxViewRoute, GridViewRoute,
+        HomeViewRoute, ImageViewRoute, InputNumberViewRoute, InputViewRoute, LayoutViewRoute,
+        LinkViewRoute, RadioViewRoute, TextViewRoute, TextareaViewRoute, ViewExampleRoute,
     },
 };
 
@@ -56,4 +56,6 @@ pub enum Route {
         TextareaViewRoute {},
         #[route("/radio")]
         RadioViewRoute {},
+        #[route("/checkbox")]
+        CheckboxViewRoute {},
 }

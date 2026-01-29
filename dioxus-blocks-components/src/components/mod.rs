@@ -37,3 +37,6 @@ pub use textarea::{Textarea, TextareaSize};
 
 mod radio;
 pub use radio::{Radio, RadioGroup, RadioSize, RadioValue};
+
+mod checkbox;
+pub use checkbox::{Checkbox, CheckboxGroup, CheckboxSize, CheckboxValue};

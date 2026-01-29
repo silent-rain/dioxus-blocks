@@ -43,3 +43,6 @@ pub use textarea::TextareaViewRoute;
 
 mod radio;
 pub use radio::RadioViewRoute;
+
+mod checkbox;
+pub use checkbox::CheckboxViewRoute;

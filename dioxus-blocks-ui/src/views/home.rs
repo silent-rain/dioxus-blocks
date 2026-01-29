@@ -77,6 +77,7 @@ impl HomeView {
                 crate::Route::TextareaViewRoute {},
             ),
             ("🔘", Text::new("Radio"), crate::Route::RadioViewRoute {}),
+            ("☑️", Text::new("Checkbox"), crate::Route::CheckboxViewRoute {}),
         ];
 
         Grid::new(
