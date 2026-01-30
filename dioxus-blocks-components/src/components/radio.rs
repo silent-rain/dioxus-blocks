@@ -117,6 +117,40 @@ pub enum RadioValue {
     Bool(bool),
 }
 
+impl RadioValue {
+    /// 获取字符串
+    pub fn get_string(&self) -> Option<&str> {
+        match self {
+            RadioValue::String(v) => Some(v.as_str()),
+            _ => None,
+        }
+    }
+
+    /// 获取整数
+    pub fn get_int(&self) -> Option<i64> {
+        match self {
+            RadioValue::Int(v) => Some(*v),
+            _ => None,
+        }
+    }
+
+    /// 获取浮点数
+    pub fn get_float(&self) -> Option<f64> {
+        match self {
+            RadioValue::Float(v) => Some(*v),
+            _ => None,
+        }
+    }
+
+    /// 获取布尔值
+    pub fn get_bool(&self) -> Option<bool> {
+        match self {
+            RadioValue::Bool(v) => Some(*v),
+            _ => None,
+        }
+    }
+}
+
 impl Default for RadioValue {
     fn default() -> Self {
         RadioValue::String(String::new())
@@ -233,12 +267,6 @@ impl Radio {
         }
     }
 
-    /// 设置单选框的值
-    pub fn value(mut self, value: impl Into<RadioValue>) -> Self {
-        self.value = Some(value.into());
-        self
-    }
-
     /// 设置单选框的标签文本
     pub fn label(mut self, label: impl Into<String>) -> Self {
         self.childrens.push(Rc::new(Text::span(label)));
@@ -254,13 +282,19 @@ impl Radio {
         self
     }
 
+    /// 设置单选框的值
+    pub fn value(mut self, value: impl Into<RadioValue>) -> Self {
+        self.value = Some(value.into());
+        self
+    }
+
     /// 设置在 RadioGroup 中的选中值（RadioGroup 内部使用）
     pub fn checked_value(mut self, value: Signal<RadioValue>) -> Self {
         self.checked_value = Some(value);
         self
     }
 
-    /// 设置值改变回调（RadioGroup 内部使用）
+    /// 设置值改变回调
     pub fn onchange(mut self, handler: impl FnMut(RadioValue) + 'static) -> Self {
         self.onchange = Some(EventHandler::new(handler));
         self
@@ -297,20 +331,41 @@ impl Radio {
     }
 }
 
+/// 便捷方法
+impl Radio {
+    /// 设置为小尺寸单选框
+    pub fn as_small(mut self) -> Self {
+        self.size = RadioSize::Small;
+        self
+    }
+
+    /// 设置为中等尺寸单选框
+    pub fn as_medium(mut self) -> Self {
+        self.size = RadioSize::Medium;
+        self
+    }
+
+    /// 设置为大尺寸单选框
+    pub fn as_large(mut self) -> Self {
+        self.size = RadioSize::Large;
+        self
+    }
+}
+
 impl ToElement for Radio {
     fn to_element(&self) -> Element {
         let id = self.id.clone();
 
         // 获取 value，如果未设置则使用默认值
-        let item_value = self.value.clone().unwrap_or_default();
+        let value = self.value.clone().unwrap_or_default();
 
         // 判断是否选中
         let is_checked_signal = self.checked_value;
-        let item_value_for_check = item_value.clone();
+        let value_for_check = value.clone();
         let is_checked = use_memo(move || {
             if let Some(signal) = &is_checked_signal {
                 let current = signal.read();
-                *current == item_value_for_check
+                *current == value_for_check
             } else {
                 false
             }
@@ -319,18 +374,19 @@ impl ToElement for Radio {
         // 计算样式类名
         let mut class_names = vec![self.class.clone()];
 
+        // 按钮样式
         if self.button {
             class_names.push("t-radio--button".to_string());
+        }
+        // 按钮边框样式
+        if self.border {
+            class_names.push("t-radio--button__border".to_string());
         }
 
         // 添加尺寸类名
         let size_class = self.size.to_string();
         if !size_class.is_empty() {
             class_names.push(size_class);
-        }
-
-        if self.border {
-            class_names.push("is-bordered".to_string());
         }
 
         if *is_checked.read() {
@@ -349,15 +405,10 @@ impl ToElement for Radio {
             style_str = style.to_string();
         }
 
-        // TODO 按钮样式处理
-        if self.button && *is_checked.read() && !style_str.is_empty() {
-            style_str.push_str("; ");
-        }
-
         let disabled = self.disabled;
         let onchange_handler = self.onchange;
-        let item_value_for_onchange = item_value.clone();
-        let item_value_for_input = item_value.to_string();
+        let item_value_for_onchange = value.clone();
+        let item_value_for_input = value.to_string();
         let onclick_custom = self.onclick;
         let is_checked_signal_for_onclick = is_checked_signal;
 
@@ -426,6 +477,10 @@ pub struct RadioGroup {
     disabled: bool,
     /// 单选框尺寸
     size: RadioSize,
+    /// 是否显示边框
+    border: bool,
+    /// 是否使用按钮样式
+    button: bool,
     /// 绑定值变化时触发的事件
     onchange: Option<EventHandler<RadioValue>>,
 }
@@ -442,6 +497,8 @@ impl Default for RadioGroup {
             value: None,
             disabled: false,
             size: RadioSize::default(),
+            border: false,
+            button: false,
             onchange: None,
         }
     }
@@ -482,6 +539,18 @@ impl RadioGroup {
     /// 设置单选框尺寸
     pub fn size(mut self, size: RadioSize) -> Self {
         self.size = size;
+        self
+    }
+
+    /// 设置是否显示边框
+    pub fn border(mut self, border: bool) -> Self {
+        self.border = border;
+        self
+    }
+
+    /// 设置是否使用按钮样式
+    pub fn button(mut self, button: bool) -> Self {
+        self.button = button;
         self
     }
 
@@ -537,6 +606,8 @@ impl ToElement for RadioGroup {
             .unwrap_or_else(|| Signal::new(RadioValue::default()));
         let disabled = self.disabled;
         let size = self.size;
+        let button = self.button;
+        let border = self.border;
         let onchange_handler = self.onchange;
 
         let radios = self
@@ -548,7 +619,9 @@ impl ToElement for RadioGroup {
                 let mut new_radio = radio
                     .checked_value(value_signal)
                     .disabled(old_disabled || disabled)
-                    .size(size);
+                    .size(size)
+                    .button(button)
+                    .border(border);
                 if let Some(handler) = onchange_handler {
                     new_radio = new_radio.onchange2(handler);
                 }

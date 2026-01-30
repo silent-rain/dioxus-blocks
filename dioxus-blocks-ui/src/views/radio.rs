@@ -111,6 +111,7 @@ impl ToElement for BasicUsage {
     fn to_element(&self) -> Element {
         let radio_int = use_signal(|| RadioValue::Int(1));
         let radio_float = use_signal(|| RadioValue::Float(1.5));
+        let radio_bool = use_signal(|| RadioValue::Bool(false));
         let radio_string = use_signal(|| RadioValue::String("New York".to_string()));
 
         View::new()
@@ -140,9 +141,14 @@ impl ToElement for BasicUsage {
                     .children(
                         Radio::new()
                             .value(3)
-                            .label("选项 3")
+                            // .label("选项 3")
+                            .label_element(Text::new("选项 3"))
                             .checked_value(radio_int),
-                    ),
+                    )
+                    .children(Text::new(format!(
+                        "当前值: {:?}",
+                        radio_int.read().get_int()
+                    ))),
             )
             // float 类型
             .children(
@@ -166,7 +172,11 @@ impl ToElement for BasicUsage {
                             .value(3.5)
                             .label("选项 3.5")
                             .checked_value(radio_float),
-                    ),
+                    )
+                    .children(Text::new(format!(
+                        "当前值: {:?}",
+                        radio_float.read().get_float()
+                    ))),
             )
             // string 类型
             .children(
@@ -190,7 +200,33 @@ impl ToElement for BasicUsage {
                             .value("Los Angeles")
                             .label("Los Angeles")
                             .checked_value(radio_string),
-                    ),
+                    )
+                    .children(Text::new(format!(
+                        "当前值: {:?}",
+                        radio_string.read().get_string()
+                    ))),
+            )
+            // bool 类型
+            .children(
+                View::new()
+                    .style(|s| s.display("flex").align_items("center").gap("8px"))
+                    .children(Text::new("Bool 类型: "))
+                    .children(
+                        Radio::new()
+                            .value(false)
+                            .label("False")
+                            .checked_value(radio_bool),
+                    )
+                    .children(
+                        Radio::new()
+                            .value(true)
+                            .label("True")
+                            .checked_value(radio_bool),
+                    )
+                    .children(Text::new(format!(
+                        "当前值: {:?}",
+                        radio_bool.read().get_bool()
+                    ))),
             )
             .into()
     }
@@ -202,7 +238,9 @@ pub struct DisabledState {}
 
 impl ToElement for DisabledState {
     fn to_element(&self) -> Element {
-        let mut radio = use_signal(|| RadioValue::Int(1));
+        let radio1 = use_signal(|| RadioValue::Int(0));
+        let radio2 = use_signal(|| RadioValue::Int(0));
+        let radio3 = use_signal(|| RadioValue::Int(0));
 
         View::new()
             .style(|s| {
@@ -221,17 +259,48 @@ impl ToElement for DisabledState {
                             .value(1)
                             .disabled(true)
                             .label("禁用选项")
-                            .checked_value(radio),
+                            .checked_value(radio1),
                     )
-                    .children(Radio::new().value(2).label("可用选项")),
+                    .children(
+                        Radio::new()
+                            .value(2)
+                            .label("可用选项")
+                            .checked_value(radio1),
+                    ),
             )
             // 全部禁用
             .children(
                 View::new()
                     .style(|s| s.display("flex").align_items("center").gap("8px"))
                     .children(Text::new("全部禁用: "))
-                    .children(Radio::new().value(1).disabled(true).label("选项 A"))
-                    .children(Radio::new().value(2).disabled(true).label("选项 B")),
+                    .children(
+                        Radio::new()
+                            .value(1)
+                            .disabled(true)
+                            .label("选项 A")
+                            .checked_value(radio2),
+                    )
+                    .children(
+                        Radio::new()
+                            .value(2)
+                            .disabled(true)
+                            .label("选项 B")
+                            .checked_value(radio2),
+                    ),
+            )
+            // 单选组禁用
+            .children(
+                View::new()
+                    .style(|s| s.display("flex").align_items("center").gap("8px"))
+                    .children(Text::new("单选组禁用: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio3)
+                            .disabled(true)
+                            .radio(Radio::new().value(3).label("Option A"))
+                            .radio(Radio::new().value(6).label("Option B"))
+                            .radio(Radio::new().value(9).label("Option C")),
+                    ),
             )
             .into()
     }
@@ -244,7 +313,7 @@ pub struct RadioGroupExample {}
 impl ToElement for RadioGroupExample {
     fn to_element(&self) -> Element {
         let mut radio1 = use_signal(|| RadioValue::Int(3));
-        let mut radio2 = use_signal(|| RadioValue::Int(1));
+        let radio2 = use_signal(|| RadioValue::Int(1));
 
         View::new()
             .style(|s| {
@@ -264,7 +333,7 @@ impl ToElement for RadioGroupExample {
                             .onchange(move |v| {
                                 println!("Radio changed: {:?}", v);
                                 radio1.set(v)
-                            })
+                            }) // 可选，即切换时的回调函数，单选框组内置有状态管理
                             .radio(Radio::new().value(3).label("Option A"))
                             .radio(Radio::new().value(6).label("Option B"))
                             .radio(Radio::new().value(9).label("Option C")),
@@ -280,14 +349,11 @@ impl ToElement for RadioGroupExample {
                 View::new()
                     .style(|s| s.display("flex").align_items("center").gap("8px"))
                     .children(Text::new("部分禁用: "))
-                    .children(
-                        RadioGroup::new()
-                            .value(radio2)
-                            .onchange(move |v| radio2.set(v))
-                            .radio(Radio::new().value(1).label("选项 A"))
-                            .radio(Radio::new().value(2).disabled(true).label("禁用选项"))
-                            .radio(Radio::new().value(3).label("选项 C")),
-                    ),
+                    .children(RadioGroup::new().value(radio2).radios(vec![
+                        Radio::new().value(1).label("选项 A"),
+                        Radio::new().value(2).disabled(true).label("禁用选项"),
+                        Radio::new().value(3).label("选项 C"),
+                    ])),
             )
             .children(
                 View::new()
@@ -320,36 +386,39 @@ impl ToElement for WithBorder {
                 RadioGroup::new()
                     .value(radio1)
                     .onchange(move |v| radio1.set(v))
-                    .radio(Radio::new().value(1).border(true).label("Option A"))
-                    .radio(Radio::new().value(2).border(true).label("Option B")),
+                    .radio(Radio::new().value(1).label("Option A"))
+                    .radio(Radio::new().value(2).label("Option B"))
+                    .border(true)
+                    .as_large(),
             )
             .children(
                 RadioGroup::new()
                     .value(radio2)
                     .onchange(move |v| radio2.set(v))
-                    .radio(Radio::new().value(1).border(true).label("Option A"))
-                    .radio(Radio::new().value(2).border(true).label("Option B")),
+                    .radio(Radio::new().value(1).label("Option A"))
+                    .radio(Radio::new().value(2).label("Option B"))
+                    .border(true)
+                    .as_medium(),
             )
             .children(
                 RadioGroup::new()
                     .value(radio3)
                     .onchange(move |v| radio3.set(v))
-                    .radio(Radio::new().value(1).border(true).label("Option A"))
-                    .radio(
-                        Radio::new()
-                            .value(2)
-                            .border(true)
-                            .disabled(true)
-                            .label("Option B"),
-                    ),
+                    .radio(Radio::new().value(1).label("Option A"))
+                    .radio(Radio::new().value(2).disabled(true).label("Option B"))
+                    .border(true)
+                    .as_small(),
             )
             .children(
                 RadioGroup::new()
                     .value(radio4)
                     .disabled(true)
                     .onchange(move |v| radio4.set(v))
-                    .radio(Radio::new().value(1).border(true).label("Option A"))
-                    .radio(Radio::new().value(2).border(true).label("Option B")),
+                    .radio(Radio::new().value(1).label("Option A"))
+                    .radio(Radio::new().value(2).label("Option B"))
+                    .disabled(true)
+                    .border(true)
+                    .as_small(),
             )
             .into()
     }
@@ -376,74 +445,36 @@ impl ToElement for RadioButtonExample {
                 RadioGroup::new()
                     .value(radio1)
                     .onchange(move |v| radio1.set(v))
-                    .radio(
-                        Radio::new()
-                            .value("New York")
-                            .button(true)
-                            .label("New York"),
-                    )
-                    .radio(
-                        Radio::new()
-                            .value("Washington")
-                            .button(true)
-                            .label("Washington"),
-                    )
-                    .radio(
-                        Radio::new()
-                            .value("Los Angeles")
-                            .button(true)
-                            .label("Los Angeles"),
-                    )
-                    .radio(Radio::new().value("Chicago").button(true).label("Chicago")),
+                    .radio(Radio::new().value("New York").label("New York"))
+                    .radio(Radio::new().value("Washington").label("Washington"))
+                    .radio(Radio::new().value("Los Angeles").label("Los Angeles"))
+                    .radio(Radio::new().value("Chicago").button(true).label("Chicago"))
+                    .button(true),
             )
             .children(
                 RadioGroup::new()
                     .value(radio2)
                     .onchange(move |v| radio2.set(v))
-                    .radio(
-                        Radio::new()
-                            .value("New York")
-                            .button(true)
-                            .label("New York"),
-                    )
-                    .radio(
-                        Radio::new()
-                            .value("Washington")
-                            .button(true)
-                            .label("Washington"),
-                    )
-                    .radio(
-                        Radio::new()
-                            .value("Los Angeles")
-                            .button(true)
-                            .label("Los Angeles"),
-                    )
-                    .radio(Radio::new().value("Chicago").button(true).label("Chicago")),
+                    .radio(Radio::new().value("New York").label("New York"))
+                    .radio(Radio::new().value("Washington").label("Washington"))
+                    .radio(Radio::new().value("Los Angeles").label("Los Angeles"))
+                    .radio(Radio::new().value("Chicago").button(true).label("Chicago"))
+                    .button(true),
             )
             .children(
                 RadioGroup::new()
                     .value(radio3)
                     .onchange(move |v| radio3.set(v))
-                    .radio(
-                        Radio::new()
-                            .value("New York")
-                            .button(true)
-                            .label("New York"),
-                    )
+                    .radio(Radio::new().value("New York").label("New York"))
                     .radio(
                         Radio::new()
                             .value("Washington")
-                            .button(true)
                             .disabled(true)
                             .label("Washington"),
                     )
-                    .radio(
-                        Radio::new()
-                            .value("Los Angeles")
-                            .button(true)
-                            .label("Los Angeles"),
-                    )
-                    .radio(Radio::new().value("Chicago").button(true).label("Chicago")),
+                    .radio(Radio::new().value("Los Angeles").label("Los Angeles"))
+                    .radio(Radio::new().value("Chicago").button(true).label("Chicago"))
+                    .button(true),
             )
             .into()
     }
@@ -455,10 +486,9 @@ pub struct DifferentSizes {}
 
 impl ToElement for DifferentSizes {
     fn to_element(&self) -> Element {
-        let mut radio1 = use_signal(|| RadioValue::Int(1));
-        let mut radio2 = use_signal(|| RadioValue::Int(1));
-        let mut radio3 = use_signal(|| RadioValue::Int(1));
-        let mut radio4 = use_signal(|| RadioValue::Int(1));
+        let radio1 = use_signal(|| RadioValue::Int(1));
+        let radio2 = use_signal(|| RadioValue::Int(1));
+        let radio3 = use_signal(|| RadioValue::Int(1));
 
         View::new()
             .style(|s| {
@@ -467,12 +497,25 @@ impl ToElement for DifferentSizes {
                     .flex_direction("column")
                     .gap("20px")
             })
+            .children(Text::h4("小尺寸: "))
             .children(
                 View::new()
-                    .style(|s| s.display("flex").align_items("center").gap("8px"))
-                    .children(Text::new("小尺寸: "))
-                    .children(Radio::new().value(1).label("Option A"))
-                    .children(Radio::new().value(2).label("Option B")),
+                    .style(|s| {
+                        s.margin_left("80px")
+                            .display("flex")
+                            .align_items("center")
+                            .gap("8px")
+                    })
+                    .children(Text::new("默认样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio1)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .as_small(),
+                    ),
             )
             .children(
                 View::new()
@@ -482,9 +525,17 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("小尺寸边框: "))
-                    .children(Radio::new().value(1).border(true).label("Option A"))
-                    .children(Radio::new().value(2).border(true).label("Option B")),
+                    .children(Text::new("边框样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio1)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .border(true)
+                            .as_small(),
+                    ),
             )
             .children(
                 View::new()
@@ -494,17 +545,38 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("小尺寸按钮: "))
-                    .children(Radio::new().value(1).button(true).label("Option A"))
-                    .children(Radio::new().value(2).button(true).label("Option B")),
+                    .children(Text::new("边按钮样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio1)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .button(true)
+                            .as_small(),
+                    ),
             )
             // 中等尺寸
+            .children(Text::h4("中等尺寸: "))
             .children(
                 View::new()
-                    .style(|s| s.display("flex").align_items("center").gap("8px"))
-                    .children(Text::new("中等尺寸: "))
-                    .children(Radio::new().value(1).label("Option A"))
-                    .children(Radio::new().value(2).label("Option B")),
+                    .style(|s| {
+                        s.margin_left("80px")
+                            .display("flex")
+                            .align_items("center")
+                            .gap("8px")
+                    })
+                    .children(Text::new("默认样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio2)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .as_medium(),
+                    ),
             )
             .children(
                 View::new()
@@ -514,17 +586,58 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("中等尺寸按钮: "))
-                    .children(Radio::new().value(1).button(true).label("Option A"))
-                    .children(Radio::new().value(2).button(true).label("Option B")),
+                    .children(Text::new("边框样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio2)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .border(true)
+                            .as_medium(),
+                    ),
+            )
+            .children(
+                View::new()
+                    .style(|s| {
+                        s.margin_left("80px")
+                            .display("flex")
+                            .align_items("center")
+                            .gap("8px")
+                    })
+                    .children(Text::new("边按钮样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio2)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .button(true)
+                            .as_medium(),
+                    ),
             )
             // 大尺寸
+            .children(Text::h4("大尺寸: "))
             .children(
                 View::new()
-                    .style(|s| s.display("flex").align_items("center").gap("8px"))
-                    .children(Text::new("大尺寸: "))
-                    .children(Radio::new().value(1).label("Option A"))
-                    .children(Radio::new().value(2).label("Option B")),
+                    .style(|s| {
+                        s.margin_left("80px")
+                            .display("flex")
+                            .align_items("center")
+                            .gap("8px")
+                    })
+                    .children(Text::new("默认样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio3)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .as_large(),
+                    ),
             )
             .children(
                 View::new()
@@ -534,9 +647,37 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("大尺寸按钮: "))
-                    .children(Radio::new().value(1).button(true).label("Option A"))
-                    .children(Radio::new().value(2).button(true).label("Option B")),
+                    .children(Text::new("边框样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio3)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .border(true)
+                            .as_large(),
+                    ),
+            )
+            .children(
+                View::new()
+                    .style(|s| {
+                        s.margin_left("80px")
+                            .display("flex")
+                            .align_items("center")
+                            .gap("8px")
+                    })
+                    .children(Text::new("边按钮样式: "))
+                    .children(
+                        RadioGroup::new()
+                            .value(radio3)
+                            .radios(vec![
+                                Radio::new().value(1).label("选项 A"),
+                                Radio::new().value(2).label("选项 B"),
+                            ])
+                            .button(true)
+                            .as_large(),
+                    ),
             )
             .into()
     }
