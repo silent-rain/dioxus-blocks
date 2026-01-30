@@ -51,13 +51,6 @@ Style::default()
     .padding("16px")
     .border_radius("8px");
 
-// 伪类样式
-Style::default()
-    .background_color("white")
-    .hover(|s| s.background_color("#f0f0f0"))
-    .active(|s| s.transform("scale(0.98)"))
-    .focus(|s| s.border_color("blue"));
-
 // 生成的 CSS: "background-color: white; :hover { background-color: #f0f0f0; } :active { transform: scale(0.98); }"
 ```
 
@@ -493,7 +486,6 @@ impl ToElement for HomePage {
    Style::default()
        .padding("16px")
        .background_color("#fff")
-       .hover(|s| s.background_color("#f0f0f0"))
    ```
 
 **页面组件规范：**
