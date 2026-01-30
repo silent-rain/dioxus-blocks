@@ -116,9 +116,6 @@
 // 尺寸变体
 .t-radio--small {
   .t-radio__input .t-radio__inner {
-    width: var(--t-radio-size-small);
-    height: var(--t-radio-size-small);
-
     &::after {
       width: var(--t-radio-dot-size-small);
       height: var(--t-radio-dot-size-small);
@@ -136,9 +133,6 @@
 
 .t-radio--large {
   .t-radio__input .t-radio__inner {
-    width: var(--t-radio-size-large);
-    height: var(--t-radio-size-large);
-
     &::after {
       width: var(--t-radio-dot-size-large);
       height: var(--t-radio-dot-size-large);
@@ -164,27 +158,6 @@
   input[type="radio"] {
     display: none;
   }
-
-  // .t-radio__inner {
-  //   position: relative;
-  //   display: inline-flex;
-  //   align-items: center;
-  //   padding: var(--t-radio-button-padding-default);
-  //   background-color: var(--t-bg-color);
-  //   border: 1px solid var(--t-border-color-light);
-  //   border-radius: var(--t-border-radius-base);
-  //   color: var(--t-text-color-regular);
-  //   font-size: var(--t-radio-font-size-default);
-  //   line-height: 1;
-  //   white-space: nowrap;
-  //   transition: var(--t-transition-base);
-
-  //   &:hover {
-  //     color: var(--t-color-primary);
-  //     border-color: var(--t-color-primary-light-7);
-  //     background-color: var(--t-color-primary-light);
-  //   }
-  // }
 
   .t-radio__input {
     display: none;
@@ -237,10 +210,6 @@
     background-color: var(--t-color-primary-light);
     color: var(--t-color-primary);
 
-    // .t-radio__input .t-radio__inner {
-    //   border-color: var(--t-color-primary);
-    // }
-
     .t-radio__label {
       color: var(--t-color-primary);
       font-weight: 500;
@@ -251,20 +220,6 @@
     cursor: not-allowed;
     pointer-events: none; // 禁止所有鼠标交互
 
-    // .t-radio__input .t-radio__inner {
-    //   background-color: var(--t-fill-color-light);
-    //   border-color: var(--t-border-color-light);
-    //   color: var(--t-text-color-placeholder);
-    //   cursor: not-allowed;
-    //   pointer-events: none;
-    // }
-
-    // .t-radio__inner {
-    //   background-color: var(--t-fill-color-light);
-    //   border-color: var(--t-border-color-light);
-    //   color: var(--t-text-color-placeholder);
-    // }
-
     .t-radio__label {
       color: var(--t-text-color-placeholder);
       pointer-events: none;
@@ -274,10 +229,6 @@
 
 // RadioButton 尺寸变体
 .t-radio--button.t-radio--small {
-  // .t-radio__inner {
-  //   padding: var(--t-radio-button-padding-small);
-  // }
-
   .t-radio__label {
     font-size: var(--t-radio-font-size-small);
   }
@@ -289,10 +240,6 @@
 }
 
 .t-radio--button.t-radio--large {
-  // .t-radio__inner {
-  //   padding: var(--t-radio-button-padding-large);
-  // }
-
   .t-radio__label {
     font-size: var(--t-radio-font-size-large);
   }
@@ -311,8 +258,9 @@
   transition: var(--t-transition-base);
 
   .t-radio__inner {
-    border-color: inherit;
-    background-color: inherit;
+    // border-color: inherit;
+    // background-color: inherit;
+    border-color: var(--t-border-color-light);
   }
 
   .t-radio__input input[type="radio"]:checked + .t-radio__inner {
