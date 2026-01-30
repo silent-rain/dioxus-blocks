@@ -156,34 +156,53 @@
 
 // RadioButton 样式
 .t-radio--button {
+  padding: 8px 12px;
+  border: 1px solid var(--t-border-color-light);
+  border-radius: var(--t-border-radius-base);
+  transition: var(--t-transition-base);
+
   input[type="radio"] {
     display: none;
   }
 
-  .t-radio__inner {
+  // .t-radio__inner {
+  //   position: relative;
+  //   display: inline-flex;
+  //   align-items: center;
+  //   padding: var(--t-radio-button-padding-default);
+  //   background-color: var(--t-bg-color);
+  //   border: 1px solid var(--t-border-color-light);
+  //   border-radius: var(--t-border-radius-base);
+  //   color: var(--t-text-color-regular);
+  //   font-size: var(--t-radio-font-size-default);
+  //   line-height: 1;
+  //   white-space: nowrap;
+  //   transition: var(--t-transition-base);
+
+  //   &:hover {
+  //     color: var(--t-color-primary);
+  //     border-color: var(--t-color-primary-light-7);
+  //     background-color: var(--t-color-primary-light);
+  //   }
+  // }
+
+  .t-radio__input {
+    display: none;
+  }
+
+  .t-radio__label {
     position: relative;
     display: inline-block;
-    padding: var(--t-radio-button-padding-default);
-    background-color: var(--t-bg-color);
-    border: 1px solid var(--t-border-color-light);
-    border-radius: var(--t-border-radius-base);
-    color: var(--t-text-color-regular);
-    font-size: var(--t-radio-font-size-default);
-    line-height: 1;
+    padding: 0 8px; /* 为文案添加内边距 */
+    line-height: inherit;
     white-space: nowrap;
-    transition: var(--t-transition-base);
-
-    &:hover {
-      color: var(--t-color-primary);
-      border-color: var(--t-color-primary-light-7);
-      background-color: var(--t-color-primary-light);
-    }
   }
 
   // 使用 input 的兄弟选择器来控制样式
   .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     padding: var(--t-radio-button-padding-default);
     background-color: var(--t-radio-fill, var(--t-color-primary));
     border: 1px solid var(--t-radio-fill, var(--t-color-primary));
@@ -193,6 +212,10 @@
     line-height: 1;
     white-space: nowrap;
     transition: var(--t-transition-base);
+
+    .t-radio__label {
+      color: var(--t-radio-text-color, #fff);
+    }
   }
 
   .t-radio__input input[type="radio"]:disabled ~ .t-radio__label {
@@ -203,17 +226,44 @@
     pointer-events: none; // 禁止所有鼠标交互
   }
 
-  &--disabled {
+  &:hover:not(&.is-disabled) {
+    border-color: var(--t-color-primary-light-7);
+    background-color: var(--t-color-primary-light);
+  }
+
+  // 选中时整体高亮（input 和 label 同时高亮）
+  &.is-checked {
+    border-color: var(--t-color-primary);
+    background-color: var(--t-color-primary-light);
+    color: var(--t-color-primary);
+
+    // .t-radio__input .t-radio__inner {
+    //   border-color: var(--t-color-primary);
+    // }
+
+    .t-radio__label {
+      color: var(--t-color-primary);
+      font-weight: 500;
+    }
+  }
+
+  &.is-disabled {
     cursor: not-allowed;
     pointer-events: none; // 禁止所有鼠标交互
 
-    .t-radio__input .t-radio__inner {
-      background-color: var(--t-fill-color-light);
-      border-color: var(--t-border-color-light);
-      color: var(--t-text-color-placeholder);
-      cursor: not-allowed;
-      pointer-events: none;
-    }
+    // .t-radio__input .t-radio__inner {
+    //   background-color: var(--t-fill-color-light);
+    //   border-color: var(--t-border-color-light);
+    //   color: var(--t-text-color-placeholder);
+    //   cursor: not-allowed;
+    //   pointer-events: none;
+    // }
+
+    // .t-radio__inner {
+    //   background-color: var(--t-fill-color-light);
+    //   border-color: var(--t-border-color-light);
+    //   color: var(--t-text-color-placeholder);
+    // }
 
     .t-radio__label {
       color: var(--t-text-color-placeholder);
@@ -224,6 +274,14 @@
 
 // RadioButton 尺寸变体
 .t-radio--button.t-radio--small {
+  // .t-radio__inner {
+  //   padding: var(--t-radio-button-padding-small);
+  // }
+
+  .t-radio__label {
+    font-size: var(--t-radio-font-size-small);
+  }
+
   .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
     padding: var(--t-radio-button-padding-small);
     font-size: var(--t-radio-font-size-small);
@@ -231,6 +289,14 @@
 }
 
 .t-radio--button.t-radio--large {
+  // .t-radio__inner {
+  //   padding: var(--t-radio-button-padding-large);
+  // }
+
+  .t-radio__label {
+    font-size: var(--t-radio-font-size-large);
+  }
+
   .t-radio__input input[type="radio"]:checked ~ .t-radio__label {
     padding: var(--t-radio-button-padding-large);
     font-size: var(--t-radio-font-size-large);
@@ -244,9 +310,9 @@
   border-radius: var(--t-border-radius-base);
   transition: var(--t-transition-base);
 
-  &:hover:not(&--disabled) {
-    border-color: var(--t-border-color-hover);
-    background-color: var(--t-color-primary-light);
+  .t-radio__inner {
+    border-color: inherit;
+    background-color: inherit;
   }
 
   .t-radio__input input[type="radio"]:checked + .t-radio__inner {
@@ -256,7 +322,6 @@
   // 选中时整体高亮（input 和 label 同时高亮）
   &.is-checked {
     border-color: var(--t-color-primary);
-    background-color: var(--t-color-primary-light);
     color: var(--t-color-primary);
 
     .t-radio__input .t-radio__inner {
@@ -312,7 +377,7 @@
     flex-direction: row;
   }
 
-  &--disabled {
+  &.is-disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }

@@ -448,8 +448,9 @@ impl ToElement for RadioButtonExample {
                     .radio(Radio::new().value("New York").label("New York"))
                     .radio(Radio::new().value("Washington").label("Washington"))
                     .radio(Radio::new().value("Los Angeles").label("Los Angeles"))
-                    .radio(Radio::new().value("Chicago").button(true).label("Chicago"))
-                    .button(true),
+                    .radio(Radio::new().value("Chicago").label("Chicago"))
+                    .button(true)
+                    .as_large(),
             )
             .children(
                 RadioGroup::new()
@@ -458,8 +459,9 @@ impl ToElement for RadioButtonExample {
                     .radio(Radio::new().value("New York").label("New York"))
                     .radio(Radio::new().value("Washington").label("Washington"))
                     .radio(Radio::new().value("Los Angeles").label("Los Angeles"))
-                    .radio(Radio::new().value("Chicago").button(true).label("Chicago"))
-                    .button(true),
+                    .radio(Radio::new().value("Chicago").label("Chicago"))
+                    .button(true)
+                    .as_medium(),
             )
             .children(
                 RadioGroup::new()
@@ -473,8 +475,9 @@ impl ToElement for RadioButtonExample {
                             .label("Washington"),
                     )
                     .radio(Radio::new().value("Los Angeles").label("Los Angeles"))
-                    .radio(Radio::new().value("Chicago").button(true).label("Chicago"))
-                    .button(true),
+                    .radio(Radio::new().value("Chicago").label("Chicago"))
+                    .button(true)
+                    .as_small(),
             )
             .into()
     }
@@ -545,7 +548,7 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("边按钮样式: "))
+                    .children(Text::new("按钮样式: "))
                     .children(
                         RadioGroup::new()
                             .value(radio1)
@@ -606,7 +609,7 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("边按钮样式: "))
+                    .children(Text::new("按钮样式: "))
                     .children(
                         RadioGroup::new()
                             .value(radio2)
@@ -667,7 +670,7 @@ impl ToElement for DifferentSizes {
                             .align_items("center")
                             .gap("8px")
                     })
-                    .children(Text::new("边按钮样式: "))
+                    .children(Text::new("按钮样式: "))
                     .children(
                         RadioGroup::new()
                             .value(radio3)

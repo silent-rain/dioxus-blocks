@@ -437,6 +437,15 @@ impl ToElement for Radio {
         // 获取 label or 子元素内容
         let childrens = self.childrens_to_element();
 
+        let mut label_class = "";
+        if self.button {
+            label_class = "t-radio__button";
+        }
+        if self.border {
+        } else {
+            label_class = "t-radio__label";
+        }
+
         rsx! {
             label { id, class, style: style_str,
                 span { class: "t-radio__input",
@@ -449,7 +458,7 @@ impl ToElement for Radio {
                         onclick,
                     }
                 }
-                span { class: if self.button { "t-radio__button" } else { "t-radio__label" }, {childrens} }
+                span { class: "t-radio__label", {childrens} }
             }
         }
     }
