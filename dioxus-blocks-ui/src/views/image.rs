@@ -16,7 +16,7 @@ impl ToElement for ImageView {
 
 impl ImageView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Image 图片"),
             Text::p("图片组件，用于展示图片。"),
         ])
@@ -95,7 +95,7 @@ impl ImageView {
             )))
             .body(
                 View::new()
-                    .childrens2(vec![
+                    .childrens(vec![
                         img_none,
                         img_fill,
                         img_contain,

@@ -19,14 +19,14 @@ impl ViewExample {
 
 impl ViewExample {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("View 组件"),
             Text::p("通用容器组件，用于包装其他元素，支持丰富的样式配置。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_example(),
             self.style_example(),
             self.layout_example(),
@@ -36,7 +36,7 @@ impl ViewExample {
     /// 基础容器示例
     fn basic_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础用法"),
                 Text::p("View 组件的基本使用方式。"),
             ]))
@@ -54,7 +54,7 @@ impl ViewExample {
     /// 样式示例
     fn style_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("样式配置"),
                 Text::p("通过链式调用配置各种样式属性。"),
             ]))
@@ -68,10 +68,10 @@ impl ViewExample {
                             .box_shadow("0 2px 4px rgba(0,0,0,0.1)")
                     })
                     .children(Text::p("支持多种样式配置："))
-                    .childrens2(vec![
+                    .childrens(vec![
                         View::new()
                             .style(|s| s.margin_top("12px").padding_left("20px"))
-                            .childrens2(vec![
+                            .childrens(vec![
                                 Text::p("- 内边距"),
                                 Text::p("- 外边距"),
                                 Text::p("- 背景颜色"),
@@ -85,14 +85,14 @@ impl ViewExample {
     /// 布局示例
     fn layout_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("布局功能"),
                 Text::p("使用 Flexbox 布局实现元素排列。"),
             ]))
             .children(
                 View::new()
                     .style(|s| s.display("flex").gap("16px").padding("20px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         View::new()
                             .style(|s| {
                                 s.flex("1")

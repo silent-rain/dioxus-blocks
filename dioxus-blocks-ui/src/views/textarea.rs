@@ -19,14 +19,14 @@ impl ToElement for TextareaView {
 
 impl TextareaView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Textarea 组件"),
             Text::p("多行文本输入框组件，支持基础用法、禁用状态、自适应高度、不同尺寸和输入长度限制等功能。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_usage(),
             self.disabled_state(),
             self.rows_control(),
@@ -40,7 +40,7 @@ impl TextareaView {
     /// 基础用法
     fn basic_usage(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础用法"),
                 Text::p("基本的多行文本输入框，可使用 v-model 双向绑定。"),
             ]))
@@ -51,7 +51,7 @@ impl TextareaView {
     /// 禁用状态
     fn disabled_state(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("禁用状态"),
                 Text::p("禁用状态的文本域，不可编辑。"),
             ]))
@@ -62,7 +62,7 @@ impl TextareaView {
     /// 行数控制
     fn rows_control(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("行数控制"),
                 Text::p("通过 rows 属性设置文本域的行数。"),
             ]))
@@ -73,7 +73,7 @@ impl TextareaView {
     /// 自适应高度
     fn autosize(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("自适应高度"),
                 Text::p(
                     "通过 autosize 属性启用自适应高度，可配合 min_rows 和 max_rows 设置高度范围。",
@@ -86,7 +86,7 @@ impl TextareaView {
     /// 不同尺寸
     fn size_control(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("不同尺寸"),
                 Text::p("提供小、中、大三种尺寸的文本域。"),
             ]))
@@ -97,7 +97,7 @@ impl TextareaView {
     /// 输入长度限制
     fn length_limit(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("输入长度限制"),
                 Text::p("通过 max_length 和 show_word_limit 设置输入长度限制和字数统计。"),
             ]))
@@ -108,7 +108,7 @@ impl TextareaView {
     /// 事件示例
     fn events_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("事件示例"),
                 Text::p("演示各种事件的触发时机。"),
             ]))

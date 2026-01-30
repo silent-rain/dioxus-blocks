@@ -134,10 +134,10 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///     Text::new("First"),
             ///     Text::new("Second"),
             /// ];
-            /// Text::new("Hello").childrens2(components);
+            /// Text::new("Hello").childrens(components);
             /// ```
             ///
-            pub fn childrens2<T>(mut self, components: Vec<T>) -> Self
+            pub fn childrens<T>(mut self, components: Vec<T>) -> Self
             where
                 T: ToElement + Clone + 'static,
             {
@@ -168,9 +168,9 @@ pub fn impl_component_base(input: TokenStream) -> TokenStream {
             ///     Rc::new(Button::new()),
             /// ];
             ///
-            /// Text::new("Hello").childrens(components);
+            /// Text::new("Hello").childrens2(components);
             /// ```
-            pub fn childrens(mut self, components: Vec<Rc<dyn ToElement>>) -> Self {
+            pub fn childrens2(mut self, components: Vec<Rc<dyn ToElement>>) -> Self {
                 for component in components {
                     self.childrens.push(component);
                 }

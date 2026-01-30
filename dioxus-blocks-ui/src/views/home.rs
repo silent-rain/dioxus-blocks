@@ -22,7 +22,7 @@ impl HomeView {
     fn header(&self) -> View {
         View::new()
             .style(|s| s.text_align("center").margin_bottom("48px"))
-            .childrens2(vec![
+            .childrens(vec![
                 Text::h1("Dioxus Blocks 组件库").style(|s| {
                     s.font_size("36px")
                         .font_weight("700")
@@ -77,7 +77,11 @@ impl HomeView {
                 crate::Route::TextareaViewRoute {},
             ),
             ("🔘", Text::new("Radio"), crate::Route::RadioViewRoute {}),
-            ("☑️", Text::new("Checkbox"), crate::Route::CheckboxViewRoute {}),
+            (
+                "☑️",
+                Text::new("Checkbox"),
+                crate::Route::CheckboxViewRoute {},
+            ),
         ];
 
         Grid::new(

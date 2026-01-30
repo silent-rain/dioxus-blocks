@@ -1,7 +1,6 @@
 //! Header 头部组件
 //!
 //! 提供网站顶部导航栏，包含 logo、项目名称和导航菜单。
-use std::rc::Rc;
 
 use dioxus::prelude::{asset, manganis};
 use dioxus_blocks_components::{Element, Image, Link, Text, ToElement, View};
@@ -52,7 +51,7 @@ impl ToElement for Header {
             .children(
                 View::new()
                     .style(|s| s.display("flex").align_items("center"))
-                    .childrens(vec![Rc::new(Navbar::default())]),
+                    .children(Navbar::default()),
             )
             .to_element()
     }

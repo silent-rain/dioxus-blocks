@@ -2,7 +2,9 @@
 
 use dioxus::prelude::*;
 
-use dioxus_blocks_components::{Card, Checkbox, CheckboxGroup, CheckboxValue, Text, ToElement, View};
+use dioxus_blocks_components::{
+    Card, Checkbox, CheckboxGroup, CheckboxValue, Text, ToElement, View,
+};
 use dioxus_blocks_macro::Route;
 
 #[derive(Debug, Default, Clone, Route)]
@@ -19,7 +21,7 @@ impl ToElement for CheckboxView {
 
 impl CheckboxView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Checkbox 多选框"),
             Text::p(
                 "在一组备选项中进行多选，支持基础用法、禁用状态、多选框组、中间状态、可选项目数量限制、按钮样式和带有边框等功能。"
@@ -28,7 +30,7 @@ impl CheckboxView {
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_usage(),
             self.disabled_state(),
             self.checkbox_group(),
@@ -42,7 +44,7 @@ impl CheckboxView {
     /// 基础用法
     fn basic_usage(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础用法"),
                 Text::p(
                     "单独使用可以表示两种状态之间的切换，写在标签中的内容为 checkbox 按钮后的介绍。",
@@ -55,7 +57,7 @@ impl CheckboxView {
     /// 禁用状态
     fn disabled_state(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("禁用状态"),
                 Text::p("多选框不可用状态。设置 disabled 属性即可。"),
             ]))
@@ -66,7 +68,7 @@ impl CheckboxView {
     /// 多选框组
     fn checkbox_group(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("多选框组"),
                 Text::p("适用于多个勾选框绑定到同一个数组的情景，通过是否勾选来表示这一组选项中选中的项。"),
             ]))
@@ -77,9 +79,11 @@ impl CheckboxView {
     /// 中间状态
     fn indeterminate(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("中间状态"),
-                Text::p("indeterminate 属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果。"),
+                Text::p(
+                    "indeterminate 属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果。",
+                ),
             ]))
             .children(IndeterminateExample::default())
             .style(|s| s.margin_top("32px"))
@@ -88,7 +92,7 @@ impl CheckboxView {
     /// 可选项目数量的限制
     fn min_max(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("可选项目数量的限制"),
                 Text::p("使用 min 和 max 属性能够限制可以被勾选的项目的数量。"),
             ]))
@@ -99,10 +103,9 @@ impl CheckboxView {
     /// 按钮样式
     fn button_style(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
-                Text::h2("按钮样式"),
-                Text::p("按钮样式的多选组合。"),
-            ]))
+            .header(
+                View::new().childrens(vec![Text::h2("按钮样式"), Text::p("按钮样式的多选组合。")]),
+            )
             .children(ButtonStyleExample::default())
             .style(|s| s.margin_top("32px"))
     }
@@ -110,7 +113,7 @@ impl CheckboxView {
     /// 带有边框
     fn with_border(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("带有边框"),
                 Text::p("设置 border 属性可以渲染为带有边框的多选框。"),
             ]))
@@ -144,54 +147,24 @@ impl ToElement for BasicUsage {
                 View::new()
                     .style(|s| s.display("flex").align_items("center").gap("12px"))
                     .children(Text::new("大尺寸: "))
-                    .children(
-                        Checkbox::new()
-                            .value(1)
-                            .label("Option 1")
-                            .checked(checked1),
-                    )
-                    .children(
-                        Checkbox::new()
-                            .value(2)
-                            .label("Option 2")
-                            .checked(checked2),
-                    ),
+                    .children(Checkbox::new().value(1).label("Option 1").checked(checked1))
+                    .children(Checkbox::new().value(2).label("Option 2").checked(checked2)),
             )
             // 中等尺寸
             .children(
                 View::new()
                     .style(|s| s.display("flex").align_items("center").gap("12px"))
                     .children(Text::new("中等尺寸: "))
-                    .children(
-                        Checkbox::new()
-                            .value(1)
-                            .label("Option 1")
-                            .checked(checked3),
-                    )
-                    .children(
-                        Checkbox::new()
-                            .value(2)
-                            .label("Option 2")
-                            .checked(checked4),
-                    ),
+                    .children(Checkbox::new().value(1).label("Option 1").checked(checked3))
+                    .children(Checkbox::new().value(2).label("Option 2").checked(checked4)),
             )
             // 小尺寸
             .children(
                 View::new()
                     .style(|s| s.display("flex").align_items("center").gap("12px"))
                     .children(Text::new("小尺寸: "))
-                    .children(
-                        Checkbox::new()
-                            .value(1)
-                            .label("Option 1")
-                            .checked(checked5),
-                    )
-                    .children(
-                        Checkbox::new()
-                            .value(2)
-                            .label("Option 2")
-                            .checked(checked6),
-                    ),
+                    .children(Checkbox::new().value(1).label("Option 1").checked(checked5))
+                    .children(Checkbox::new().value(2).label("Option 2").checked(checked6)),
             )
             .into()
     }
@@ -434,14 +407,10 @@ pub struct ButtonStyleExample {}
 
 impl ToElement for ButtonStyleExample {
     fn to_element(&self) -> Element {
-        let checkbox_group1 =
-            use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
-        let checkbox_group2 =
-            use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
-        let checkbox_group3 =
-            use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
-        let checkbox_group4 =
-            use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
+        let checkbox_group1 = use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
+        let checkbox_group2 = use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
+        let checkbox_group3 = use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
+        let checkbox_group4 = use_signal(|| vec![CheckboxValue::String("Shanghai".to_string())]);
 
         View::new()
             .style(|s| {
@@ -530,10 +499,8 @@ impl ToElement for WithBorder {
         let checked3 = use_signal(|| false);
         let checked4 = use_signal(|| true);
 
-        let checkbox_group1 =
-            use_signal(|| vec![CheckboxValue::String("Value1".to_string())]);
-        let checkbox_group2 =
-            use_signal(|| vec![CheckboxValue::String("Value1".to_string())]);
+        let checkbox_group1 = use_signal(|| vec![CheckboxValue::String("Value1".to_string())]);
+        let checkbox_group2 = use_signal(|| vec![CheckboxValue::String("Value1".to_string())]);
 
         View::new()
             .style(|s| {

@@ -14,7 +14,7 @@ impl ToElement for Layout {
     fn to_element(&self) -> Element {
         View::new()
             .class("t_layout")
-            .childrens(vec![
+            .childrens2(vec![
                 Rc::new(Header::default()),
                 Rc::new(Body::default()),
                 Rc::new(Footer::default()),

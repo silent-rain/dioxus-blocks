@@ -193,7 +193,7 @@ mod tests {
             Text::new("Batch 3"),
         ];
 
-        let view = View::new().childrens2(components);
+        let view = View::new().childrens(components);
         assert_eq!(view.childrens.len(), 3);
     }
 

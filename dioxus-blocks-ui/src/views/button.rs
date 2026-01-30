@@ -21,14 +21,14 @@ impl ToElement for ButtonView {
 
 impl ButtonView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Button 组件"),
             Text::p("按钮组件，支持多种类型、变体、形状和尺寸。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_buttons(),
             self.plain_buttons(),
             self.round_buttons(),
@@ -45,12 +45,12 @@ impl ButtonView {
     fn basic_buttons(&self) -> Card {
         Card::new()
             .header(
-                View::new().childrens2(vec![Text::h2("基础按钮"), Text::p("不同类型的实心按钮。")]),
+                View::new().childrens(vec![Text::h2("基础按钮"), Text::p("不同类型的实心按钮。")]),
             )
             .children(
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new().text("Default").onclick(|_| {
                             println!("Button clicked again!");
                         }),
@@ -67,11 +67,11 @@ impl ButtonView {
     /// 椭圆按钮
     fn round_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![Text::h2("椭圆按钮"), Text::p("椭圆形状的按钮。")]))
+            .header(View::new().childrens(vec![Text::h2("椭圆按钮"), Text::p("椭圆形状的按钮。")]))
             .children(
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new().text("Round").shape(ButtonShape::Round),
                         Button::new()
                             .text("Primary")
@@ -101,14 +101,14 @@ impl ButtonView {
     /// 圆形按钮
     fn circle_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("圆形按钮"),
                 Text::p("圆形形状的按钮，适合配合图标使用。"),
             ]))
             .children(
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new()
                             .shape(ButtonShape::Circle)
                             .btn_type(ButtonType::Default)
@@ -141,7 +141,7 @@ impl ButtonView {
     /// 不同尺寸按钮
     fn size_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![Text::h2("按钮尺寸"), Text::p("不同大小的按钮。")]))
+            .header(View::new().childrens(vec![Text::h2("按钮尺寸"), Text::p("不同大小的按钮。")]))
             .children(
                 View::new()
                     .style(|s| {
@@ -150,7 +150,7 @@ impl ButtonView {
                             .gap("12px")
                             .align_items("center")
                     })
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new()
                             .text("Small")
                             .size(ButtonSize::Small)
@@ -171,14 +171,14 @@ impl ButtonView {
     /// 状态按钮
     fn state_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("按钮状态"),
                 Text::p("禁用和加载状态的按钮。"),
             ]))
             .children(
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new().text("Normal").btn_type(ButtonType::Primary),
                         Button::new()
                             .text("Disabled")
@@ -196,14 +196,14 @@ impl ButtonView {
     /// 朴素按钮
     fn plain_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("朴素按钮"),
                 Text::p("朴素样式的按钮，带有边框和浅色背景。"),
             ]))
-            .childrens2(vec![
+            .childrens(vec![
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new().text("Plain").shape(ButtonShape::Plain),
                         Button::new()
                             .text("Primary")
@@ -228,7 +228,7 @@ impl ButtonView {
                     ]),
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new()
                             .text("Disabled Plain")
                             .shape(ButtonShape::Plain)
@@ -246,14 +246,14 @@ impl ButtonView {
     /// 链接按钮
     fn link_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("链接按钮"),
                 Text::p("链接样式的按钮，常用于页面内导航。"),
             ]))
-            .childrens2(vec![
+            .childrens(vec![
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new().text("Link").shape(ButtonShape::Link),
                         Button::new()
                             .text("Primary")
@@ -278,7 +278,7 @@ impl ButtonView {
                     ]),
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new()
                             .text("Disabled Link")
                             .shape(ButtonShape::Link)
@@ -296,14 +296,14 @@ impl ButtonView {
     /// 文字按钮
     fn text_buttons(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("文字按钮"),
                 Text::p("文字样式的按钮，hover 时显示背景色。"),
             ]))
-            .childrens2(vec![
+            .childrens(vec![
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new().text("Text").shape(ButtonShape::Text),
                         Button::new()
                             .text("Primary")
@@ -328,7 +328,7 @@ impl ButtonView {
                     ]),
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Button::new()
                             .text("Disabled Text")
                             .shape(ButtonShape::Text)
@@ -346,7 +346,7 @@ impl ButtonView {
     /// 计数器示例 - 按钮与文本联动
     fn counter_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("计数器示例"),
                 Text::p("按钮与 Text 组件的联动，点击按钮更新文本内容。"),
             ]))
@@ -374,7 +374,7 @@ impl ToElement for CounterExample {
                 Text::new(format!("点击次数: {}", count()))
                     .style(|s| s.font_size("16px").color("#303133")),
             )
-            .childrens2(vec![
+            .childrens(vec![
                 Button::new()
                     .text("点击加 1")
                     .as_primary()

@@ -18,14 +18,14 @@ impl ToElement for LayoutView {
 
 impl LayoutView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Layout 布局"),
             Text::p("基于 Flexbox 的布局组件，包含 Row（行）和 Col（列）两个组件。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_section(),
             self.gutter_section(),
             self.justify_section(),
@@ -41,7 +41,7 @@ impl LayoutView {
                     .children(Text::h3("基础用法"))
                     .children(Text::p("使用 Row 和 Col 进行基础布局，支持 24 栅格系统。")),
             )
-            .body(View::new().childrens2(vec![
+            .body(View::new().childrens(vec![
                 self.row_24(),
                 self.row_12_12(),
                 self.row_8_8_8(),
@@ -184,7 +184,7 @@ impl LayoutView {
                     .children(Text::h3("列间距 (Gutter)"))
                     .children(Text::p("通过 gap 属性设置列之间的间距，使布局更加美观。")),
             )
-            .body(View::new().childrens2(vec![Self::gutter_example_20()]))
+            .body(View::new().childrens(vec![Self::gutter_example_20()]))
             .style(|s| s.margin_top("32px"))
     }
 
@@ -227,7 +227,7 @@ impl LayoutView {
                     .children(Text::h3("对齐方式 (Justify)"))
                     .children(Text::p("通过 justify 属性设置子元素的水平对齐方式。")),
             )
-            .body(View::new().childrens2(vec![
+            .body(View::new().childrens(vec![
                 Self::justify_start(),
                 Self::justify_center(),
                 Self::justify_end(),
@@ -397,7 +397,7 @@ impl LayoutView {
                         "通过 margin-left 设置列的偏移量，实现更灵活的布局。",
                     )),
             )
-            .body(View::new().childrens2(vec![
+            .body(View::new().childrens(vec![
                 Self::col_offset_example_1(),
                 Self::col_offset_example_2(),
                 Self::col_offset_example_3(),
@@ -472,7 +472,7 @@ impl LayoutView {
         Row::new(vec![
             Col::new(
                 View::new()
-                    .childrens2(vec![
+                    .childrens(vec![
                         Text::h3("侧边栏"),
                         Text::p("导航菜单"),
                         Text::p("菜单项 1"),
@@ -489,7 +489,7 @@ impl LayoutView {
             .style(|s| s.border_radius("8px")),
             Col::new(
                 View::new()
-                    .childrens2(vec![
+                    .childrens(vec![
                         Text::h3("主内容区"),
                         Text::p("主要内容展示"),
                         Text::p("卡片 1"),

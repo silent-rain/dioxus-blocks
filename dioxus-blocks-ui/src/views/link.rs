@@ -19,14 +19,14 @@ impl LinkView {
 
 impl LinkView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Link 组件"),
             Text::p("链接组件，用于页面导航和跳转，支持多种类型和下划线样式。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_links(),
             self.type_links(),
             self.underline_links(),
@@ -37,14 +37,14 @@ impl LinkView {
     /// 基础链接
     fn basic_links(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础链接"),
                 Text::p("使用 .to() 方法设置链接目标。"),
             ]))
             .children(
                 View::new()
                     .style(|s| s.padding("20px"))
-                    .childrens2(vec![Link::default().to("/home").text("返回首页")]),
+                    .childrens(vec![Link::default().to("/home").text("返回首页")]),
             )
             .style(|s| s.margin_top("32px"))
     }
@@ -52,11 +52,11 @@ impl LinkView {
     /// 类型链接
     fn type_links(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![Text::h2("类型链接"), Text::p("不同类型的链接。")]))
-            .childrens2(vec![
+            .header(View::new().childrens(vec![Text::h2("类型链接"), Text::p("不同类型的链接。")]))
+            .childrens(vec![
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Link::default().to("/home").text("Default"),
                         Link::default().to("/home").text("Primary").as_primary(),
                         Link::default().to("/home").text("Success").as_success(),
@@ -66,7 +66,7 @@ impl LinkView {
                     ]),
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Link::default()
                             .to("/home")
                             .text("Primary Link")
@@ -91,14 +91,14 @@ impl LinkView {
     /// 下划线样式
     fn underline_links(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("下划线样式"),
                 Text::p("不同的下划线显示方式。"),
             ]))
-            .childrens2(vec![
+            .childrens(vec![
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Link::default().to("/home").text("Default"),
                         Link::default()
                             .to("/home")
@@ -115,7 +115,7 @@ impl LinkView {
                     ]),
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Link::default()
                             .to("/home")
                             .text("Primary Always")
@@ -139,11 +139,11 @@ impl LinkView {
     /// 禁用链接
     fn disabled_links(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![Text::h2("禁用链接"), Text::p("禁用状态的链接。")]))
-            .childrens2(vec![
+            .header(View::new().childrens(vec![Text::h2("禁用链接"), Text::p("禁用状态的链接。")]))
+            .childrens(vec![
                 View::new()
                     .style(|s| s.padding("20px").display("flex").gap("12px"))
-                    .childrens2(vec![
+                    .childrens(vec![
                         Link::default().to("/home").text("Default").disabled(true),
                         Link::default()
                             .to("/home")

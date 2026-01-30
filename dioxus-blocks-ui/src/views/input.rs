@@ -19,14 +19,14 @@ impl ToElement for InputView {
 
 impl InputView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Input 组件"),
             Text::p("单行文本输入框组件，支持基础用法、禁用状态、一键清空、密码框、不同尺寸和输入长度限制等功能。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_usage(),
             self.disabled_state(),
             self.clearable(),
@@ -42,7 +42,7 @@ impl InputView {
     /// 基础用法
     fn basic_usage(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础用法"),
                 Text::p("基本的文本输入框，可使用 v-model 双向绑定。"),
             ]))
@@ -53,7 +53,7 @@ impl InputView {
     /// 禁用状态
     fn disabled_state(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("禁用状态"),
                 Text::p("禁用状态的输入框，不可编辑。"),
             ]))
@@ -64,7 +64,7 @@ impl InputView {
     /// 一键清空
     fn clearable(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("一键清空"),
                 Text::p("通过 clearable 属性设置可清空的输入框。"),
             ]))
@@ -75,7 +75,7 @@ impl InputView {
     /// 密码框
     fn password(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("密码框"),
                 Text::p("通过设置 input_type 为 Password 来创建密码输入框。"),
             ]))
@@ -86,7 +86,7 @@ impl InputView {
     /// 不同尺寸
     fn size_control(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("不同尺寸"),
                 Text::p("提供小、中、大三种尺寸的输入框。"),
             ]))
@@ -97,7 +97,7 @@ impl InputView {
     /// 输入长度限制
     fn length_limit(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("输入长度限制"),
                 Text::p("通过 max_length 和 show_word_limit 设置输入长度限制和字数统计。"),
             ]))
@@ -108,7 +108,7 @@ impl InputView {
     /// 前置和后置图标
     fn prefix_suffix(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("前置和后置图标"),
                 Text::p("通过 prefix_icon 和 suffix_icon 设置前置和后置图标。"),
             ]))
@@ -119,7 +119,7 @@ impl InputView {
     /// 前置和后置元素
     fn prepend_append(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("前置和后置元素"),
                 Text::p("通过 prepend 和 append 设置前置和后置元素。"),
             ]))
@@ -130,7 +130,7 @@ impl InputView {
     /// 事件示例
     fn events_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("事件示例"),
                 Text::p("演示各种事件的触发时机。"),
             ]))

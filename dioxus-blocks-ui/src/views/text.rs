@@ -19,24 +19,24 @@ impl TextView {
 
 impl TextView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Text 组件"),
             Text::p("文本组件，用于显示不同类型的文本内容。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![self.text_tag()])
+        View::new().childrens(vec![self.text_tag()])
     }
 
     /// 文本标签示例
     pub fn text_tag(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("标签用法"),
                 Text::p("由tag属性来选择文本标签类型，支持H1-H6, P, Span等标签。"),
             ]))
-            .childrens2(vec![
+            .childrens(vec![
                 Text::h1("这是 H1 标题"),
                 Text::h2("这是 H2 标题"),
                 Text::h3("这是 H3 标题"),

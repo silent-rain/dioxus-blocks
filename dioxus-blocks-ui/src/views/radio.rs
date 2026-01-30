@@ -19,14 +19,14 @@ impl ToElement for RadioView {
 
 impl RadioView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Radio 单选框"),
             Text::p("在一组备选项中进行单选，支持基础用法、禁用状态、单选框组、带有边框和单选按钮等功能。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_usage(),
             self.disabled_state(),
             self.radio_group(),
@@ -39,7 +39,7 @@ impl RadioView {
     /// 基础用法
     fn basic_usage(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础用法"),
                 Text::p("单选框不应该有太多的可选项，如果你有很多的可选项你应该使用选择框而不是单选框。"),
             ]))
@@ -50,7 +50,7 @@ impl RadioView {
     /// 禁用状态
     fn disabled_state(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("禁用状态"),
                 Text::p("disabled 属性可以用来控制单选框的禁用状态。"),
             ]))
@@ -61,7 +61,7 @@ impl RadioView {
     /// 单选框组
     fn radio_group(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("单选框组"),
                 Text::p("适用于在多个互斥的选项中选择的场景。"),
             ]))
@@ -72,7 +72,7 @@ impl RadioView {
     /// 带有边框
     fn with_border(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("带有边框"),
                 Text::p("设置 border 属性为 true 可以渲染为带有边框的单选框。"),
             ]))
@@ -83,7 +83,7 @@ impl RadioView {
     /// 单选按钮
     fn radio_button(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("单选按钮"),
                 Text::p("带有按钮组视觉效果的单选框。"),
             ]))
@@ -94,7 +94,7 @@ impl RadioView {
     /// 不同尺寸
     fn different_sizes(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("不同尺寸"),
                 Text::p("提供大、中、小三种尺寸。"),
             ]))

@@ -16,7 +16,7 @@ impl ToElement for Navbar {
     fn to_element(&self) -> Element {
         View::new()
             .style(|s| s.display("flex").align_items("center").gap("8px"))
-            .childrens2(vec![
+            .childrens(vec![
                 self.create_nav_link(Route::HomeViewRoute {}, "首页"),
                 self.create_nav_link(Route::BlogRoute { id: 1 }, "博客"),
                 self.create_nav_link("/guide", "指南"),

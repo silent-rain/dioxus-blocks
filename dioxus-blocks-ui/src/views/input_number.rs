@@ -20,14 +20,14 @@ impl ToElement for InputNumberView {
 
 impl InputNumberView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("InputNumber 组件"),
             Text::p("数字输入框组件，支持精度控制、步进、不同尺寸和禁用状态。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.basic_usage(),
             self.disabled_state(),
             self.precision_control(),
@@ -43,7 +43,7 @@ impl InputNumberView {
     /// 基础用法
     fn basic_usage(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("基础用法"),
                 Text::p("基本数字输入框，默认步进为 1。"),
             ]))
@@ -54,7 +54,7 @@ impl InputNumberView {
     /// 禁用状态
     fn disabled_state(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("禁用状态"),
                 Text::p("禁用状态的数字输入框，不可编辑。"),
             ]))
@@ -66,7 +66,7 @@ impl InputNumberView {
     fn precision_control(&self) -> Card {
         Card::new()
             .header(
-                View::new().childrens2(vec![Text::h2("精度控制"), Text::p("控制显示的小数位数。")]),
+                View::new().childrens(vec![Text::h2("精度控制"), Text::p("控制显示的小数位数。")]),
             )
             .children(PrecisionControl::default())
             .style(|s| s.margin_top("32px"))
@@ -75,7 +75,7 @@ impl InputNumberView {
     /// 步进设置
     fn step_control(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("步进设置"),
                 Text::p("设置每次增加或减少的步进值。"),
             ]))
@@ -86,7 +86,7 @@ impl InputNumberView {
     /// 不同尺寸
     fn size_control(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("不同尺寸"),
                 Text::p("不同大小的数字输入框。"),
             ]))
@@ -97,7 +97,7 @@ impl InputNumberView {
     /// 最小值和最大值
     fn min_max_values(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("最小值和最大值"),
                 Text::p("设置输入范围的最小值和最大值。"),
             ]))
@@ -108,7 +108,7 @@ impl InputNumberView {
     /// 占位符示例
     fn placeholder_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("占位符"),
                 Text::p("设置输入框的占位符文本。"),
             ]))
@@ -119,7 +119,7 @@ impl InputNumberView {
     /// 计数器示例 - 实时显示值
     fn counter_example(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("实时显示值"),
                 Text::p("通过 onchange 事件实时获取并显示当前值。"),
             ]))
@@ -130,7 +130,7 @@ impl InputNumberView {
     /// 组件联动示例
     fn component_linkage(&self) -> Card {
         Card::new()
-            .header(View::new().childrens2(vec![
+            .header(View::new().childrens(vec![
                 Text::h2("组件联动"),
                 Text::p("多个 InputNumber 组件与其他组件之间的数据联动。"),
             ]))

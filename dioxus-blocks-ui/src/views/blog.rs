@@ -20,7 +20,7 @@ impl ToElement for Blog {
 
 impl Blog {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1(format!("Blog #{}", self.id)),
             Text::p("博客组件，展示 Dioxus 路由系统的参数传递。"),
         ])

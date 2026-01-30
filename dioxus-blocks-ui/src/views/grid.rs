@@ -18,14 +18,14 @@ impl ToElement for GridView {
 
 impl GridView {
     fn title(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             Text::h1("Grid 网格布局"),
             Text::p("网格布局组件，用于创建灵活的网格结构。"),
         ])
     }
 
     fn content(&self) -> View {
-        View::new().childrens2(vec![
+        View::new().childrens(vec![
             self.cols_section(),
             self.rows_section(),
             self.col_span_section(),
