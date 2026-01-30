@@ -57,10 +57,18 @@
   // 卡片
   --t-card-padding: 20px;
   --t-bg-color: #ffffff;
+  --t-bg-color-overlay: #ffffff;
   --t-border-radius-base: 4px;
+  --t-border-color: #dcdfe6;
   --t-border-color-light: #e4e7ed;
   --t-border-color-lighter: #ebeef5;
+  --t-border-color-hover: #c0c4cc;
   --t-text-color-primary: #303133;
+  --t-text-color-regular: #606266;
+  --t-text-color-secondary: #909399;
+  --t-text-color-placeholder: #a8abb2;
+  --t-fill-color-light: #f5f7fa;
+  --t-fill-color-darker: #dcdfe6;
 
   // 按钮尺寸
   --t-button-height-small: 28px;
@@ -81,4 +89,18 @@
 
   // 阴影
   --t-box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+  // Radio 单选框组件
+  --t-radio-size-default: 14px;
+  --t-radio-size-small: 12px;
+  --t-radio-size-large: 16px;
+  --t-radio-dot-size-default: 6px;
+  --t-radio-dot-size-small: 5px;
+  --t-radio-dot-size-large: 7px;
+  --t-radio-font-size-default: 14px;
+  --t-radio-font-size-small: 13px;
+  --t-radio-font-size-large: 15px;
+  --t-radio-button-padding-default: 8px 15px;
+  --t-radio-button-padding-small: 6px 12px;
+  --t-radio-button-padding-large: 10px 18px;
 }
